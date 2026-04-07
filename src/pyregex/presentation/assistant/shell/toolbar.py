@@ -25,33 +25,38 @@ class StatusToolbar:
         self.theme = theme or get_theme()
 
     def get_toolbar(self) -> HTML:
-        """Return formatted toolbar text for prompt_toolkit."""
+        """Return formatted toolbar text for prompt_toolkit with expert styling."""
         state = self.fsm.state.name
         breadcrumbs = self.session.breadcrumb_str
         patterns = self.session.pattern_count
         commands = self.session.history_count
-
+        
+        # Expert palette (Hex)
+        accent = self.theme.accent
+        dim = self.theme.dim
+        
         parts = [
-            f"<b>[{state}]</b>",
-            f"📍 {breadcrumbs}",
-            f"📦 Patrones: {patterns}",
-            f"📝 Comandos: {commands}",
+            f"<ansiblue><b>[ {state} ]</b></ansiblue>",
+            f"<ansigreen>LOC:</ansigreen> <ansiwhite>{breadcrumbs or '~'}</ansiwhite>",
+            f"<ansiyellow>PKG:</ansiyellow> <ansiwhite>{patterns}</ansiwhite>",
+            f"<ansimagenta>CMD:</ansimagenta> <ansiwhite>{commands}</ansiwhite>",
         ]
 
-        # Shortcuts hint based on state
+        # Shortcuts hint based on state (Expert style: minimalist labels)
         if state == "IDLE":
             hint = "help | personal | web | security | devops"
         elif state == "BROWSING":
             hint = "email | phone | url | id | back"
         elif state == "IN_MODULE":
-            hint = "[wizard] | back | help"
+            hint = "[id] | back | catalog"
         elif state == "IN_WIZARD":
-            hint = "b=atrás | Ctrl+C=cancelar"
+            hint = "b:prev | ^C:abort"
         else:
             hint = "help | back | quit"
-        parts.append(f"⌨️ {hint}")
+            
+        parts.append(f"<ansicyan><b>⌨</b> {hint}</ansicyan>")
 
-        return HTML(f" <b>{'  │  '.join(parts)}</b>")
+        return HTML(f" <b>{'  ' + '   '.join(parts)}</b> ")
 
     def __call__(self) -> HTML:
         """Make toolbar callable for prompt_toolkit."""

@@ -37,6 +37,23 @@ THEMES = {
         success="#98c379",
         warning="#e5c07b",
         error="#e06c75",
+        dim="#5c6370",
+    ),
+    "expert": Theme(
+        name="expert",
+        prompt_prefix="#3b82f6",  # Sapphire Blue
+        prompt_path="#10b981",    # Emerald Green
+        prompt_arrow="#8b5cf6",   # Royal Purple
+        header_bg="#0f172a",      # Slate Deep
+        header_fg="#f8fafc",      # Ghost White
+        accent="#3b82f6",
+        success="#10b981",
+        warning="#f59e0b",        # Amber
+        error="#ef4444",          # Rose Red
+        dim="#64748b",            # Slate Light
+        toolbar_bg="#1e293b",
+        toolbar_fg="#f1f5f9",
+        toolbar_key="#3b82f6",
     ),
     "light": Theme(
         name="light",

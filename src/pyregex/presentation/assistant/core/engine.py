@@ -143,7 +143,28 @@ class AssistantEngine:
             context={"route": route, "session": self.session},
         )
 
-        # Context-aware resolution: if in a module, check wizard names first
+        # Context-aware resolution:
+        # 1. Catalog Browsing (Folder/Entry matching)
+        if self.fsm.state == SessionState.BROWSING_CATALOG:
+            path = self.session.catalog_path
+            subfolders, entries = self.catalog_registry.list_at_path(path)
+            raw_stripped = raw_input.strip().lower()
+            
+            # Match subfolder precisely or by partial
+            for f in subfolders:
+                if raw_stripped == f.lower():
+                    self.session.push_catalog(f)
+                    return self._handle_catalog_path()
+            
+            # Match entry precisely
+            for e in entries:
+                if raw_stripped == e.lower():
+                    # Map hierarchical path to domain module (first path element)
+                    # e.g. path=['culture', 'literature'] -> module='culture'
+                    target_module = path[0] if path else "catalog"
+                    return self._handle_wizard(target_module, e)
+
+        # 2. Module Context (In-module shortcuts/numbers)
         if self.session.current_module and self.fsm.state == SessionState.IN_MODULE:
             module_name = self.session.current_module
             resolved = self._resolve_in_module_context(raw_input.strip(), module_name)

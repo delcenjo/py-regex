@@ -15,6 +15,7 @@ from pyregex.presentation.assistant.core.types import SessionState
 from pyregex.presentation.assistant.shell.completer import NebulaCompleter
 from pyregex.presentation.assistant.shell.toolbar import StatusToolbar
 from pyregex.presentation.assistant.shell.themes import get_theme
+from pyregex.presentation.assistant.ui.components import Table, Panel, Menu
 from pyregex.presentation.assistant.shell.keybindings import create_keybindings
 from pyregex.presentation.assistant.shell.banner import show_banner, show_goodbye
 from pyregex.utils import ansi
@@ -118,33 +119,36 @@ class NebulaREPL:
         show_goodbye()
 
     def _build_prompt(self) -> HTML:
-        """Build the dynamic prompt based on current state."""
+        """Build the dynamic prompt based on current state (Expert Style)."""
         state = self.engine.fsm.state
         breadcrumbs = self.engine.session.breadcrumb_str
-
+        
+        # Expert palette mapping
+        theme = self.theme
+        
         if state == SessionState.BROWSING:
             return HTML(
-                "<b><ansiblue>nebula</ansiblue></b> <ansipurple>❯</ansipurple> "
+                f"<b><ansiblue>nebula</ansiblue></b> <ansipurple>»</ansipurple> "
             )
         elif state == SessionState.IN_MODULE:
             module = self.engine.session.current_module or "?"
             return HTML(
-                f"<b><ansiblue>nebula</ansiblue></b>/<ansigreen>{module}</ansigreen> <ansipurple>❯</ansipurple> "
+                f"<b><ansiblue>nebula</ansiblue></b><ansiwhite>/</ansiwhite><ansigreen>{module}</ansigreen> <ansipurple>»</ansipurple> "
             )
         elif state == SessionState.IN_WIZARD:
             wizard = self.engine.session.current_wizard or "?"
             return HTML(
-                f"<b><ansiblue>nebula</ansiblue></b>/<ansiyellow>{wizard}</ansiyellow> <ansipurple>❯</ansipurple> "
+                f"<b><ansiblue>nebula</ansiblue></b><ansiwhite>/</ansiwhite><ansiyellow>{wizard}</ansiyellow> <ansipurple>»</ansipurple> "
             )
         elif state == SessionState.BROWSING_CATALOG:
             path = self.engine.session.catalog_path
-            path_str = "/".join(path)
+            path_str = "…/" + path[-1] if len(path) > 2 else "/".join(path)
             return HTML(
-                f"<b><ansiblue>nebula</ansiblue></b>/<ansicyan>{path_str}</ansicyan> <ansipurple>❯</ansipurple> "
+                f"<b><ansiblue>nebula</ansiblue></b><ansiwhite>/</ansiwhite><ansicyan>{path_str}</ansicyan> <ansipurple>»</ansipurple> "
             )
         else:
             return HTML(
-                "<b><ansiblue>nebula</ansiblue></b> <ansipurple>❯</ansipurple> "
+                "<b><ansiblue>nebula</ansiblue></b> <ansipurple>»</ansipurple> "
             )
 
     def _handle_response(self, response, raw_input: str) -> None:
@@ -200,84 +204,47 @@ class NebulaREPL:
                 print(f"  {ansi.dim(w)}")
 
     def _show_help(self) -> None:
-        """Display help screen."""
-        print(f"\n{'━' * 55}")
-        print(f"  {ansi.bold('NEBULA ASSISTANT — AYUDA')}")
-        print(f"{'━' * 55}")
-        print(f"\n  {ansi.bold('CATEGORÍAS:')}")
+        """Display technical help architecture."""
+        help_content = []
         for info in self.engine.registry.list_all():
             wizards = self.engine.registry.get(info.name).get_wizards()
-            print(f"    {info.display_name} ({len(wizards)} wizards)")
-            print(
-                f"      → {ansi.dim(', '.join(w.replace('_wizard', '') for w in wizards))}"
-            )
+            w_list = ", ".join(w.replace("_wizard", "") for w in wizards)
+            help_content.append(f"{ansi.bold(info.display_name)}: {ansi.dim(w_list)}")
 
-        print(f"\n  {ansi.bold('ATAJOS DIRECTOS:')}")
-        # Pull ALL shortcuts dynamically
-        shortcuts = []
-        for info in self.engine.registry.list_all():
-            try:
-                module = self.engine.registry.get(info.name)
-                wizards = module.get_wizards()
-                for w in wizards.keys():
-                    shortcuts.append(w.replace("_wizard", ""))
-            except Exception:
-                continue
+        Panel("\n".join(help_content), title="Nebula Registry Architecture").print()
 
-        import textwrap
-        wrapped = textwrap.fill(", ".join(shortcuts), width=80, initial_indent="    ", subsequent_indent="    ")
-        print(f"{ansi.dim(wrapped)}")
-
-        print(f"\n  {ansi.bold('COMANDOS:')}")
-        cmds = [
-            ("help", "Mostrar esta ayuda"),
-            ("create", "Explorar el catálogo jerárquicamente"),
-            ("back / b", "Volver atrás"),
-            ("status", "Estadísticas de sesión"),
-            ("history", "Historial de comandos"),
-            ("clear", "Limpiar pantalla"),
-            ("undo/redo", "Deshacer/Rehacer"),
-            ("quit / exit", "Salir del asistente"),
+        headers = ["Command", "Architecture Function"]
+        rows = [
+            ["help", "Access architectural primitives"],
+            ["create", "Explore hierarchical regex catalog"],
+            ["back", "Revert session state"],
+            ["status", "Inspect session telemetry"],
+            ["history", "Review command sequence"],
+            ["clear", "Flush display buffer"],
+            ["quit", "Terminate assistant context"],
         ]
-        for cmd, desc in cmds:
-            print(f"    {ansi.bold(cmd):20s} {desc}")
-
-        print(f"\n  {ansi.bold('TECLAS:')}")
-        keys = [
-            ("F1", "Ayuda"),
-            ("Ctrl+S", "Estado"),
-            ("Ctrl+C", "Cancelar wizard"),
-            ("Tab", "Autocompletar"),
-            ("Ctrl+L", "Limpiar pantalla"),
-        ]
-        for k, d in keys:
-            print(f"    {ansi.bold(k):20s} {d}")
-        print()
+        Table(headers, rows, title="System Commands").print()
 
     def _show_category(self, data: dict) -> None:
-        """Display category modules."""
+        """Display category modules using expert menu."""
         cat = data.get("category", "")
         modules = data.get("modules", [])
-
-        print(f"\n  {ansi.bold(f'Categoría: {cat.upper()}')}")
-        for i, info in enumerate(modules, 1):
-            print(f"    [{i}] {info.icon} {info.display_name}")
-            print(f"        {ansi.dim(info.description)}")
+        
+        items = [(str(i), m.display_name, m.description) for i, m in enumerate(modules, 1)]
+        Menu(items, title=f"Category: {cat}").print()
 
     def _show_module(self, data: dict) -> None:
-        """Display module wizards."""
+        """Display module wizards using expert system."""
         module_name = data.get("module", "")
         wizards = data.get("wizards", [])
         info = data.get("info")
 
         if info:
-            print(f"\n  {info.icon} {ansi.bold(info.display_name)}")
-            print(f"  {ansi.dim(info.description)}")
+            Panel(info.description, title=f" {info.icon} {info.display_name} ").print()
 
-        print(f"\n  {ansi.bold('Wizards disponibles:')}")
-        for i, w in enumerate(wizards, 1):
-            display = w.replace("_wizard", "")
-            print(f"    [{i}] {display}")
+        items = [(str(i), w.replace("_wizard", ""), "Technical wizard implementation") for i, w in enumerate(wizards, 1)]
+        Menu(items, title="Available Primitives").print()
+        print()
 
     def _show_history(self) -> None:
         """Display command history."""
@@ -291,28 +258,17 @@ class NebulaREPL:
             print(f"    {ansi.dim(entry.timestamp[:19])} {entry.command}")
 
     def _show_catalog_path(self, data: dict) -> None:
-        """Display catalog subfolders and entries."""
+        """Display catalog subfolders and entries in a professional table."""
         path = data.get("path", [])
         subfolders = data.get("subfolders", [])
         entries = data.get("entries", [])
         
-        path_str = " / ".join(path) if path else "Raíz del Catálogo"
-        print(f"\n  {ansi.bold(f'Explorando: {path_str}')}")
+        path_str = " / ".join(path) if path else "CATALOG ROOT"
         
-        if not subfolders and not entries:
-            print(f"    {ansi.dim('(Vacío)')}")
-            return
-
-        i = 1
-        if subfolders:
-            print(f"\n    {ansi.dim('Carpetas:')}")
-            for folder in subfolders:
-                print(f"      [{i}] 📁 {folder}")
-                i += 1
-        
-        if entries:
-            print(f"\n    {ansi.dim('Wizards:')}")
-            for entry in entries:
-                print(f"      [{i}] 🪄 {entry}")
-                i += 1
-        print()
+        rows = []
+        for folder in subfolders:
+            rows.append([ansi.bold("DIR"), folder, "Hierarchical category"])
+        for entry in entries:
+            rows.append([ansi.bold("EXPR"), entry, "Wizard implementation"])
+            
+        Table(["Type", "Identifier", "Description"], rows, title=path_str).print()

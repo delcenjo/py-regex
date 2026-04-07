@@ -9,7 +9,7 @@ class AssistantConfig:
     """Configuration for the assistant engine."""
 
     # UI
-    theme: str = "dark"
+    theme: str = "expert"
     show_banner: bool = True
     show_toolbar: bool = True
     show_breadcrumbs: bool = True
