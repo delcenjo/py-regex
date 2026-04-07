@@ -71,19 +71,10 @@ class NebulaREPL:
 
     def run(self, initial_command: Optional[str] = None) -> None:
         """Main REPL loop."""
-        # Show banner
+        # Show banner (Instant - zero load)
         if self.config.show_banner and not initial_command:
-            total_wizards = 0
-            for name in self.engine.registry.names:
-                mod = self.engine.registry.get(name)
-                # Use faster wizard_count if available (for CatalogModules)
-                if hasattr(mod, "wizard_count"):
-                    total_wizards += mod.wizard_count
-                else:
-                    total_wizards += len(mod.get_wizards())
-                    
             show_banner(
-                module_count=self.engine.registry.count, wizard_count=total_wizards
+                module_count=self.engine.registry.count, wizard_count="30,000+"
             )
 
         # Start FSM
@@ -209,14 +200,22 @@ class NebulaREPL:
                 print(f"  {ansi.dim(w)}")
 
     def _show_help(self) -> None:
-        """Display technical help architecture."""
+        """Display technical help architecture (Optimized)."""
         help_content = []
         for info in self.engine.registry.list_all():
-            wizards = self.engine.registry.get(info.name).get_wizards()
-            w_list = ", ".join(w.replace("_wizard", "") for w in wizards)
-            help_content.append(f"{ansi.bold(info.display_name)}: {ansi.dim(w_list)}")
+            mod = self.engine.registry.get(info.name)
+            
+            # Efficient summary instead of full list (avoids parsing 28k files)
+            if hasattr(mod, "wizard_count"):
+                w_info = f"{ansi.dim(str(mod.wizard_count) + ' expressions available')}"
+            else:
+                wizards = mod.get_wizards()
+                w_info = ", ".join(w.replace("_wizard", "") for w in wizards)
+                
+            help_content.append(f"{ansi.bold(info.display_name)}: {w_info}")
 
         Panel("\n".join(help_content), title="Nebula Registry Architecture").print()
+        print()
 
         headers = ["Command", "Architecture Function"]
         rows = [
