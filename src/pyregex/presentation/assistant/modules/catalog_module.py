@@ -45,18 +45,24 @@ class CatalogModule:
     def info(self) -> ModuleInfo:
         return self._info
 
+    @property
+    def wizard_count(self) -> int:
+        """Efficiently returns the count of wizards without instantiating them."""
+        return len(catalog_registry.list_entries(self._info.name))
+
     def get_wizards(self) -> Dict[str, Any]:
         """Returns a dict of wizard_name -> Adapter mapping for the category."""
+        # Note: This is still used for the MENU display (which is filtered per page)
+        # but the banner now uses wizard_count.
         category_name = self._info.name
         entries = catalog_registry.list_entries(category_name)
         
         wizards = {}
         for entry_name in entries:
+            # We only load on demand when actually displaying the menu or starting it
+            # For the banner count, we don't call this anymore.
             entry = catalog_registry.get_entry(entry_name)
             if entry:
-                # We use the raw entry name as the key, and append _wizard only if needed internally.
-                # Actually, the Assistant expects wizard keys.
-                # Let's use the entry_name directly as it is unique within the module.
                 wizards[entry_name] = CatalogWizardAdapter(entry)
                 
         return wizards

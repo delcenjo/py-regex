@@ -69,22 +69,16 @@ class NebulaCompleter(Completer):
 
         # 1. Main Prompt Completions (IDLE/BROWSING)
         if state in (SessionState.IDLE, SessionState.BROWSING):
-            # Categories
+            # Categories & Modules
             for cat_enum in self._registry.list_categories():
                 cat_name = cat_enum.value
                 if cat_name.startswith(text):
                     modules = self._registry.get_by_category(cat_enum)
                     desc = modules[0].info.display_name if modules else f"Categoría {cat_name}"
                     yield Completion(cat_name, start_position=-len(text), display_meta=desc)
-
-            # ALL Wizards across ALL modules
-            for display, cat_display in self._get_all_shortcuts():
-                if not text or display.startswith(text):
-                    yield Completion(
-                        display,
-                        start_position=-len(text),
-                        display_meta=f"En {cat_display}",
-                    )
+            
+            # NOTE: Global discovery of 28,000+ wizards is disabled at root 
+            # to maintain performance. Use 'create' or browse modules of interest.
 
         # 1.5 Catalog Browsing Completions
         elif state == SessionState.BROWSING_CATALOG:

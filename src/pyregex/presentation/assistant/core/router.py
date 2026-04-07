@@ -72,13 +72,23 @@ class Router:
             return RouteResult(RouteType.WIZARD, module=module_name, wizard=wizard_name)
 
         # 3. Dynamic Resolution — check every module for a wizard matching this name
-        # This acts as a fallback if setup_default_aliases missed something
+        # If the input is in the discovery index, we route it directly
+        from pyregex.domain.catalog.registry import catalog_registry
+        if text in catalog_registry._discovery_map:
+            # We determine the category from the categories map
+            for cat, entries in catalog_registry._categories.items():
+                if text in entries:
+                    return RouteResult(RouteType.WIZARD, module=cat, wizard=text)
+                    
+        # 3.5 Fallback for manual module wizards (that are not in the catalog)
         for info in self._registry.list_all():
+            # Skip catalog modules here as we already checked the index
+            if hasattr(self._registry.get(info.name), "wizard_count"):
+                continue
             try:
                 module = self._registry.get(info.name)
                 wizards = module.get_wizards()
                 for wiz_full_name in wizards:
-                    # Strip suffix for comparison (e.g. "email_wizard" -> "email")
                     wiz_short_name = wiz_full_name.replace("_wizard", "").lower()
                     if text == wiz_short_name:
                         return RouteResult(RouteType.WIZARD, module=info.name, wizard=wiz_full_name)
@@ -121,10 +131,14 @@ class Router:
         Automatically registers every wizard as a direct command,
         plus maintains common abbreviations.
         """
-        # 1. Dynamic Registration — every wizard in every module
+        # 1. Dynamic Registration — ONLY for manual modules (not catalog)
         for info in self._registry.list_all():
             try:
                 module = self._registry.get(info.name)
+                # Skip CatalogModules to avoid loading 28k files
+                if hasattr(module, "wizard_count"):
+                    continue
+                    
                 wizards = module.get_wizards()
                 for wiz_name in wizards:
                     # e.g. "email_wizard" -> "email"

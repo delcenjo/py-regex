@@ -52,6 +52,7 @@ class CatalogRegistry:
         self._categories: Dict[str, List[str]] = {}
         self._tree: Dict[str, Any] = {} # Hierarchical tree
         self._expanded_paths: set[Path] = set()
+        self._fast_scanned = False
 
     def _ensure_discovered(self, parts: Optional[list[str]] = None):
         """Lazily expands the tree level by level based on requested path."""
@@ -239,14 +240,16 @@ class CatalogRegistry:
 
     def get_entry(self, name: str) -> Optional[CatalogEntry]:
         """Returns a single entry by its unique name, loading it lazily."""
-        self._ensure_discovered()
+        if not self._fast_scanned:
+            self._ensure_discovered()
         if name not in self._entries:
             self._load_entry(name)
         return self._entries.get(name)
 
     def list_at_path(self, path_parts: list[str]) -> tuple[list[str], list[str]]:
         """Returns (subfolders, entries) at the given catalog path."""
-        self._ensure_discovered(path_parts)
+        if not self._fast_scanned:
+            self._ensure_discovered(path_parts)
         
         current_node = self._tree
         for part in path_parts:
@@ -259,9 +262,56 @@ class CatalogRegistry:
         entries = current_node.get("__entries__", [])
         return sorted(subfolders), sorted(entries)
 
+    def fast_scan(self):
+        """Ultra-fast industrial discovery of all catalog entries without file parsing."""
+        if not self.catalog_dir.exists():
+            return
+            
+        # 1. Clear previous discovery state to prevent duplicates
+        self._discovery_map.clear()
+        self._categories.clear()
+        self._expanded_paths.clear()
+        self._tree = {}
+        
+        # 2. Perform deep walk
+        # root/category/sub/sub/leaf/index.yaml
+        for root, dirs, files in os.walk(self.catalog_dir):
+            rel_path = Path(root).relative_to(self.catalog_dir)
+            parts = rel_path.parts
+            
+            # We look for files ending in .yaml/.yml
+            yaml_files = [f for f in files if f.endswith((".yaml", ".yml"))]
+            if not yaml_files:
+                continue
+                
+            # If there's a yaml file, the folder name is the entry ID (v2.0)
+            entry_name = Path(root).name
+            category = parts[0] if parts else entry_name
+            
+            # Map it
+            primary_yaml = Path(root) / yaml_files[0]
+            self._discovery_map[entry_name] = primary_yaml
+            self._add_to_categories(entry_name, category)
+            
+            # Populate the tree for navigation
+            current_node = self._tree
+            for part in parts:
+                if part not in current_node:
+                    current_node[part] = {"__entries__": []}
+                # If we're at the leaf folder, add to entries
+                if part == entry_name:
+                    if entry_name not in current_node["__entries__"]:
+                        current_node["__entries__"].append(entry_name)
+                current_node = current_node[part]
+        
+        self._fast_scanned = True
+
     def list_categories(self) -> List[str]:
         """Returns a list of all discovered categories."""
-        self._ensure_discovered()
+        # If not already discovered by fast_scan, do a quick root scan
+        if not self._fast_scanned and not self._tree:
+            self._ensure_discovered()
+        
         # Include both file-identified categories AND top-level folder categories
         cats = set(self._categories.keys())
         cats.update([k for k in self._tree.keys() if k != "__entries__"])
@@ -270,10 +320,12 @@ class CatalogRegistry:
     def list_entries(self, category: Optional[str] = None) -> List[str]:
         """Returns entries, optionally filtered by category."""
         if category:
-            self._ensure_discovered(parts=[category])
+            if not self._fast_scanned:
+                self._ensure_discovered(parts=[category])
             return sorted(self._categories.get(category, []))
         
-        self._ensure_discovered()
+        if not self._fast_scanned:
+            self._ensure_discovered()
         return sorted(list(self._discovery_map.keys()))
 
     def search(self, query: str) -> List[CatalogEntry]:

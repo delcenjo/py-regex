@@ -72,6 +72,9 @@ class AssistantEngine:
         except ImportError:
             return
         
+        # 0. Perform High-Performance Industrial Discovery (O(N) traversal, no file parsing)
+        self.catalog_registry.fast_scan()
+
         # 1. Category Metadata Map (Common ones with icons/display)
         # In a full system, this could also be in YAML (category.yaml)
         category_meta = {

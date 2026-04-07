@@ -73,10 +73,15 @@ class NebulaREPL:
         """Main REPL loop."""
         # Show banner
         if self.config.show_banner and not initial_command:
-            total_wizards = sum(
-                len(self.engine.registry.get(n).get_wizards())
-                for n in self.engine.registry.names
-            )
+            total_wizards = 0
+            for name in self.engine.registry.names:
+                mod = self.engine.registry.get(name)
+                # Use faster wizard_count if available (for CatalogModules)
+                if hasattr(mod, "wizard_count"):
+                    total_wizards += mod.wizard_count
+                else:
+                    total_wizards += len(mod.get_wizards())
+                    
             show_banner(
                 module_count=self.engine.registry.count, wizard_count=total_wizards
             )
