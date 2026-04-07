@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyregex"
+version = "1.0.0"
+description = "Professional CLI tool for generating, managing, testing and debugging regular expressions in Python."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "PyRegex Team"}
+]
+keywords = ["regex", "cli", "developer-tools", "regular-expressions"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Text Processing",
+]
+dependencies = [
+    "prompt-toolkit>=3.0.0",
+    "pyyaml>=6.0.0",
+    "pydantic>=2.0.0",
+    "tqdm>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff", "mypy"]
+bench = ["faker"]
+
+[project.scripts]
+pyregex = "pyregex.main:main"
+px = "pyregex.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pyregex = ["locales/**/*.json"]
