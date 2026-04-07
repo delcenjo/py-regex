@@ -1,0 +1,2343 @@
+{
+  "catalog": {
+    "markdown_heading": {
+      "subtypes": {
+        "any": "Cualquier encabezado (H1-H6)",
+        "h1": "Encabezado principal (Solo H1)"
+      }
+    }
+  },
+  "welcome": "Bienvenido a PyRegex - Herramienta Regex Profesional",
+  "first_run": {
+    "title": "¡Bienvenido! Vamos a configurar PyRegex por primera vez.",
+    "select_language": "Selecciona idioma (en/es): ",
+    "select_region": "Introduce tu región (ej: US, ES, MX): ",
+    "select_theme": "Selecciona tema (dark/light): ",
+    "show_examples": "¿Mostrar ejemplos por defecto? (s/n): ",
+    "setup_complete": "¡Configuración completada! Guardada en {path}."
+  },
+  "cli": {
+    "description": "Herramienta CLI profesional para generar y probar regex.",
+    "commands": {
+      "create": "Asistente interactivo de creación de regex.",
+      "test": "Probar una regex contra texto o archivo.",
+      "explain": "Explicar un patrón regex en lenguaje sencillo.",
+      "save": "Guardar un patrón regex para uso futuro.",
+      "list": "Listar todos los patrones guardados.",
+      "delete": "Eliminar un patrón guardado.",
+      "run": "Ejecutar un patrón guardado contra texto.",
+      "config": "Gestionar la configuración de la herramienta.",
+      "export": "Exportar patrón como fragmentos de código.",
+      "history": "Ver historial de patrones recientes."
+    },
+    "args": {
+      "pattern": "Patrón de expresión regular.",
+      "text": "Texto para probar.",
+      "file": "Archivo para probar.",
+      "name": "Nombre del patrón.",
+      "description": "Breve descripción del patrón.",
+      "set": "Establecer clave=valor de configuración.",
+      "verbose": "Mostrar explicación detallada.",
+      "ignore_case": "Ignorar mayúsculas/minúsculas.",
+      "multiline": "Modo multilínea (^ y $ coinciden con inicio/fin de línea).",
+      "dotall": "El punto coincide con todos los caracteres, incluidos saltos de línea.",
+      "format": "Formato de exportación (python, javascript, java).",
+      "limit": "Número de entradas de historial a mostrar.",
+      "tags": "Etiquetas separadas por comas para el patrón.",
+      "tag": "Filtrar por etiqueta específica.",
+      "scope": "Filtrar por ámbito (private, global, all).",
+      "line_by_line": "Analizar texto línea por línea con conteo de coincidencias."
+    }
+  },
+  "common": {
+    "error": "Error: {message}",
+    "success": "Éxito: {message}",
+    "pattern": "Patrón: {pattern}",
+    "flags": "Flags: {flags}",
+    "matches_found": "Se han encontrado {count} coincidencias.",
+    "no_matches": "No se han encontrado coincidencias.",
+    "saved": "Patrón '{name}' guardado correctamente.",
+    "deleted": "Patrón '{name}' eliminado.",
+    "not_found": "Patrón '{name}' no encontrado.",
+    "tags": "Etiquetas",
+    "scope": "Ámbito",
+    "private": "Privado",
+    "global": "Global",
+    "all": "Todo",
+    "stats": {
+      "title": "Estadísticas de Prueba",
+      "total_matches": "Total de Coincidencias",
+      "lines_hit": "Líneas con Coincidencias",
+      "match_rate": "Tasa de Acierto",
+      "total_lines": "Total de Líneas"
+    },
+    "url": "URL",
+    "password": "Contraseña",
+    "id_number": "Documento de Identidad (DNI/NIE)",
+    "ip_address": "Dirección IP",
+    "color": "Color HEX",
+    "edit": "Editar",
+    "logs": "Logs",
+    "apache": "Apache Access",
+    "nginx": "Nginx Access",
+    "syslog": "Syslog",
+    "select_pattern": "Selecciona un patrón para editar",
+    "back": "Back",
+    "quit": "Salir",
+    "file_not_found": "File not found: {file}",
+    "parse_error": "Syntax parsing error: {error}"
+  },
+  "explainer": {
+    "digit": "dígito",
+    "word": "carácter alfanumérico",
+    "whitespace": "espacio en blanco",
+    "start": "inicio de línea/texto",
+    "end": "fin de línea/texto",
+    "any": "cualquier carácter (excepto salto de línea)",
+    "exactly": "exactamente {n} {item}",
+    "range": "entre {min} y {max} {item}",
+    "at_least": "al menos {min} {item}",
+    "optional": "opcional",
+    "capture_group": "grupo de captura",
+    "or": "o",
+    "flags": {
+      "ignore_case": "Insensible a mayúsculas",
+      "multiline": "Modo multilínea",
+      "dotall": "Punto coincide con todo"
+    },
+    "examples": {
+      "user": "usuario",
+      "domain": "ejemplo",
+      "ext": "es",
+      "path": "ruta/proyecto"
+    }
+  },
+  "assistant": {
+    "select_type": "Selecciona tipo de patrón (o 'q' para salir):",
+    "invalid_choice": "Por favor, selecciona una opción válida.",
+    "result_banner": "Resultado Generado",
+    "immediate_examples": "Ejemplos Inmediatos:",
+    "match": "COINCIDE",
+    "no_match": "NO COINCIDE",
+    "menu_title": "Asistente Interactivo",
+    "categories": {
+      "personal": "DATOS PERSONALES / CONTACTO (Emails, Teléfonos, DNI, Nombres...)",
+      "web": "WEB / REDES (URLs, IPs, MACs, Dominios...)",
+      "structured": "DATOS ESTRUCTURADOS (CSV, HTML, SQL, Versiones...)",
+      "systems": "LOGS / SISTEMAS (AWS, Docker, K8s, Logs, Base de datos...)",
+      "utils": "UTILIDADES / AVANZADO (Personalizado, Combinar, Editar, Seguridad...)"
+    },
+    "types": {
+      "email": "Email (Estándar, Corporativo, EDU...)",
+      "phone": "Teléfono (Local, Int'l, Extensiones...)",
+      "id": "Documento Identidad (DNI, NIE, SSN, Pasaporte...)",
+      "cc": "Tarjeta de Crédito (Visa, MC, Amex...)",
+      "postal": "Código Postal",
+      "adr": "Dirección (Calle, Ciudad, Código...)",
+      "name": "Nombre Completo",
+      "usr": "Nombre de Usuario (Alfanumérico, Reglas...)",
+      "u": "URL (HTTP/S, FTP, Esquemas...)",
+      "net": "Dirección IPv4",
+      "ipv6": "Dirección IPv6",
+      "mac": "Dirección MAC",
+      "uuid": "UUID/GUID",
+      "dom": "Dominio/Hostname",
+      "slug": "Slugs/URLs amigables",
+      "hash": "Hash (MD5, SHA1, SHA256...)",
+      "qr": "Datos QR/Base64",
+      "path": "Rutas de Archivo",
+      "json": "Claves/Valores JSON",
+      "csv": "CSV/Datos delimitados",
+      "html": "Etiquetas HTML/XML",
+      "sql": "Consultas SQL (CRUD, Tablas, JOINS...)",
+      "ver": "Versión Semántica",
+      "num": "Números (Entero, Flotante, Científico...)",
+      "c": "Colores (HEX, RGB, HSL...)",
+      "w": "Fortaleza de Password",
+      "token": "Tokens de Texto/NLP (Palabras, Símbolos...)",
+      "logs": "Logs del Sistema (Apache, Nginx, Syslog...)",
+      "aws": "Logs de AWS (CloudWatch, ALB, ELB...)",
+      "docker": "Logs de Docker (Contenedores, Eventos...)",
+      "k8s": "Logs de Kubernetes (Pods, Nodos, Namespaces...)",
+      "db": "Consultas DB (SELECT, DDL...)",
+      "ssh": "Conexiones SSH (Auth, Errores, GeoIP...)",
+      "err": "Códigos de Error (HTTP, Python, Java...)",
+      "time": "Marcas de Tiempo (ISO, Unix, RFC...)",
+      "date": "Fechas (Estándar, Texto, Rangos...)",
+      "netflow": "Flujo de Red (IPs, Puertos, Anomalías...)",
+      "edit": "Editar Patrón Guardado",
+      "hist": "Patrones Recientes",
+      "custom": "Regex Personalizada",
+      "merge": "Combinar Patrones",
+      "perf": "Optimizado para Rendimiento",
+      "secure": "Sensible a Seguridad (PII, Secretos, SSRF...)"
+    },
+    "wizards": {
+      "select_variant": "Seleccionar variante",
+      "back": "Regresar",
+      "step_of": "Paso {current} de {total}",
+      "disabled": "desactivado"
+    },
+    "banner": {
+      "help_tip": "Tip: Type 'help' for full command list",
+      "back_tip": "Tip: Type 'back' or 'b' to go back at any time",
+      "status_tip": "Tip: Type 'status' to see session stats",
+      "start_tip": "Type help to start or a direct command"
+    },
+    "repl": {
+      "back_desc": "Go back"
+    }
+  },
+  "history": {
+    "title": "Historial de Patrones Recientes",
+    "empty": "No hay historial disponible aún.",
+    "cleared": "Historial borrado con éxito."
+  },
+  "phone_menu": {
+    "title": "Opciones de Patrón de Teléfono",
+    "local": "Números locales (sin código país)",
+    "intl": "Números internacionales (con código país)",
+    "ext": "Números con extensiones",
+    "custom": "Patrón personalizado",
+    "region_select": "Selecciona formato de país/región:",
+    "separators_prompt": "¿Permitir espacios o guiones como separadores? (s/n):",
+    "country_codes_prompt": "Introduce código(s) de país (ej., +34, +1):",
+    "ext_prompt": "Formato de extensión (x/ext/#):",
+    "regions": {
+      "ES": "España",
+      "US": "Estados Unidos",
+      "UK": "Reino Unido",
+      "FR": "Francia",
+      "DE": "Alemania",
+      "custom": "Introducir formato personalizado"
+    }
+  },
+  "json_menu": {
+    "title": "Patrones JSON (claves, valores, rutas)",
+    "keys": "Coincidir con claves específicas",
+    "vals": "Coincidir con valores específicos",
+    "types": "Coincidir por tipo de valor",
+    "nest": "Objetos/arrays anidados",
+    "array": "Arrays (elementos/longitud)",
+    "path": "Extracción de JSON path",
+    "escape": "Gestionar caracteres de escape",
+    "all": "Cualquier clave/valor/ruta JSON",
+    "custom": "Regex personalizado",
+    "key_select": "Seleccionar tipo de coincidencia de clave:",
+    "key_options": {
+      "exact": "Coincidencia exacta",
+      "prefix": "La clave empieza por",
+      "suffix": "La clave termina por",
+      "contains": "La clave contiene subcadena",
+      "regex": "La clave coincide con regex"
+    },
+    "val_select": "Seleccionar tipo de valor a coincidir:",
+    "val_options": {
+      "string": "Valores de cadena",
+      "number": "Números (int/float)",
+      "bool": "Booleano",
+      "null": "Nulo",
+      "all": "Cualquier valor"
+    },
+    "nest_select": "Seleccionar tipo de anidamiento:",
+    "nest_options": {
+      "obj": "Objeto anidado {...}",
+      "arr": "Array anidado [...]",
+      "depth": "Profundidad máx de anidamiento (1-5):"
+    },
+    "path_select": "Seleccionar notación de ruta:",
+    "path_options": {
+      "dot": "Notación punto (usuario.nombre)",
+      "bracket": "Notación corchetes (usuario[\"email\"])",
+      "wildcard": "Soporte de comodines (*)",
+      "recursive": "Descenso recursivo (..)"
+    },
+    "escape_select": "Seleccionar escapes a gestionar:",
+    "escape_options": {
+      "quotes": "Comillas dobles (\\\")",
+      "backslash": "Contrabarra (\\\\)",
+      "unicode": "Unicode (\\uXXXX)",
+      "all": "Todos los escapes comunes"
+    },
+    "enter_key": "Introducir nombre/patrón de clave:",
+    "enter_val": "Introducir valor a coincidir:",
+    "enter_depth": "Introducir profundidad máx (default: 3):"
+  },
+  "csv_menu": {
+    "title": "Patrones CSV/TSV/Delimitados",
+    "delim": "Delimitador (coma, tab, punto y coma, custom)",
+    "quote": "Campos entrecomillados (simples, dobles, opcional)",
+    "escape": "Caracteres de escape (\\)",
+    "types": "Tipos de datos de campo (cadena, int, float, bool)",
+    "header": "Fila de encabezado presente/ausente",
+    "rows": "Número de filas (min/max)",
+    "columns": "Número de columnas (min/max)",
+    "nested": "Delimitadores anidados o JSON en campos",
+    "all": "Cualquier dato delimitado",
+    "custom": "Regex personalizado",
+    "delim_select": "Seleccionar delimitador:",
+    "delim_options": {
+      "comma": "Coma (,)",
+      "tab": "Tabulación (\\t)",
+      "semicolon": "Punto y coma (;)",
+      "pipe": "Tubería (|)",
+      "custom": "Delimitador personalizado"
+    },
+    "quote_select": "Seleccionar estilo de comillas:",
+    "quote_options": {
+      "double": "\"comillas dobles\"",
+      "single": "'comillas simples'",
+      "optional": "Opcional",
+      "none": "Sin comillas"
+    },
+    "escape_select": "Seleccionar estilo de escape:",
+    "escape_options": {
+      "backslash": "Contrabarra (\\)",
+      "doublequote": "Comilla doble (\"\")",
+      "all": "Ambos"
+    },
+    "enter_delim": "Introducir delimitador personalizado:",
+    "enter_min_rows": "Introducir número mínimo de filas:",
+    "enter_max_rows": "Introducir número máximo de filas:",
+    "enter_min_cols": "Introducir número mínimo de columnas:",
+    "enter_max_cols": "Introducir número máximo de columnas:"
+  },
+  "html_menu": {
+    "title": "Patrones de Etiquetas y Atributos HTML/XML",
+    "tags": "Coincidir con etiquetas específicas",
+    "attrs": "Coincidir con atributos específicos",
+    "vals": "Valores de atributos",
+    "id": "Selectores de ID/Clase",
+    "self": "Etiquetas de autocierre",
+    "nest": "Etiquetas anidadas",
+    "comments": "Comentarios HTML/XML",
+    "doctype": "Declaraciones <!DOCTYPE>",
+    "all": "Cualquier etiqueta/atributo/valor",
+    "custom": "Regex personalizado",
+    "tag_select": "Seleccionar tipo de coincidencia de etiqueta:",
+    "tag_options": {
+      "exact": "Nombre de etiqueta exacto",
+      "prefix": "Empieza por",
+      "suffix": "Termina por",
+      "contains": "Contiene subcadena",
+      "regex": "Regex personalizado"
+    },
+    "attr_select": "Seleccionar tipo de coincidencia de atributo:",
+    "attr_options": {
+      "exact": "Nombre de atributo exacto",
+      "prefix": "Empieza por",
+      "suffix": "Termina por",
+      "contains": "Contiene subcadena",
+      "regex": "Regex personalizado"
+    },
+    "val_select": "Seleccionar tipo de valor:",
+    "val_options": {
+      "string": "Cadena entrecomillada",
+      "number": "Numérico",
+      "url": "URL",
+      "color": "HEX/RGB",
+      "all": "Cualquier valor"
+    },
+    "id_select": "Seleccionar tipo de selector:",
+    "id_options": {
+      "id": "Selector de ID",
+      "class": "Selector de clase",
+      "multiple": "Múltiples clases",
+      "wildcard": "Soporte de comodines"
+    },
+    "nest_select": "Seleccionar profundidad:",
+    "nest_options": {
+      "depth": "Profundidad máx (1-5):",
+      "inline": "Solo elementos en línea",
+      "block": "Solo elementos de bloque"
+    },
+    "doc_select": "Seleccionar tipo de doctype:",
+    "doc_options": {
+      "html5": "HTML5",
+      "xhtml": "XHTML",
+      "xml": "Declaración XML",
+      "all": "Cualquier doctype"
+    },
+    "enter_tag": "Introducir etiqueta:",
+    "enter_attr": "Introducir atributo:",
+    "enter_val": "Introducir patrón de valor:",
+    "include_comm": "¿Incluir comentarios?",
+    "include_self": "¿Incluir etiquetas de autocierre?"
+  },
+  "id_menu": {
+    "title": "Patrones de Número de ID / Identificación",
+    "dni": "DNI/NIE español",
+    "ssn": "SSN estadounidense",
+    "passport": "Pasaportes internacionales",
+    "custom": "Patrón de ID personalizado",
+    "type_select": "Selecciona tipo (DNI/NIE):",
+    "format_select": "Selecciona formato:",
+    "country_select": "Selecciona país/formato:",
+    "types": {
+      "dni": "DNI (8 dígitos + letra)",
+      "nie": "NIE (X/Y/Z + 7 dígitos + letra)",
+      "both": "Aceptar DNI o NIE"
+    },
+    "formats": {
+      "std": "Estándar (XXX-XX-XXXX)",
+      "no_dash": "Solo dígitos (XXXXXXXXX)"
+    },
+    "countries": {
+      "any": "Genérico (alfanumérico, 6-9 car.)",
+      "us": "Pasaporte EE.UU. (9 dígitos)",
+      "uk": "Pasaporte Reino Unido (9 car.)",
+      "es": "Pasaporte España (8 dígitos + letra)",
+      "custom": "Introducir formato personalizado"
+    }
+  },
+  "ipv6_menu": {
+    "title": "Patrones de Dirección IPv6",
+    "full": "IPv6 completo",
+    "compressed": "Notación comprimida (::)",
+    "mixed": "Mapeo IPv6 + IPv4",
+    "with_port": "IPv6 con puerto opcional",
+    "cidr": "Notación CIDR IPv6",
+    "all": "Cualquier formato IPv6",
+    "custom": "Regex personalizado"
+  },
+  "path_menu": {
+    "title": "Patrones de Rutas de Archivo / Directorio",
+    "os": "Tipo de OS",
+    "abs": "Ruta absoluta",
+    "rel": "Ruta relativa",
+    "home": "Directorio personal (~)",
+    "ext": "Extensiones de archivo",
+    "space": "Espacios en nombres",
+    "wildcard": "Comodines (*, ?, [...])",
+    "normalize": "Normalizar barras/contra-barras",
+    "all": "Cualquier ruta válida",
+    "custom": "Regex personalizado",
+    "os_select": "Seleccionar tipo de OS:",
+    "os_options": {
+      "unix": "Unix/Linux/macOS",
+      "win": "Windows",
+      "both": "Ambos"
+    },
+    "abs_select": "Seleccionar estilo de ruta:",
+    "abs_options": {
+      "unix": "/ruta/al/archivo",
+      "win": "C:\\ruta\\al\\archivo"
+    },
+    "rel_select": "Seleccionar estilo relativo:",
+    "rel_options": {
+      "current": "./archivo o ./dir/archivo",
+      "parent": "../padre/dir/archivo",
+      "nested": "dir/anidado/archivo"
+    },
+    "inc_home": "¿Incluir atajo de casa? (~):",
+    "inc_ext": "¿Incluir extensiones de archivo? (y/n):",
+    "ext_list": "Especificar extensiones permitidas (separadas por comas):",
+    "allow_space": "¿Permitir espacios en nombres? (y/n):",
+    "wild_options": {
+      "title": "Seleccionar comodines a soportar:",
+      "any": "Cualquier carácter (*)",
+      "single": "Carácter único (?)",
+      "set": "Juego de caracteres ([...])"
+    },
+    "norm_select": "Normalizar barras a:",
+    "norm_options": {
+      "unix": "Convertir todo a /",
+      "win": "Convertir todo a \\",
+      "both": "Aceptar ambos"
+    }
+  },
+  "qr_menu": {
+    "title": "Patrones de QR Code / Base64",
+    "std": "Base64 Estándar",
+    "url": "Base64 URL-safe",
+    "padding": "Incluir padding opcional (=)",
+    "length": "Longitud Mín/Máx",
+    "charset": "Solo caracteres permitidos",
+    "all": "Cualquier Base64",
+    "custom": "Regex personalizado",
+    "strict": "¿Requiere padding estricto (== o =)?",
+    "min_len": "Longitud mínima (default: 1):",
+    "max_len": "Longitud máxima (default: 4096):",
+    "inc_padding": "¿Incluir padding opcional? (y/n):",
+    "charset_select": "Seleccionar juego de caracteres:",
+    "charset_options": {
+      "std": "Estándar (A-Za-z0-9+/)",
+      "url": "URL-safe (A-Za-z0-9_-)",
+      "custom": "Especificar caracteres personalizados"
+    },
+    "enter_chars": "Introducir caracteres permitidos específicos:"
+  },
+  "hash_menu": {
+    "title": "Patrones de Hash (MD5, SHA1, SHA256)",
+    "md5": "Hash MD5",
+    "sha1": "Hash SHA1",
+    "sha256": "Hash SHA256",
+    "case": "Mayúsculas / Minúsculas / Mezclado",
+    "prefix": "Prefijo (opcional)",
+    "suffix": "Sufijo (opcional)",
+    "length": "Validar longitud exacta",
+    "all": "Cualquier hash común",
+    "custom": "Regex personalizado",
+    "case_select": "Seleccionar mayúsculas/minúsculas:",
+    "case_options": {
+      "upper": "Solo mayúsculas",
+      "lower": "Solo minúsculas",
+      "mixed": "Mezclado"
+    },
+    "add_prefix": "¿Añadir prefijo? (y/n):",
+    "enter_prefix": "Especificar prefijo (ej: $SHA1$, hash_):",
+    "add_suffix": "¿Añadir sufijo? (y/n):",
+    "enter_suffix": "Especificar sufijo (ej: .md5, .sha1):",
+    "enter_len": "Introducir longitud exacta para el tipo de hash (MD5=32, SHA1=40, SHA256=64):"
+  },
+  "slug_menu": {
+    "title": "Slugs / Nombres de Archivo Seguros / URLs",
+    "ascii": "Solo ASCII",
+    "unicode": "Unicode / Caracteres internacionales",
+    "case": "Mayúsculas / Minúsculas / Mezclado",
+    "separator": "Guion (-) / Guion bajo (_) / Mezclado",
+    "length": "Limitar longitud (min/max)",
+    "ext": "Incluir extensiones de archivo (opcional)",
+    "normalize": "Eliminar / reemplazar espacios y caracteres especiales",
+    "all": "Cualquier slug / nombre de archivo / URL-safe",
+    "custom": "Regex personalizado",
+    "ascii_options": {
+      "letters": "Letras (a-zA-Z)",
+      "numbers": "Números (0-9)",
+      "punct": "Guion (-) y Guion bajo (_)"
+    },
+    "unicode_options": {
+      "letters": "Letras (cualquier idioma)",
+      "numbers": "Números (cualquier idioma)",
+      "punct": "Guion (-) y Guion bajo (_)"
+    },
+    "case_options": {
+      "lower": "Forzar minúsculas",
+      "upper": "Forzar mayúsculas",
+      "mixed": "Permitir mezclado"
+    },
+    "sep_options": {
+      "dash": "Guion (-)",
+      "underscore": "Guion bajo (_)",
+      "mixed": "Guion o guion bajo"
+    },
+    "norm_options": {
+      "space": "Reemplazar espacios con - o _",
+      "special": "Eliminar caracteres especiales inválidos",
+      "unicode": "Normalizar caracteres Unicode"
+    },
+    "min_len": "Longitud mínima (defecto 1):",
+    "max_len": "Longitud máxima (defecto 255):",
+    "include_ext": "¿Incluir extensiones de archivo? (y/n):",
+    "ext_list": "Extensiones permitidas (separadas por coma, ej: txt,csv,md):"
+  },
+  "domain_menu": {
+    "title": "Patrones de Dominio / Hostname",
+    "root": "Dominio raíz (example.com)",
+    "sub": "Subdominio (sub.example.com)",
+    "tld": "Dominios de nivel superior (TLDs)",
+    "punycode": "Dominios Punycode (xn--)",
+    "port": "Incluir puerto opcional",
+    "wildcard": "Dominios comodín (*.example.com)",
+    "ip": "Dominio como dirección IP (IPv4/IPv6)",
+    "all": "Cualquier dominio/hostname",
+    "custom": "Regex personalizado",
+    "root_options": {
+      "basic": "Letras/números básicos",
+      "dash": "Permitir guion en el dominio",
+      "length": "Limitar longitud (2-63 caracteres)"
+    },
+    "sub_options": {
+      "single": "Un solo subdominio",
+      "multi": "Múltiples subdominios"
+    },
+    "tld_options": {
+      "generic": "TLDs genéricos (com, org, net)",
+      "country": "TLDs de código de país (es, us, uk)",
+      "all": "Cualquier TLD válido"
+    },
+    "puny_options": {
+      "xn": "Dominios que comienzan con xn--"
+    },
+    "ip_options": {
+      "ipv4": "IPv4",
+      "ipv6": "IPv6",
+      "all": "Ambos"
+    },
+    "include_port": "¿Incluir puerto? (y/n):",
+    "include_wildcard": "¿Incluir comodín (*.)? (y/n):",
+    "include_ip": "¿Incluir dominio como IP? (y/n):"
+  },
+  "uuid_menu": {
+    "title": "Patrones de UUID / GUID",
+    "v1": "UUID versión 1 (basado en tiempo)",
+    "v2": "UUID versión 2 (seguridad DCE)",
+    "v3": "UUID versión 3 (hash MD5)",
+    "v4": "UUID versión 4 (aleatorio)",
+    "v5": "UUID versión 5 (hash SHA-1)",
+    "case": "Mayúsculas / Minúsculas / Mezclado",
+    "dashes": "¿Incluir guiones?",
+    "braces": "¿Incluir llaves?",
+    "all": "Cualquier UUID/GUID válido",
+    "custom": "Regex personalizado",
+    "case_select": "Selecciona formato de letras:",
+    "case_options": {
+      "upper": "Solo mayúsculas",
+      "lower": "Solo minúsculas",
+      "mixed": "Mezclado (por defecto)"
+    },
+    "include_dashes": "¿Incluir guiones? (y/n):",
+    "wrap_braces": "¿Envolver UUID con llaves {}? (y/n):"
+  },
+  "mac_menu": {
+    "title": "Patrones de Dirección MAC",
+    "colon": "Separado por dos puntos (00:11:22:33:44:55)",
+    "dash": "Separado por guiones (00-11-22-33-44-55)",
+    "dot": "Separado por puntos (0011.2233.4455)",
+    "case": "Sensibilidad a mayúsculas/minúsculas",
+    "vendor": "Validación de Vendor OUI",
+    "all": "Cualquier formato MAC",
+    "custom": "Regex personalizado",
+    "case_select": "Permitir:",
+    "dot_select": "Permitir:",
+    "case_options": {
+      "upper": "Mayúsculas (A-F)",
+      "lower": "Minúsculas (a-f)",
+      "mixed": "Mezclado"
+    },
+    "dot_options": {
+      "cisco": "Estilo Cisco (0011.2233.4455)",
+      "juniper": "Estilo Juniper (0011:2233:4455)"
+    },
+    "vendor_prompt": "Introduce prefijos de vendor (OUI), separados por coma (ej., 00:11:22):"
+  },
+  "net_menu": {
+    "title": "Patrones de Dirección IP",
+    "ipv4": "Direcciones IPv4",
+    "ipv6": "Direcciones IPv6",
+    "cidr": "Notación CIDR",
+    "range": "Rangos de IP",
+    "all": "Cualquier dirección IP",
+    "custom": "Regex de IP personalizado",
+    "ipv4_select": "Opciones de formato:",
+    "ipv6_select": "Incluir:",
+    "cidr_select": "Incluir:",
+    "range_select": "Especificar rango:",
+    "ipv4_formats": {
+      "full": "IPv4 completo (0.0.0.0 - 255.255.255.255)",
+      "private": "Rangos privados (10.*, 172.16-31.*, 192.168.*)",
+      "loopback": "Loopback (127.*)",
+      "any": "Cualquier IPv4 (completo + privado + loopback)"
+    },
+    "ipv6_formats": {
+      "full": "IPv6 completo (::1, 2001:db8::1)",
+      "compressed": "Comprimido (::, ::1, 2001:db8::)",
+      "mixed": "Mapeo IPv6 + IPv4 (::ffff:192.168.0.1)"
+    },
+    "cidr_options": {
+      "ipv4": "IPv4 CIDR (192.168.0.0/24)",
+      "ipv6": "IPv6 CIDR (2001:db8::/32)",
+      "all": "Ambos"
+    },
+    "range_options": {
+      "ipv4": "Rangos IPv4 (ej., 192.168.1.1-192.168.1.255)",
+      "ipv6": "Rangos IPv6",
+      "both": "Cualquier rango de IP"
+    }
+  },
+  "url_menu": {
+    "title": "Patrones de URL",
+    "scheme": "Protocolo / Esquema (HTTP, HTTPS, FTP)",
+    "domain": "Dominio / Subdominio / TLD",
+    "port": "Números de puerto (opcional)",
+    "path": "Path / Archivo / Directorio",
+    "query": "Query strings / parámetros",
+    "anchor": "Anclas / Fragmentos",
+    "ipv4": "Direcciones IPv4 como URLs",
+    "ipv6": "Direcciones IPv6 como URLs",
+    "all": "URL completa con todos los componentes",
+    "custom": "Regex de URL personalizado",
+    "scheme_select": "Selecciona esquemas permitidos:",
+    "domain_select": "Permitir:",
+    "path_select": "Incluir:",
+    "include_port": "¿Incluir puerto? (y/n):",
+    "include_query": "¿Incluir query string? (y/n):",
+    "include_anchor": "¿Incluir ancla? (y/n):",
+    "schemes": {
+      "http": "HTTP",
+      "https": "HTTPS",
+      "ftp": "FTP",
+      "all": "HTTP, HTTPS, FTP"
+    },
+    "domain_options": {
+      "sub": "Subdominios",
+      "tld": "Solo TLD (com, org, net, es, etc.)",
+      "all": "Subdominios + TLD"
+    },
+    "path_options": {
+      "dir": "Rutas de directorio",
+      "file": "Nombres de archivo",
+      "all": "Ambos"
+    }
+  },
+  "usr_menu": {
+    "title": "Patrones de Nombre de Usuario",
+    "simple": "Nombres de usuario simples",
+    "complex": "Nombres de usuario con caracteres especiales",
+    "length": "Restricciones de longitud",
+    "intl": "Nombres de usuario Unicode",
+    "custom": "Regex personalizado",
+    "char_select": "Caracteres permitidos:",
+    "special_select": "Caracteres especiales permitidos:",
+    "unicode_select": "Permitir:",
+    "min_len_prompt": "Longitud mínima:",
+    "max_len_prompt": "Longitud máxima:",
+    "prevent_consecutive": "¿Evitar caracteres especiales consecutivos? (y/n):",
+    "prevent_start_end": "¿Evitar empezar/terminar con carácter especial? (y/n):",
+    "simple_types": {
+      "alnum": "Letras + dígitos (default)",
+      "letters": "Solo letras",
+      "digits": "Solo dígitos"
+    },
+    "special_types": {
+      "underscore": "_",
+      "dash": "-",
+      "dot": ".",
+      "all": "Permitir _, -, ."
+    },
+    "intl_options": {
+      "letters": "Letras con acentos/diacríticos",
+      "numbers": "Dígitos",
+      "special": "Caracteres esp. (_-.)",
+      "emoji": "Emojis",
+      "all": "Todo"
+    }
+  },
+  "name_menu": {
+    "title": "Patrones de Nombre Completo",
+    "simple": "Nombres simples (Nombre + Apellido)",
+    "multi": "Nombres múltiples (Middle name, apellidos compuestos)",
+    "intl": "Nombres internacionales (acentos, diacríticos)",
+    "custom": "Regex personalizado",
+    "format_select": "Selecciona formato:",
+    "include_select": "Incluir:",
+    "allow_select": "Permitir:",
+    "simple_formats": {
+      "fl": "Nombre Apellido (ej. John Doe)",
+      "lf": "Apellido, Nombre (ej. Doe, John)",
+      "fmi": "Nombre Inicial Apellido (ej. John A. Doe)"
+    },
+    "multi_options": {
+      "middle": "Nombres medios (opcional)",
+      "compound": "Apellidos compuestos (ej. García López)",
+      "both": "Ambos (nombres medios y apellidos compuestos)"
+    },
+    "intl_options": {
+      "accents": "Letras con acento (é, ñ, ü, etc.)",
+      "hyphen": "Nombres con guion (Anne-Marie)",
+      "apostrophe": "Nombres con apóstrofe (O'Connor)",
+      "all": "Habilitar todo"
+    }
+  },
+  "adr_menu": {
+    "title": "Patrones de Dirección / Calle / Ciudad",
+    "street": "Calle + número",
+    "city": "Nombres de ciudades",
+    "postal_city": "Código postal + ciudad",
+    "full": "Dirección completa (calle, número, CP, ciudad, país)",
+    "custom": "Patrón de dirección personalizado",
+    "format_select": "Selecciona formato:",
+    "allow_accents": "¿Permitir acentos / diacríticos? (y/n):",
+    "include_country": "¿Incluir código de país? (y/n):",
+    "street_formats": {
+      "us": "Estados Unidos (Número + Nombre de calle)",
+      "eu": "Europa (Nombre de calle + número)",
+      "es": "España (Nombre de calle + número + planta opc.)",
+      "custom": "Introducir formato personalizado"
+    }
+  },
+  "cc_menu": {
+    "title": "Patrones de Número de Tarjeta de Crédito",
+    "visa": "Visa (13-16 dígitos, empieza con 4)",
+    "mc": "MasterCard (16 dígitos, empieza 51-55 o 2221-2720)",
+    "amex": "American Express (15 dígitos, empieza 34 o 37)",
+    "discover": "Discover (16 dígitos, empieza 6011, 65, 644-649)",
+    "all": "Cualquier tarjeta principal",
+    "custom": "Formato de tarjeta personalizado",
+    "mc_options": "Opciones de rango de MasterCard:",
+    "mc_ranges": {
+      "old": "Rango antiguo (51-55)",
+      "new": "Rango nuevo (2221-2720)",
+      "both": "Aceptar todos los rangos de MasterCard"
+    }
+  },
+  "postal_menu": {
+    "title": "Patrones de Código Postal / ZIP",
+    "us": "Estados Unidos (ZIP / ZIP+4)",
+    "uk": "Reino Unido",
+    "ca": "Canadá",
+    "es": "España",
+    "de": "Alemania",
+    "fr": "Francia",
+    "custom": "Código postal personalizado",
+    "all": "Cualquier país soportado",
+    "us_options": "Opciones de ZIP de EE.UU.:",
+    "uk_options": "Opciones de código postal de Reino Unido:",
+    "allow_lowercase": "¿Permitir letras minúsculas? (y/n):",
+    "us_formats": {
+      "std": "ZIP estándar de 5 dígitos (ej. 12345)",
+      "plus4": "ZIP+4 (ej. 12345-6789)",
+      "both": "Aceptar ambos formatos"
+    }
+  },
+  "email_menu": {
+    "title": "Opciones de Patrón de Email",
+    "std": "Email estándar (cualquier dominio)",
+    "corp": "Corporativo / dominios específicos",
+    "edu": "Dominios educativos",
+    "custom": "Dominio personalizado",
+    "free": "Proveedores gratuitos (Gmail, Yahoo, Outlook)",
+    "pvt": "Emails privados/locales (localhost, intranet)",
+    "corp_options": "Opciones de Dominio Corporativo",
+    "all_corp": "Cualquier dominio corporativo (ej., @empresa.com)",
+    "list_corp": "Elegir de lista predefinida",
+    "custom_corp": "Introducir dominio(s) corporativo(s)",
+    "edu_options": "Opciones de Dominio Educativo",
+    "any_edu": "Cualquier dominio educativo",
+    "country_edu": "Filtrar por país (US, UK, ES, etc.)",
+    "custom_edu": "Dominio(s) educativo(s) personalizado(s)",
+    "free_options": "Proveedores de Email Gratuitos",
+    "gmail": "Gmail",
+    "yahoo": "Yahoo",
+    "outlook": "Outlook/Hotmail",
+    "all_free": "Todos los proveedores comunes",
+    "custom_free": "Añadir proveedores personalizados",
+    "post_gen": {
+      "save": "Guardar patrón",
+      "test": "Probar patrón",
+      "edit": "Editar regex manualmente",
+      "quit": "Salir sin guardar"
+    },
+    "enter_domain": "Introduce el dominio (ej., ejemplo.com):",
+    "enter_country": "Introduce código de país (US, UK, ES):"
+  },
+  "sql_menu": {
+    "title": "Patrones de Consultas y Literales SQL",
+    "type": "Tipo de consulta (SELECT, INSERT, UPDATE, DELETE)",
+    "table": "Nombres de tabla",
+    "cols": "Nombres de columna",
+    "vals": "Literales / Valores",
+    "where": "Cláusula WHERE",
+    "join": "Cláusulas JOIN",
+    "func": "Funciones SQL (COUNT, SUM, etc.)",
+    "op": "Operadores (=, <>, >, <, IN, LIKE)",
+    "all": "Cualquier fragmento SQL válido",
+    "custom": "Regex personalizada",
+    "type_select": "Selecciona tipo de consulta:",
+    "type_options": {
+      "select": "SELECT",
+      "insert": "INSERT",
+      "update": "UPDATE",
+      "delete": "DELETE",
+      "merge": "MERGE / UPSERT",
+      "all": "Cualquier tipo"
+    },
+    "table_select": "Lógica de coincidencia de tabla:",
+    "table_options": {
+      "exact": "Nombre exacto",
+      "prefix": "Empieza por",
+      "suffix": "Termina por",
+      "contains": "Contiene subcadena",
+      "regex": "Regex de tabla personalizada"
+    },
+    "enter_table": "Introduce nombre/patrón de tabla:",
+    "col_select": "Lógica de coincidencia de columna:",
+    "col_options": {
+      "exact": "Columna exacta",
+      "prefix": "Empieza por",
+      "suffix": "Termina por",
+      "contains": "Contiene subcadena",
+      "regex": "Regex de columna personalizada"
+    },
+    "enter_col": "Introduce nombre/patrón de columna:",
+    "val_select": "Selecciona tipo de literal:",
+    "val_options": {
+      "string": "Literales de cadena ('texto')",
+      "number": "Números (int/float)",
+      "bool": "Booleano (true/false)",
+      "null": "NULL",
+      "date": "Literales de fecha/hora",
+      "all": "Cualquier literal"
+    },
+    "where_select": "Selecciona tipo de cláusula WHERE:",
+    "where_options": {
+      "simple": "Columna = valor",
+      "range": "Columna BETWEEN valor1 AND valor2",
+      "like": "Columna LIKE patrón",
+      "in": "Columna IN (val1, val2, ...)",
+      "compound": "AND / OR / NOT"
+    },
+    "join_select": "Selecciona tipo de JOIN:",
+    "join_options": {
+      "inner": "INNER JOIN",
+      "left": "LEFT JOIN / LEFT OUTER JOIN",
+      "right": "RIGHT JOIN / RIGHT OUTER JOIN",
+      "full": "FULL JOIN / FULL OUTER JOIN",
+      "cross": "CROSS JOIN"
+    },
+    "func_select": "Selecciona categoría de función:",
+    "func_options": {
+      "agg": "Agregados (COUNT, SUM, AVG, MIN, MAX)",
+      "string": "Cadena (CONCAT, SUBSTR, LENGTH)",
+      "date": "Fecha/Hora (NOW, DATEADD, DATEDIFF)",
+      "custom": "Otras funciones",
+      "all": "Cualquier función"
+    },
+    "op_select": "Selecciona operador:",
+    "op_options": {
+      "eq": "=",
+      "neq": "<>",
+      "gt": ">",
+      "lt": "<",
+      "gte": ">=",
+      "lte": "<=",
+      "in": "IN",
+      "like": "LIKE",
+      "and": "AND",
+      "or": "OR",
+      "not": "NOT"
+    }
+  },
+  "ver_menu": {
+    "title": "Patrones de Versionado Semántico (SemVer)",
+    "basic": "Coincidir MAJOR.MINOR.PATCH básico",
+    "pre": "Identificadores de pre-lanzamiento (alpha, beta, rc)",
+    "build": "Metadatos de compilación (+build)",
+    "range": "Rangos de versiones (>=1.0.0 <2.0.0)",
+    "prefix": "Prefijos (v1.2.3)",
+    "suffix": "Sufijos/extensiones",
+    "strict": "SemVer Estricto (cumplimiento total)",
+    "all": "Cualquier SemVer válido",
+    "custom": "Regex personalizada",
+    "basic_select": "Selecciona componente de versión:",
+    "basic_options": {
+      "major": "Versión mayor (MAJOR)",
+      "minor": "Versión menor (MINOR)",
+      "patch": "Parche (PATCH)",
+      "all": "MAJOR.MINOR.PATCH combinado"
+    },
+    "pre_select": "Selecciona tipo de pre-lanzamiento:",
+    "pre_options": {
+      "alpha": "alpha",
+      "beta": "beta",
+      "rc": "release candidate (rc)",
+      "numeric": "pre-lanzamiento numérico (1,2,...)",
+      "custom": "Pre-lanzamiento personalizado"
+    },
+    "build_select": "Selecciona tipo de metadatos:",
+    "build_options": {
+      "numeric": "Metadatos numéricos",
+      "alphanumeric": "Alfanuméricos",
+      "hash": "Hashes de commit de Git",
+      "all": "Cualquier metadato"
+    },
+    "range_select": "Selecciona tipo de rango:",
+    "range_options": {
+      "caret": "^1.2.3 (Cambios compatibles)",
+      "tilde": "~1.2.3 (Actualizaciones de parche)",
+      "gt": ">1.0.0 (Mayor que)",
+      "lt": "<2.0.0 (Menor que)",
+      "gte": ">=1.0.0 (Mayor o igual)",
+      "lte": "<=2.0.0 (Menor o igual)",
+      "hyphen": "1.0.0 - 2.0.0 (Rango)",
+      "wildcard": "1.2.x, 1.*.* (Comodines)"
+    },
+    "prefix_select": "Selecciona prefijo:",
+    "prefix_options": {
+      "v": "v (v1.2.3)",
+      "version": "version (version 1.2.3)",
+      "custom": "Otro prefijo",
+      "none": "Sin prefijo"
+    },
+    "suffix_select": "Selecciona componentes de sufijo:",
+    "suffix_options": {
+      "release": "-alpha/-beta/-rc",
+      "build": "+metadatos de compilación",
+      "custom": "Cualquier otro sufijo"
+    },
+    "strict_select": "Selecciona modo estricto:",
+    "strict_options": {
+      "full": "Cumplimiento total de SemVer",
+      "ignore_case": "Ignorar mayúsculas en pre-lanzamiento"
+    },
+    "enter_pre": "Introduce identificador de pre-lanzamiento:",
+    "enter_prefix": "Introduce prefijo de versión personalizado:",
+    "enter_suffix": "Introduce sufijo de versión personalizado:"
+  },
+  "num_menu": {
+    "title": "Patrones de Números (int/float/científico/rango)",
+    "int": "Números enteros",
+    "float": "Números de punto flotante",
+    "sci": "Notación científica",
+    "range": "Min/Max rangos",
+    "sign": "Con/sin signo",
+    "sep": "Separadores de miles / decimales",
+    "hex": "Números hexadecimales",
+    "bin": "Números binarios",
+    "all": "Cualquier formato numérico",
+    "custom": "Regex personalizada",
+    "int_select": "Selecciona tipo de entero:",
+    "int_options": {
+      "pos": "Enteros positivos",
+      "neg": "Enteros negativos",
+      "all": "Positivos y negativos",
+      "minmax": "Límites Min/Max"
+    },
+    "float_select": "Selecciona tipo de punto flotante:",
+    "float_options": {
+      "dot": "Separador decimal de punto (3.14)",
+      "comma": "Separador decimal de coma (3,14)",
+      "scientific": "Incluir notación científica",
+      "minmax": "Límites Min/Max"
+    },
+    "sci_select": "Selecciona tipo de notación científica:",
+    "sci_options": {
+      "e": "e minúscula",
+      "E": "E mayúscula",
+      "both": "Ambas e/E",
+      "signed": "Signo en el exponente"
+    },
+    "range_select": "Selecciona tipo de rango:",
+    "range_options": {
+      "min": "Valor mínimo",
+      "max": "Valor máximo",
+      "between": "Entre mínimo y máximo",
+      "inclusive": "Inclusivo/exclusivo"
+    },
+    "sign_select": "Selecciona configuración de signo:",
+    "sign_options": {
+      "pos": "Sólo positivos",
+      "neg": "Sólo negativos",
+      "both": "Números con signo"
+    },
+    "sep_select": "Selecciona formato de separadores:",
+    "sep_options": {
+      "comma": "1,000.00",
+      "dot": "1.000,00",
+      "space": "1 000.00",
+      "none": "Sin separadores"
+    },
+    "hex_select": "Selecciona formato hexadecimal:",
+    "hex_options": {
+      "prefix": "Prefijo 0x",
+      "noprefix": "Sin prefijo",
+      "upper": "Letras mayúsculas",
+      "lower": "Letras minúsculas",
+      "both": "Ambas mayúsculas/minúsculas"
+    },
+    "bin_select": "Selecciona formato binario:",
+    "bin_options": {
+      "prefix": "Prefijo 0b",
+      "noprefix": "Sin prefijo"
+    },
+    "enter_min": "Introduce valor mínimo:",
+    "enter_max": "Introduce valor máximo:"
+  },
+  "color_menu": {
+    "title": "Patrones de Colores (HEX, RGB, RGBA, HSL, Nombres)",
+    "hex": "HEX colores (#FFF, #FFFFFF)",
+    "rgb": "RGB colores (rgb(255, 255, 255))",
+    "rgba": "RGBA colores (rgba(255, 255, 255, 0.5))",
+    "hsl": "HSL colores (hsl(360, 100%, 50%))",
+    "hsla": "HSLA colores (hsla(360, 100%, 50%, 0.5))",
+    "name": "Nombres CSS (red, blue, lightgreen)",
+    "short": "Formas cortas / shorthand",
+    "all": "Cualquier formato de color válido",
+    "custom": "Regex personalizada",
+    "hex_select": "Selecciona formato HEX:",
+    "hex_options": {
+      "short": "Shorthand de 3 caracteres (#FFF)",
+      "full": "6 caracteres (#FFFFFF)",
+      "withAlpha": "8 caracteres con alpha (#FFFFFFFF)",
+      "case": "Mayúsculas / minúsculas / ambas"
+    },
+    "rgb_select": "Selecciona opciones de RGB:",
+    "rgb_options": {
+      "int": "Enteros 0-255",
+      "percent": "Porcentaje 0%-100%",
+      "spaces": "Permitir espacios después de comas"
+    },
+    "rgba_select": "Selecciona opciones de RGBA:",
+    "rgba_options": {
+      "alphaFloat": "0.0-1.0",
+      "spaces": "Permitir espacios después de comas"
+    },
+    "hsl_select": "Selecciona opciones de HSL:",
+    "hsl_options": {
+      "hue": "0-360",
+      "sat": "0%-100%",
+      "light": "0%-100%"
+    },
+    "hsla_select": "Selecciona opciones de HSLA:",
+    "hsla_options": {
+      "alphaFloat": "0.0-1.0"
+    },
+    "name_select": "Selecciona alcance de nombres:",
+    "name_options": {
+      "basic": "Estándar 140 nombres CSS",
+      "extended": "Incluir X11 / extendidos",
+      "case": "Ignorar case o exactos"
+    },
+    "short_select": "Selecciona formas cortas:",
+    "short_options": {
+      "hex3": "#RGB",
+      "hex4": "#RGBA"
+    }
+  },
+  "pwd_menu": {
+    "title": "Patrones de Fuerza de Contraseña",
+    "length": "Longitud Mínima / Máxima",
+    "upper": "Letras mayúsculas",
+    "lower": "Letras minúsculas",
+    "digit": "Dígitos",
+    "special": "Caracteres especiales (!@#$%^&* etc.)",
+    "spaces": "Permitir/denegar espacios",
+    "strength": "Nivel de fuerza (débil, medio, fuerte)",
+    "repeat": "Caracteres repetidos",
+    "all": "Cualquier contraseña válida",
+    "custom": "Regex personalizada",
+    "length_select": "Selecciona opción de longitud:",
+    "length_options": {
+      "min": "Longitud mínima",
+      "max": "Longitud máxima",
+      "range": "Rango específico (ej., 8-16)"
+    },
+    "upper_select": "Selecciona restricción de mayúsculas:",
+    "upper_options": {
+      "min": "Mínimo de mayúsculas",
+      "exact": "Cantidad exacta"
+    },
+    "lower_select": "Selecciona restricción de minúsculas:",
+    "lower_options": {
+      "min": "Mínimo de minúsculas",
+      "exact": "Cantidad exacta"
+    },
+    "digit_select": "Selecciona restricción de dígitos:",
+    "digit_options": {
+      "min": "Mínimo de dígitos",
+      "exact": "Cantidad exacta"
+    },
+    "special_select": "Selecciona restricción de caracteres especiales:",
+    "special_options": {
+      "min": "Mínimo de especiales",
+      "exact": "Cantidad exacta",
+      "chars": "Símbolos permitidos personalizados"
+    },
+    "spaces_select": "Selecciona política de espacios:",
+    "spaces_options": {
+      "allow": "Permitir espacios",
+      "disallow": "Sin espacios"
+    },
+    "strength_select": "Selecciona preajuste de fuerza:",
+    "strength_options": {
+      "weak": "Mínimo 6 caracteres, cualquier tipo",
+      "medium": "Mínimo 8 caracteres, letras+dígitos",
+      "strong": "Mínimo 10 caracteres, letras+dígitos+símbolos",
+      "custom": "Reglas definidas por el usuario"
+    },
+    "repeat_select": "Selecciona política de repetición:",
+    "repeat_options": {
+      "none": "Sin caracteres consecutivos repetidos",
+      "limit": "Limitar repeticiones (ej. max 2 seguidos)"
+    },
+    "enter_val": "Introduce valor:",
+    "enter_min": "Introduce longitud/cantidad mínima:",
+    "enter_max": "Introduce longitud/cantidad máxima:",
+    "enter_limit": "Introduce máximo de repeticiones consecutivas:",
+    "enter_chars": "Introduce caracteres especiales (ej. !@#$%):"
+  },
+  "token_menu": {
+    "title": "Patrones de Tokens / Procesamiento NLP",
+    "word": "Palabras",
+    "phrase": "Frases",
+    "digit": "Dígitos / números",
+    "punct": "Signos de puntuación",
+    "symbol": "Símbolos / caracteres especiales",
+    "stopwords": "Stopwords comunes",
+    "case": "Minúsculas / Mayúsculas / Mixto",
+    "length": "Longitud de token Min/Max",
+    "regex": "Patrones basados en Regex",
+    "all": "Cualquier token",
+    "custom": "Regex personalizada",
+    "word_select": "Selecciona tipo de palabra:",
+    "word_options": {
+      "alpha": "Solo palabras alfabéticas",
+      "alnum": "Palabras alfanuméricas",
+      "unicode": "Letras unicode",
+      "minmax": "Min/Max letras"
+    },
+    "phrase_select": "Selecciona tipo de frase:",
+    "phrase_options": {
+      "quoted": "Frases entre comillas (\"Hola mundo\")",
+      "sentence": "Patrones tipo oración",
+      "minmax": "Min/Max palabras por frase"
+    },
+    "digit_select": "Selecciona tipo de dígito/número:",
+    "digit_options": {
+      "int": "Solo enteros",
+      "float": "Solo flotantes",
+      "scientific": "Notación científica",
+      "range": "Min/Max"
+    },
+    "punct_select": "Selecciona signos de puntuación:",
+    "punct_options": {
+      "basic": "Básico . , ; : ! ?",
+      "extended": "Incluir corchetes, comillas, barras",
+      "all": "Cualquier puntuación"
+    },
+    "symbol_select": "Selecciona símbolos/caracteres especiales:",
+    "symbol_options": {
+      "math": "+ - * / = % ^",
+      "currency": "$ € £ ¥",
+      "other": "# @ & * ~ `",
+      "all": "Cualquier símbolo"
+    },
+    "stopwords_select": "Selecciona lenguaje de stopwords:",
+    "stopwords_options": {
+      "en": "Stopwords en Inglés",
+      "es": "Stopwords en Español",
+      "custom": "Lista definida por el usuario"
+    },
+    "case_select": "Selecciona capitalización del token:",
+    "case_options": {
+      "lower": "Solo minúsculas",
+      "upper": "Solo mayúsculas",
+      "mixed": "Casing mixto"
+    },
+    "length_select": "Selecciona longitud del token:",
+    "length_options": {
+      "min": "Caracteres mínimos",
+      "max": "Caracteres máximos",
+      "range": "Rango específico"
+    },
+    "regex_select": "Selecciona opción de regex:",
+    "regex_options": {
+      "pattern": "Introduce patrón regex",
+      "flags": "Especifica flags (i, m, s, etc.)"
+    },
+    "enter_stopwords": "Introduce stopwords personalizadas (separadas por comas):"
+  },
+  "logs_menu": {
+    "title": "Patrones de Logs (Apache / Nginx / Syslog / systemd)",
+    "apache": "Logs de Apache (Access/Error)",
+    "nginx": "Logs de Nginx (Access/Error)",
+    "syslog": "Logs de Syslog / systemd",
+    "timestamp": "Marcas de Tiempo (ISO, RFC, Unix)",
+    "ip": "Direcciones IP",
+    "http": "Métodos HTTP / Códigos de Estado",
+    "url": "URLs / Endpoints solicitados",
+    "user": "Nombres de Usuario / Info Auth",
+    "error": "Códigos / Mensajes de Error",
+    "level": "Niveles de Log (INFO, WARN, ERROR)",
+    "custom": "Regex de log personalizado",
+    "apache_options": {
+      "title": "Opciones de Apache:",
+      "access": "Patrón de log de acceso",
+      "error": "Patrón de log de error",
+      "combined": "Formato de log Combined",
+      "common": "Formato de log Common"
+    },
+    "nginx_options": {
+      "title": "Opciones de Nginx:",
+      "access": "Log de acceso",
+      "error": "Log de error",
+      "combined": "Formato Combined"
+    },
+    "syslog_options": {
+      "title": "Opciones de Syslog:",
+      "auth": "Logs de autenticación",
+      "daemon": "Logs de demonios/servicios",
+      "kernel": "Mensajes del kernel",
+      "systemd": "Logs de systemd"
+    },
+    "timestamp_options": {
+      "title": "Opciones de Marcas de Tiempo:",
+      "iso": "ISO 8601 (YYYY-MM-DDTHH:MM:SS)",
+      "rfc": "RFC 2822 / 3339",
+      "unix": "Timestamp Unix (segundos)",
+      "custom": "Formato personalizado"
+    },
+    "ip_options": {
+      "ipv4": "IPv4",
+      "ipv6": "IPv6",
+      "both": "Cualquier IP"
+    },
+    "http_options": {
+      "method": "GET, POST, PUT, DELETE, etc.",
+      "status": "1xx, 2xx, 3xx, 4xx, 5xx"
+    },
+    "url_options": {
+      "path": "Solo ruta",
+      "query": "Ruta + query string",
+      "full": "URL completa con esquema"
+    },
+    "user_options": {
+      "local": "Usuario local",
+      "remote": "Usuario remoto / auth",
+      "all": "Cualquier token de usuario"
+    },
+    "error_options": {
+      "http": "Códigos de error HTTP (4xx, 5xx)",
+      "sys": "Códigos de error del sistema",
+      "custom": "Patrones de error personalizados"
+    },
+    "level_options": {
+      "standard": "Niveles estándar",
+      "custom": "Niveles personalizados"
+    }
+  },
+  "aws_menu": {
+    "title": "Patrones de Logs de AWS (CloudWatch / ALB / ELB)",
+    "cloudwatch": "Logs de CloudWatch",
+    "alb": "Logs de acceso de ALB",
+    "elb": "Logs de ELB (Classic)",
+    "timestamp": "Marcas de Tiempo (ISO, Unix)",
+    "ip": "IPs de Cliente / Target",
+    "request": "IDs de Solicitud (Request IDs)",
+    "http": "Métodos HTTP / Códigos de Estado",
+    "url": "URLs / Endpoints solicitados",
+    "useragent": "Strings de User-Agent",
+    "error": "Mensajes / Códigos de Error",
+    "alert": "Alarmas / Patrones de CloudWatch",
+    "custom": "Regex de log de AWS personalizado",
+    "cloudwatch_options": {
+      "title": "Opciones de CloudWatch:",
+      "events": "Mensajes de eventos",
+      "metrics": "Logs de métricas",
+      "filter": "Patrones de filtro"
+    },
+    "alb_options": {
+      "title": "Opciones de ALB:",
+      "access": "Log de acceso ALB estándar",
+      "error": "Log de error de ALB"
+    },
+    "elb_options": {
+      "title": "Opciones de ELB:",
+      "access": "Log de acceso ELB",
+      "error": "Log de error de ELB"
+    },
+    "timestamp_options": {
+      "iso": "ISO 8601",
+      "unix": "Timestamp Unix",
+      "custom": "Formato personalizado"
+    },
+    "ip_options": {
+      "client": "IP del Cliente",
+      "target": "IP del Target",
+      "all": "Cualquier IP"
+    },
+    "request_options": {
+      "reqid": "ID de Solicitud AWS",
+      "trace": "ID de Traza",
+      "all": "Cualquier ID"
+    },
+    "http_options": {
+      "method": "Métodos HTTP",
+      "status": "Códigos de estado"
+    },
+    "url_options": {
+      "path": "Solo ruta",
+      "query": "Ruta + Query",
+      "full": "URL completa"
+    },
+    "useragent_options": {
+      "browser": "Navegador",
+      "cli": "CLI/curl",
+      "sdk": "AWS SDK",
+      "custom": "Personalizado"
+    },
+    "error_options": {
+      "http": "Errores HTTP",
+      "aws": "Errores de AWS",
+      "custom": "Personalizado"
+    },
+    "alert_options": {
+      "metric": "Alarmas de métrica",
+      "state": "Estado de alarma",
+      "custom": "Personalizado"
+    }
+  },
+  "docker_menu": {
+    "title": "Patrones de Logs de Docker",
+    "status": "Estado / Condición del Contenedor",
+    "cpu": "Uso de CPU",
+    "memory": "Uso de Memoria",
+    "network": "Tráfico de Red (Puerto/IP)",
+    "error": "Mensajes de Error / Códigos de Salida",
+    "stdout": "Salida Estándar (stdout)",
+    "event": "Eventos de Docker (Start/Stop)",
+    "custom": "Regex de Docker personalizado",
+    "status_options": {
+      "all": "Todos los estados",
+      "running": "En ejecución",
+      "exited": "Salido",
+      "restarting": "Reiniciando"
+    },
+    "cpu_options": {
+      "title": "Opciones de CPU",
+      "percent": "Porcentaje",
+      "core": "ID de Núcleo",
+      "range": "Rango de uso"
+    },
+    "memory_options": {
+      "title": "Opciones de Memoria",
+      "bytes": "Bytes",
+      "kb": "KB",
+      "mb": "MB",
+      "gb": "GB",
+      "range": "Rango de uso"
+    },
+    "network_options": {
+      "title": "Opciones de Red",
+      "port": "Puerto",
+      "ip": "Dirección IP",
+      "proto": "Protocolo"
+    },
+    "error_options": {
+      "title": "Opciones de Error",
+      "exit": "Códigos de salida",
+      "msg": "Mensajes de error",
+      "custom": "Personalizado"
+    },
+    "event_options": {
+      "title": "Opciones de Evento",
+      "start": "Inicio",
+      "stop": "Parada",
+      "kill": "Matar",
+      "restart": "Reiniciar",
+      "all": "Todos los eventos"
+    }
+  },
+  "k8s_menu": {
+    "title": "Patrones de Logs de Kubernetes",
+    "pod": "Detalles del Pod",
+    "container": "Detalles del Contenedor",
+    "namespace": "Detalles del Namespace",
+    "timestamp": "Marcas de Tiempo (ISO, RFC, Nano)",
+    "level": "Niveles de Log (estilo k8s)",
+    "status": "Estado de Pod/Contenedor",
+    "event": "Eventos de K8s (Lifecycle, Scheduler)",
+    "node": "Detalles del Nodo",
+    "resource": "Recursos (Límites CPU/Memoria)",
+    "error": "Errores de K8s (OOM, CrashLoop)",
+    "label": "Etiquetas / Selectores",
+    "custom": "Regex de K8s personalizado",
+    "pod_options": {
+      "title": "Opciones de Pod",
+      "name": "Nombre del pod",
+      "uid": "UID del pod",
+      "replica": "Replica set",
+      "all": "Toda la info del pod"
+    },
+    "container_options": {
+      "title": "Opciones de Contenedor",
+      "name": "Nombre del contenedor",
+      "init": "Contenedor Init",
+      "sidecar": "Sidecar",
+      "all": "Toda la info del contenedor"
+    },
+    "namespace_options": {
+      "title": "Opciones de Namespace",
+      "default": "Namespace por defecto",
+      "system": "kube-system",
+      "custom": "Namespace personalizado",
+      "all": "Cualquier namespace"
+    },
+    "timestamp_options": {
+      "title": "Opciones de Tiempo",
+      "iso": "ISO 8601",
+      "rfc": "RFC 3339",
+      "unix": "Unix epoch",
+      "nano": "Nanosegundos"
+    },
+    "level_options": {
+      "title": "Opciones de Nivel",
+      "standard": "Niveles estándar",
+      "k8s": "Específicos de K8s",
+      "custom": "Niveles personalizados"
+    },
+    "status_options": {
+      "title": "Opciones de Estado",
+      "pod": "Estado del pod",
+      "container": "Estado del contenedor",
+      "phase": "Fase de ciclo de vida"
+    },
+    "event_options": {
+      "title": "Opciones de Evento",
+      "lifecycle": "Eventos de ciclo de vida",
+      "scheduler": "Eventos del planificador",
+      "image": "Eventos de imagen",
+      "all": "Todos los eventos"
+    },
+    "node_options": {
+      "title": "Opciones de Nodo",
+      "name": "Nombre del nodo",
+      "ip": "IP del nodo",
+      "hostname": "Hostname",
+      "all": "Toda la info del nodo"
+    },
+    "resource_options": {
+      "title": "Opciones de Recursos",
+      "cpu": "CPU (m/cores)",
+      "memory": "Memoria (Mi/Gi)",
+      "limits": "Límites de recursos",
+      "requests": "Solicitudes de recursos"
+    },
+    "error_options": {
+      "title": "Opciones de Error",
+      "crash": "CrashLoopBackOff",
+      "oom": "OOMKilled",
+      "image": "ImagePullBackOff",
+      "network": "Errores de red",
+      "all": "Todos los errores"
+    },
+    "label_options": {
+      "title": "Opciones de Etiqueta",
+      "key": "Clave de etiqueta",
+      "value": "Valor de etiqueta",
+      "selector": "Selector completo"
+    }
+  },
+  "db_menu": {
+    "title": "Patrones de Base de Datos / SQL",
+    "query": "Tipos de Consulta SQL",
+    "table": "Nombres de Tabla",
+    "column": "Nombres de Columna",
+    "where": "Cláusulas WHERE",
+    "join": "Cláusulas JOIN",
+    "value": "Valores / Literals SQL",
+    "txn": "Transacciones (Commit/Rollback)",
+    "perf": "Rendimiento (Tiempo de ejecución)",
+    "error": "Errores SQL / Restricciones",
+    "func": "Funciones SQL",
+    "ddl": "DDL (Create/Alter/Drop)",
+    "comment": "Comentarios SQL",
+    "custom": "Regex SQL personalizado",
+    "query_options": {
+      "title": "Opciones de Consulta",
+      "select": "SELECT",
+      "insert": "INSERT",
+      "update": "UPDATE",
+      "delete": "DELETE",
+      "ddl": "Consultas DDL",
+      "all": "Cualquier consulta"
+    },
+    "table_options": {
+      "title": "Opciones de Tabla",
+      "simple": "Nombre simple",
+      "schema": "Esquema.Tabla",
+      "alias": "Alias de tabla",
+      "quoted": "Nombres entrecomillados"
+    },
+    "column_options": {
+      "title": "Opciones de Columna",
+      "select": "En SELECT",
+      "where": "En WHERE",
+      "alias": "Alias de columna",
+      "agg": "Columnas agregadas"
+    },
+    "where_options": {
+      "title": "Opciones de WHERE",
+      "basic": "Igualdad básica",
+      "logical": "Lógica AND/OR",
+      "range": "BETWEEN/Rangos",
+      "set": "Listas IN",
+      "null": "IS NULL",
+      "like": "Patrones LIKE"
+    },
+    "join_options": {
+      "title": "Opciones de JOIN",
+      "inner": "INNER JOIN",
+      "left": "LEFT JOIN",
+      "right": "RIGHT JOIN",
+      "full": "FULL JOIN",
+      "cross": "CROSS JOIN",
+      "condition": "Condición ON"
+    },
+    "value_options": {
+      "title": "Opciones de Valor",
+      "string": "Cadenas",
+      "number": "Números",
+      "null": "NULL",
+      "bool": "Booleanos",
+      "date": "Fechas/Horas"
+    },
+    "txn_options": {
+      "title": "Opciones de Transacción",
+      "begin": "BEGIN",
+      "commit": "COMMIT",
+      "rollback": "ROLLBACK",
+      "savepoint": "SAVEPOINT"
+    },
+    "perf_options": {
+      "title": "Opciones de Rendimiento",
+      "time": "Tiempo de ejecución",
+      "slow": "Consultas lentas",
+      "rows": "Filas afectadas",
+      "cost": "Coste de consulta"
+    },
+    "error_options": {
+      "title": "Opciones de Error",
+      "syntax": "Errores de sintaxis",
+      "constraint": "Restricciones (FK/Unique)",
+      "connection": "Errores de conexión",
+      "timeout": "Timeouts",
+      "all": "Cualquier error"
+    },
+    "func_options": {
+      "title": "Opciones de Función",
+      "agg": "Agregados (SUM/AVG)",
+      "string": "Funciones de cadena",
+      "date": "Funciones de fecha",
+      "window": "Funciones de ventana"
+    },
+    "ddl_options": {
+      "title": "Opciones de DDL",
+      "create": "CREATE",
+      "alter": "ALTER",
+      "drop": "DROP",
+      "index": "CREATE INDEX",
+      "constraint": "ADD CONSTRAINT"
+    },
+    "comment_options": {
+      "title": "Opciones de Comentario",
+      "inline": "-- En línea",
+      "block": "/* Bloque */"
+    }
+  },
+  "ssh_menu": {
+    "title": "Patrones de Logs de SSH",
+    "timestamp": "Marcas de Tiempo (Syslog/ISO)",
+    "ip": "IPs de Origen",
+    "user": "Usuarios (Válidos/Inválidos)",
+    "auth": "Estado de Autenticación",
+    "status": "Estado de Conexión",
+    "method": "Métodos de Auth (Password/Key)",
+    "session": "Detalles de Sesión",
+    "port": "Puertos SSH",
+    "attack": "Patrones de Ataque (Brute force)",
+    "geo": "Geo / Rango de IP",
+    "pid": "IDs de Proceso (PID)",
+    "custom": "Regex SSH personalizado",
+    "timestamp_options": {
+      "title": "Opciones de Tiempo",
+      "syslog": "Formato Syslog",
+      "iso": "ISO 8601",
+      "year": "Con año",
+      "all": "Cualquier formato"
+    },
+    "ip_options": {
+      "title": "Opciones de IP",
+      "ipv4": "IPv4 estándar",
+      "private": "IPs privadas",
+      "public": "IPs públicas",
+      "all": "Cualquier IP"
+    },
+    "user_options": {
+      "title": "Opciones de Usuario",
+      "valid": "Usuario válido",
+      "invalid": "Usuario inválido",
+      "root": "Acceso root",
+      "system": "Usuario de sistema",
+      "all": "Cualquier usuario"
+    },
+    "auth_options": {
+      "title": "Opciones de Auth",
+      "success": "Aceptado",
+      "fail": "Fallido",
+      "invalid": "Intento inválido",
+      "all": "Todos los intentos"
+    },
+    "status_options": {
+      "title": "Opciones de Estado",
+      "opened": "Conexión abierta",
+      "closed": "Conexión cerrada",
+      "failed": "Conexión fallida",
+      "reset": "Conexión reiniciada",
+      "all": "Todos los estados"
+    },
+    "method_options": {
+      "title": "Opciones de Método",
+      "password": "Contraseña",
+      "key": "Llave pública",
+      "keyboard": "Teclado interactivo",
+      "gssapi": "GSSAPI",
+      "all": "Todos los métodos"
+    },
+    "session_options": {
+      "title": "Opciones de Sesión",
+      "start": "Inicio de sesión",
+      "end": "Fin de sesión",
+      "duration": "Duración de sesión",
+      "tty": "Asignación de TTY"
+    },
+    "port_options": {
+      "title": "Opciones de Puerto",
+      "default": "Puerto por defecto (22)",
+      "custom": "Puerto personalizado",
+      "range": "Rangos de puerto"
+    },
+    "attack_options": {
+      "title": "Opciones de Ataque",
+      "bruteforce": "Intentos de fuerza bruta",
+      "scan": "Escaneo de puertos",
+      "invalid": "Escaneo de usuarios inválidos",
+      "rate": "Alta tasa de intentos"
+    },
+    "geo_options": {
+      "title": "Opciones Geo",
+      "internal": "Red interna",
+      "external": "Red externa",
+      "range": "Rango de IP específico"
+    },
+    "pid_options": {
+      "title": "Opciones de PID",
+      "simple": "Simple (123)",
+      "bracket": "Entre corchetes [123]",
+      "all": "Cualquier formato PID"
+    }
+  },
+  "err_menu": {
+    "title": "Logs de Error / Stack Traces",
+    "code": "Códigos de Error (HTTP, Sistema)",
+    "python": "Excepciones de Python",
+    "java": "Excepciones de Java",
+    "node": "Errores de Node.js / JS",
+    "go": "Panics / Traces de Go",
+    "rust": "Panics / Traces de Rust",
+    "trace": "Stack Traces Genéricos",
+    "file": "Rutas de Archivo en Errores",
+    "line": "Números de Línea",
+    "panic": "Panics Fatales / Segfaults",
+    "multi": "Stacks Multilínea",
+    "custom": "Regex de error personalizado",
+    "code_options": {
+      "title": "Opciones de Código",
+      "http": "HTTP (4xx, 5xx)",
+      "system": "Códigos Errno",
+      "app": "Códigos de App (ERR_*)",
+      "numeric": "Códigos numéricos"
+    },
+    "python_options": {
+      "title": "Opciones de Python",
+      "exception": "Nombre de excepción",
+      "traceback": "Cabecera de traceback",
+      "fileline": "Lógica archivo/línea",
+      "module": "Nombre de módulo",
+      "all": "Traceback completo"
+    },
+    "java_options": {
+      "title": "Opciones de Java",
+      "exception": "Nombre de excepción",
+      "trace": "Líneas de traza 'at ...'",
+      "caused": "Caused by...",
+      "class": "Nombre de clase"
+    },
+    "node_options": {
+      "title": "Opciones de Node.js",
+      "error": "Tipo de error",
+      "trace": "Líneas de traza 'at ...'",
+      "module": "Archivo/Módulo",
+      "async": "Traza asíncrona"
+    },
+    "go_options": {
+      "title": "Opciones de Go",
+      "panic": "panic: ...",
+      "trace": "Traza de goroutine",
+      "goroutine": "Cabecera de goroutine",
+      "file": "Archivo/Línea"
+    },
+    "rust_options": {
+      "title": "Opciones de Rust",
+      "panic": "thread panicked",
+      "trace": "backtrace de stack",
+      "thread": "Nombre de hilo",
+      "file": "Referencia de origen"
+    },
+    "trace_options": {
+      "title": "Opciones de Traza",
+      "java": "Estilo Java",
+      "node": "Estilo Node",
+      "python": "Estilo Python",
+      "generic": "Estilo universal"
+    },
+    "file_options": {
+      "title": "Opciones de Archivo",
+      "linux": "Rutas Linux",
+      "windows": "Rutas Windows",
+      "source": "Archivos de código fuente",
+      "all": "Cualquier ruta"
+    },
+    "line_options": {
+      "title": "Opciones de Línea",
+      "simple": "Simple (123)",
+      "fileline": "archivo:123",
+      "range": "Rangos (10-20)"
+    },
+    "panic_options": {
+      "title": "Opciones de Panic",
+      "fatal": "FATAL",
+      "abort": "ABORT",
+      "segfault": "Fallo de segmentación",
+      "oom": "Sin memoria (OOM)"
+    },
+    "multi_options": {
+      "title": "Opciones Multilínea",
+      "python": "Multilínea Python",
+      "java": "Multilínea Java",
+      "node": "Multilínea Node",
+      "all": "Multilínea genérica"
+    }
+  },
+  "time_menu": {
+    "title": "Marcas de Tiempo y Patrones de Hora",
+    "iso": "Formatos ISO 8601",
+    "unix": "Timestamps Unix (Epoch)",
+    "rfc": "Formatos RFC (2822, 3339)",
+    "date": "Formatos de Solo Fecha",
+    "time": "Formatos de Solo Hora",
+    "datetime": "Fecha y Hora Combinadas",
+    "tz": "Zonas Horarias / Offsets",
+    "relative": "Tiempo Relativo (hace X, log)",
+    "range": "Rangos de Tiempo / Intervalos",
+    "precision": "Segundos Fraccionarios (ms, nano)",
+    "log": "Marcas de Tiempo de Log",
+    "custom": "Regex de tiempo personalizado",
+    "iso_options": {
+      "title": "Opciones ISO",
+      "basic": "Básico (20260317)",
+      "datetime": "Completo (YYYY-MM-DDTHH:MM:SS)",
+      "zulu": "Zulu (Z)",
+      "offset": "Con Offset (+HH:MM)",
+      "compact": "Compacto",
+      "week": "Semana ISO"
+    },
+    "unix_options": {
+      "title": "Opciones Unix",
+      "seconds": "Segundos (10 dígitos)",
+      "milliseconds": "Millis (13 dígitos)",
+      "microseconds": "Micros (16 dígitos)",
+      "range": "Rangos de epoch"
+    },
+    "rfc_options": {
+      "title": "Opciones RFC",
+      "rfc2822": "RFC 2822 (estilo Email)",
+      "rfc3339": "RFC 3339 (Moderno)",
+      "weekday": "Incluir día de semana",
+      "full": "RFC completo"
+    },
+    "date_options": {
+      "title": "Opciones de Fecha",
+      "iso": "ISO (YYYY-MM-DD)",
+      "eu": "EU (DD/MM/YYYY)",
+      "us": "US (MM/DD/YYYY)",
+      "text": "Textual (17 Mar 2026)",
+      "short": "Corto (YY-MM-DD)"
+    },
+    "time_options": {
+      "title": "Opciones de Hora",
+      "24h": "Formato 24h",
+      "12h": "Formato 12h (AM/PM)",
+      "seconds": "Con segundos",
+      "ms": "Con milisegundos"
+    },
+    "datetime_options": {
+      "title": "Opciones de Fecha/Hora",
+      "iso": "Estilo ISO",
+      "space": "Separado por espacio",
+      "slash": "Estilo barra",
+      "log": "Estilo log"
+    },
+    "tz_options": {
+      "title": "Opciones de Zona Horaria",
+      "utc": "UTC/GMT",
+      "offset": "+/- Offset",
+      "abbr": "Abrev (EST, CET)",
+      "full": "Nombre completo"
+    },
+    "relative_options": {
+      "title": "Opciones Relativas",
+      "ago": "Hace X",
+      "in": "En X",
+      "log": "Relativo de log",
+      "human": "Legible para humanos"
+    },
+    "range_options": {
+      "title": "Opciones de Rango",
+      "dash": "Inicio - Fin",
+      "to": "Inicio a Fin",
+      "iso": "Duración ISO"
+    },
+    "precision_options": {
+      "title": "Opciones de Precisión",
+      "ms": "Milis (.123)",
+      "micro": "Micros (.123456)",
+      "nano": "Nanos (.123456789)",
+      "variable": "Dígitos variables"
+    },
+    "log_options": {
+      "title": "Opciones de Log",
+      "apache": "Apache [17/Mar/2026...]",
+      "nginx": "Nginx",
+      "syslog": "Syslog (Mar 17...)",
+      "k8s": "Estilo K8s",
+      "all": "Cualquier estilo de log"
+    }
+  },
+  "date_menu_full": {
+    "title": "Patrones de Fecha Completos",
+    "standard": "Formatos Estándar",
+    "text": "Nombres de Mes Textuales",
+    "compact": "Fechas Compactas (YYYYMMDD)",
+    "partial": "Fechas Parciales (Año, Q1)",
+    "range": "Rangos de Fecha",
+    "validate": "Validación de Fecha Estricta",
+    "sep": "Separadores Personalizados",
+    "locale": "Específicos de Localización",
+    "ordinal": "Fechas Ordinales (1st, 2nd)",
+    "week": "Fechas Basadas en Semanas",
+    "log": "Fechas Específicas de Log",
+    "custom": "Regex de fecha personalizado",
+    "standard_options": {
+      "title": "Opciones Estándar",
+      "iso": "ISO 8601",
+      "eu": "Europeo",
+      "us": "Americano",
+      "short": "Forma corta",
+      "mixed": "Permitir varios"
+    },
+    "text_options": {
+      "title": "Opciones Textuales",
+      "full": "Mes completo (Enero)",
+      "short": "Mes corto (Ene)",
+      "weekday": "Con día de semana",
+      "comma": "Con coma",
+      "all": "Cualquier textual"
+    },
+    "compact_options": {
+      "title": "Opciones Compactas",
+      "yyyymmdd": "YYYYMMDD",
+      "yymmdd": "YYMMDD",
+      "digits": "Dígitos arbitrarios"
+    },
+    "partial_options": {
+      "title": "Opciones Parciales",
+      "month_year": "Mes/Año",
+      "year": "Solo año",
+      "day_month": "Día/Mes",
+      "quarter": "Trimestres (Q1-Q4)"
+    },
+    "range_options": {
+      "title": "Opciones de Rango",
+      "dash": "Inicio - Fin",
+      "to": "Inicio a Fin",
+      "mixed": "Formatos mezclados"
+    },
+    "validate_options": {
+      "title": "Opciones de Validación",
+      "basic": "Dígitos básicos",
+      "month": "Meses válidos (1-12)",
+      "day": "Días válidos (1-31)",
+      "full": "Estricto YYYY-MM-DD"
+    },
+    "sep_options": {
+      "title": "Opciones de Separador",
+      "slash": "/",
+      "dash": "-",
+      "dot": ".",
+      "space": "Espacio",
+      "any": "Cualquiera [/-. ]"
+    },
+    "locale_options": {
+      "title": "Opciones de Localización",
+      "eu": "Estilo EU",
+      "us": "Estilo US",
+      "iso": "Estilo ISO",
+      "mixed": "Todos los estilos"
+    },
+    "ordinal_options": {
+      "title": "Opciones Ordinales",
+      "day": "Ordinal de día (1º)",
+      "text": "Ordinal en texto",
+      "full": "Ordinal completo"
+    },
+    "week_options": {
+      "title": "Opciones de Semana",
+      "iso": "Semana ISO (2026-W11)",
+      "day": "Día de la semana",
+      "range": "Rango de semanas"
+    },
+    "log_options": {
+      "title": "Opciones de Log",
+      "apache": "Apache",
+      "nginx": "Nginx",
+      "syslog": "Syslog",
+      "all": "Cualquier fecha de log"
+    }
+  },
+  "netflow_menu": {
+    "title": "Patrones de Flujo de Red / Tráfico",
+    "ip": "IPs de Origen / Destino",
+    "port": "Puertos de Origen / Destino",
+    "proto": "Protocolos (TCP/UDP/ICMP)",
+    "flow": "Tuplas de Flujo (5-tupla)",
+    "bytes": "Volumen de Tráfico (Bytes/Paquetes)",
+    "time": "Marcas de Tiempo / Duración",
+    "flags": "Flags TCP (SYN/ACK)",
+    "direction": "Dirección del Tráfico",
+    "cidr": "CIDR / Subredes",
+    "dns": "Patrones de Tráfico DNS",
+    "http": "Tráfico HTTP (nivel flujo)",
+    "anomaly": "Detección de Anomalías",
+    "custom": "Regex de netflow personalizado",
+    "ip_options": {
+      "title": "Opciones de IP",
+      "src": "IP Origen",
+      "dst": "IP Destino",
+      "pair": "Par de IPs",
+      "private": "IPs internas",
+      "public": "IPs públicas",
+      "all": "Cualquier IP"
+    },
+    "port_options": {
+      "title": "Opciones de Puerto",
+      "src": "Puerto origen",
+      "dst": "Puerto destino",
+      "wellknown": "Puertos conocidos",
+      "range": "Rango de puertos",
+      "pair": "Par de puertos"
+    },
+    "proto_options": {
+      "title": "Opciones de Protocolo",
+      "tcp": "TCP",
+      "udp": "UDP",
+      "icmp": "ICMP",
+      "app": "Proto de aplicación",
+      "all": "Cualquier proto"
+    },
+    "flow_options": {
+      "title": "Opciones de Flujo",
+      "basic": "Tupla simple",
+      "full": "5-tupla completa",
+      "log": "Estilo entrada de log"
+    },
+    "bytes_options": {
+      "title": "Opciones de Volumen",
+      "bytes": "Conteos de bytes",
+      "packets": "Conteos de paquetes",
+      "rate": "Tasa de tráfico",
+      "human": "Legible (MB/GB)"
+    },
+    "time_options": {
+      "title": "Opciones de Tiempo",
+      "start": "Inicio de flujo",
+      "end": "Fin de flujo",
+      "duration": "Duración",
+      "unix": "Timestamp Unix"
+    },
+    "flags_options": {
+      "title": "Flags TCP",
+      "syn": "Solo SYN",
+      "ack": "Solo ACK",
+      "fin": "FIN/RST",
+      "combo": "Flags múltiples"
+    },
+    "direction_options": {
+      "title": "Opciones de Dirección",
+      "in": "Entrante",
+      "out": "Saliente",
+      "internal": "Interno",
+      "external": "Externo"
+    },
+    "cidr_options": {
+      "title": "Opciones CIDR",
+      "ipv4": "IPv4 CIDR",
+      "range": "Rango de subred",
+      "private": "Subred privada",
+      "all": "Cualquier CIDR"
+    },
+    "dns_options": {
+      "title": "Opciones de DNS",
+      "query": "Nombre de consulta",
+      "response": "Código de respuesta",
+      "domain": "Dominio completo",
+      "record": "Tipo de registro"
+    },
+    "http_options": {
+      "title": "Opciones de HTTP",
+      "method": "Método HTTP",
+      "status": "Código de estado",
+      "path": "Ruta de solicitud",
+      "agent": "User agent"
+    },
+    "anomaly_options": {
+      "title": "Opciones de Anomalía",
+      "scan": "Escaneo de puertos",
+      "flood": "Detección de inundación",
+      "dns": "Tunelización DNS",
+      "exfil": "Exfiltración de datos",
+      "burst": "Ráfaga de tráfico"
+    }
+  },
+  "edit_menu": {
+    "title": "Editor de Regex Interactivo",
+    "load": "Cargar Patrón Guardado",
+    "inline": "Edición manual en línea",
+    "replace": "Buscar y Reemplazar",
+    "flags": "Cambiar Flags (i, g, m, etc.)",
+    "group": "Envolver en Grupo",
+    "quant": "Modificar Cuantificador",
+    "anchor": "Añadir / Quitar Anclas",
+    "escape": "Escapar / Desescapar",
+    "optimize": "Auto-optimizar Patrón",
+    "test": "Probar después de editar",
+    "history": "Historial de edición / Deshacer",
+    "custom": "Edición manual avanzada",
+    "anchor_options": {
+      "title": "Opciones de Ancla",
+      "start": "Añadir Inicio (^)",
+      "end": "Añadir Fin ($)",
+      "both": "Añadir ambos",
+      "remove": "Quitar todos"
+    },
+    "group_options": {
+      "title": "Opciones de Agrupación",
+      "capture": "Grupo de captura ()",
+      "noncapture": "No captura (?:)",
+      "named": "Grupo nombrado (?P<nombre>)",
+      "optional": "Grupo opcional (...)?"
+    },
+    "quant_options": {
+      "title": "Opciones de Cuantificador",
+      "exact": "Exacto {n}",
+      "range": "Rango {n,m}",
+      "greedy": "Codicioso (+, *)",
+      "lazy": "Perezoso (+?, *?)",
+      "optional": "Opcional (?)"
+    },
+    "escape_options": {
+      "title": "Opciones de Escape",
+      "escape": "Escapar caracteres especiales",
+      "unescape": "Desescapar caracteres"
+    },
+    "history_options": {
+      "title": "Opciones de Historial",
+      "undo": "Deshacer último cambio",
+      "redo": "Rehacer cambio",
+      "list": "Mostrar historial completo"
+    },
+    "prompt": {
+      "find": "Cadena a buscar",
+      "replace": "Reemplazar con",
+      "group_name": "Nombre del grupo",
+      "target": "Elemento objetivo",
+      "custom": "Editar regex"
+    }
+  },
+  "hist_menu": {
+    "title": "Historial y Gestión de Patrones",
+    "recent": "Patrones usados recientemente",
+    "freq": "Más usados frecuentemente",
+    "fav": "Favoritos",
+    "search": "Buscar patrones",
+    "collections": "Colecciones de patrones",
+    "stats": "Estadísticas de uso",
+    "export": "Exportar patrones",
+    "cleanup": "Limpiar historial",
+    "stats_labels": {
+      "total": "Total guardado:",
+      "favorites": "Favoritos:",
+      "pinned": "Fijados:",
+      "collections": "Colecciones:"
+    },
+    "prompts": {
+      "search": "Término de búsqueda",
+      "filename": "Nombre de archivo de exportación",
+      "confirm_delete": "¿Confirmar limpieza de historial?"
+    }
+  },
+  "custom_menu": {
+    "title": "Regex Personalizado / Entrada Manual",
+    "new": "Crear nuevo regex desde cero",
+    "load": "Cargar patrón personalizado existente",
+    "edit": "Editar manualmente",
+    "test": "Probar contra texto/archivo",
+    "explain": "Explicar componentes de regex",
+    "validate": "Validar sintaxis",
+    "save": "Guardar patrón personalizado",
+    "wizard_options": {
+      "title": "Modo de Nuevo Regex",
+      "wizard": "Asistente Paso a Paso",
+      "blank": "Entrada en blanco",
+      "template": "Desde plantillas comunes"
+    },
+    "explain_options": {
+      "title": "Explicación de Regex"
+    },
+    "prompts": {
+      "enter_regex": "Introduce tu regex",
+      "valid_regex": "¡Regex válido!",
+      "invalid_regex": "Regex inválido: {error}",
+      "wizard_type": "¿Qué quieres buscar? (email, teléfono, etc.)"
+    }
+  },
+  "merge_menu": {
+    "title": "Unir / Combinar Múltiples Patrones",
+    "select": "Seleccionar patrones para unir",
+    "method": "Elegir método de unión",
+    "grouping": "Envolver patrones en grupos",
+    "preview": "Mostrar regex unido",
+    "test": "Probar patrón unido",
+    "save": "Guardar patrón unido",
+    "methods": {
+      "or": "O ( | )",
+      "concat": "Concatenar",
+      "optional": "O opcional",
+      "named_group": "Grupos nombrados"
+    },
+    "prompts": {
+      "select_patterns": "Índices a unir (separados por comas)",
+      "preview_title": "Previsualización de Patrón Unido",
+      "merge_name": "Nombre para el patrón unido"
+    }
+  },
+  "perf_menu": {
+    "title": "Rendimiento / Motor de Regex Optimizado",
+    "analyze": "Analizar rendimiento de regex",
+    "optimize": "Auto-optimizar patrón",
+    "benchmark": "Benchmark de velocidad",
+    "safe": "Comprobar seguridad ReDoS",
+    "simplify": "Simplificar estructura de patrón",
+    "anchor": "Mejorar anclaje",
+    "save": "Guardar versión optimizada",
+    "analyze_options": {
+      "title": "Informe de Rendimiento"
+    },
+    "results": {
+      "risk_level": "Nivel de Riesgo: {level}",
+      "risks": "Riesgos Detectados:",
+      "benchmark_result": "Tiempo: {time}ms sobre {iters} iteraciones",
+      "redos_alert": "¡DETECTADO ALTO RIESGO DE REDOS!"
+    },
+    "prompts": {
+      "select_optimization": "Nivel de optimización (básico/agresivo)",
+      "enter_text_bench": "Texto para el benchmark"
+    }
+  },
+  "secure_menu": {
+    "title": "Patrones Sensibles a Seguridad / PII / SSRF",
+    "pii": "Información de Identificación Personal (PII) (Nombres, Teléfonos, SSN...)",
+    "secrets": "Claves de API / tokens / contraseñas (AWS, JWT, RSA...)",
+    "ssrf": "SSRF / validación de URL (Bloquear IPs internas/Localhost)",
+    "pci": "Datos de tarjetas y pagos (Visa, Amex, routing...)",
+    "gov": "IDs de Gobierno (SSN, DNI, Pasaporte)",
+    "health": "Datos médicos / de salud (Registros, Seguro)",
+    "emails": "Detección de Fugas de Email (Fugas corporativas)",
+    "dns": "Detección de Fugas DNS (Patrones de tunneling)",
+    "logs": "Flujo de Enmascaramiento de Logs (Ofuscar campos sensibles)",
+    "audit": "Flujo de Auditoría de Seguridad (Escanear código en busca de secretos)",
+    "pii_options": {
+      "name": "Nombre",
+      "email": "Email",
+      "phone": "Teléfono",
+      "address": "Dirección",
+      "dob": "Fecha de Nacimiento",
+      "id": "Número de ID",
+      "creditcard": "Tarjeta de Crédito"
+    },
+    "secrets_options": {
+      "aws": "Claves AWS",
+      "jwt": "Tokens JWT",
+      "privatekey": "Llaves Privadas",
+      "oauth": "Tokens OAuth",
+      "passwords": "Contraseñas en código"
+    },
+    "ssrf_options": {
+      "internal": "IPs internas",
+      "reserved": "IPs reservadas",
+      "url": "URLs internas",
+      "ipv4": "IPv4 local"
+    },
+    "health_options": {
+      "medrec": "Registros Médicos",
+      "insurance": "IDs de Seguro"
+    },
+    "gov_options": {
+      "title": "Opciones de ID de Gobierno",
+      "ssn": "SSN (EE.UU.)",
+      "passport": "Pasaporte (Global)",
+      "dni": "DNI/NIE (ES)",
+      "q": "Volver"
+    },
+    "emails_options": {
+      "title": "Opciones de Email",
+      "leak": "Detección de fugas",
+      "all": "Todos los emails"
+    },
+    "dns_options": {
+      "title": "Opciones de DNS",
+      "leak": "Detección de fugas",
+      "all": "Todos los DNS"
+    },
+    "audit_options": {
+      "title": "Auditoría de Seguridad",
+      "mask": "Enmascaramiento PII",
+      "scan": "Escaneo de Secretos"
+    }
+  },
+  "help_menu": {
+    "title": "Ayuda / Recursos",
+    "quit": "Salir de la aplicación",
+    "version": "Mostrar versión actual",
+    "help_context": "Ayuda Contextual",
+    "help_global": "Mostrar ayuda global",
+    "tutorial": "Tutorial interactivo",
+    "shortcuts": "Atajos de teclado",
+    "changelog": "Actualizaciones recientes",
+    "changelog_info": "v1.0.0: Añadido soporte para Seguridad, Perf y Logs Extendidos.",
+    "feedback_info": "Envía tu feedback a support@pyregex.io",
+    "config": "Mostrar / editar archivo de configuración",
+    "confirm_quit_unsaved": "Tienes cambios sin guardar. ¿Salir de todos modos? (y/n): ",
+    "tutorial_steps": [
+      "¡Bienvenido a PyRegex! Crea tu primer patrón escribiendo 'create'.",
+      "Elige una categoría como 'logs' o 'netflow'.",
+      "Personaliza con sub-opciones y guarda tu resultado.",
+      "Usa 'perf' para asegurarte de que tu regex sea rápido y seguro."
+    ],
+    "shortcut_list": [
+      "Ctrl+C: Cancelar/Salir",
+      "Ctrl+D: Finalizar entrada",
+      "Tab: Auto-completar",
+      "Arriba/Abajo: Historial de comandos"
+    ]
+  },
+  "playground": {
+    "empty_regex": "Type a regex above...",
+    "no_matches": "⚠️ No matches",
+    "matches_count": "✅ {count} match(es)",
+    "no_groups": "No capture groups",
+    "use_parens": "Use (...) to create groups",
+    "explain_prompt": "Type a regex to see explanation",
+    "explain_header": "📖 EXPLANATION:",
+    "debug_prompt": "Regex + text required for debug",
+    "replace_header": "🔄 REPLACEMENT:",
+    "replace_pattern": "Replacement pattern: {pattern}",
+    "replace_empty": "(empty)",
+    "replace_count": "Substitutions: {count}",
+    "export_prompt": "Type a regex to export",
+    "optimize_prompt": "Type a regex to optimize",
+    "warnings": "⚠️ WARNINGS:",
+    "suggestions": "💡 SUGGESTIONS:",
+    "footer_hints": "Tab switches panels | F1-F7 for views"
+  }
+}
