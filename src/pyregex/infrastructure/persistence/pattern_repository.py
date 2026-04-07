@@ -8,33 +8,36 @@ from pathlib import Path
 from typing import Any
 import logging
 
-from pydantic import BaseModel, Field
+from dataclasses import dataclass, field, asdict
 
 logger = logging.getLogger(__name__)
 
 
-class SavedPattern(BaseModel):
+@dataclass
+class SavedPattern:
     """Data model for a saved regex pattern."""
 
     name: str
     pattern: str
-    flags: list[str] = Field(default_factory=list)
+    flags: list[str] = field(default_factory=list)
     description: str = ""
-    tags: list[str] = Field(default_factory=list)
-    created_at: str = Field(default_factory=lambda: datetime.now().isoformat())
+    tags: list[str] = field(default_factory=list)
+    created_at: str = field(default_factory=lambda: datetime.now().isoformat())
     last_run: str | None = None
     scope: str = "private"  # 'private' or 'global'
     usage_count: int = 0
     is_favorite: bool = False
     is_pinned: bool = False
-    collections: list[str] = Field(default_factory=list)
+    collections: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
-        return self.model_dump()
+        return asdict(self)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "SavedPattern":
-        return cls(**data)
+        valid_keys = cls.__dataclass_fields__.keys()
+        filtered = {k: v for k, v in data.items() if k in valid_keys}
+        return cls(**filtered)
 
 
 class PatternRepository:

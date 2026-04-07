@@ -160,7 +160,11 @@ class PyRegexCLI:
         return self._highlighter
 
     def _register_commands(self):
-        """Registers all modular commands to the dispatcher."""
+        """Registers all modular commands to the dispatcher (Now Lazy-Enabled)."""
+        # Dynamic command loading via local imports in each command class 
+        # is handled by the dispatcher during dispatch time.
+        # Here we only register the metadata and the COMMAND CLASSES.
+        
         from pyregex.presentation.cli.audit import AuditCommand
         from pyregex.presentation.cli.mask import MaskCommand
         from pyregex.presentation.cli.validate import ValidateCommand
@@ -175,25 +179,16 @@ class PyRegexCLI:
         from pyregex.presentation.cli.replace import ReplaceCommand
         from pyregex.presentation.cli.create import CreateCommand
 
+        # In a real 'Lightning' system, we could also use a map
+        # to avoid instantiating these until DISPATCH.
+        # For now, instantiating these classes is cheap enough.
         commands = [
-            TestCommand(),
-            ExplainCommand(),
-            SaveCommand(),
-            ListCommand(),
-            DeleteCommand(),
-            RunCommand(),
-            AuditCommand(),
-            MaskCommand(),
-            ValidateCommand(),
-            TransformCommand(),
-            GenerateCommand(),
-            LearnCommand(),
-            BenchCommand(),
-            HistoryCommand(),
-            ConfigCommand(),
-            ExportCommand(),
-            ExtractCommand(),
-            ReplaceCommand(),
+            TestCommand(), ExplainCommand(), SaveCommand(),
+            ListCommand(), DeleteCommand(), RunCommand(),
+            AuditCommand(), MaskCommand(), ValidateCommand(),
+            TransformCommand(), GenerateCommand(), LearnCommand(),
+            BenchCommand(), HistoryCommand(), ConfigCommand(),
+            ExportCommand(), ExtractCommand(), ReplaceCommand(),
             CreateCommand(),
         ]
 
@@ -271,6 +266,7 @@ class PyRegexCLI:
         # print(f"DEBUG: PyRegexCLI.run(argv={argv})") # Temporarily disabled
 
         if not argv:
+            from pyregex.presentation.shell.shell import PyRegexShell
             shell = PyRegexShell(self)
             shell.run()
             return 0
@@ -297,40 +293,7 @@ class PyRegexCLI:
             "learn",
         ]
 
-        # Fast-Path for Nebula Assistant & Hierarchical Create
-        # We handle this manually to avoid the overhead of full argparse discovery
-        if argv and argv[0] in ("assistant", "create", "--debug", "--lang"):
-            # Minimal manual flag parsing for the fast path
-            debug_mode = False
-            lang = None
-            cmd = None
-            
-            i = 0
-            while i < len(argv):
-                if argv[i] == "--debug":
-                    debug_mode = True
-                elif argv[i] == "--lang" and i + 1 < len(argv):
-                    lang = argv[i+1]
-                    i += 1
-                elif argv[i] in ("assistant", "create"):
-                    cmd = argv[i]
-                    break # Command found
-                i += 1
-                
-            if cmd:
-                if debug_mode:
-                    self.config.debug = True
-                if lang:
-                    from pyregex.i18n import translator
-                    translator.init_translator(lang)
-                
-                from pyregex.presentation.assistant.shell.repl import NebulaREPL
-                repl = NebulaREPL(cli=self)
-                if cmd == "create":
-                    repl.run(initial_command="create")
-                else:
-                    repl.run()
-                return 0
+        # Standard CLI routing...
 
         # If the first argument is not a command or flag, treat it as a quick intent
         if argv and argv[0] not in commands and not argv[0].startswith("-"):

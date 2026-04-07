@@ -11,7 +11,7 @@ from pyregex.domain.interfaces.repositories import (
 from pyregex.infrastructure.persistence.config_repository import ConfigRepository
 from pyregex.infrastructure.persistence.pattern_repository import PatternRepository
 from pyregex.infrastructure.persistence.history_repository import HistoryRepository
-from pyregex.domain.catalog.registry import CatalogRegistry
+from pyregex.domain.catalog.registry import catalog_registry
 
 @dataclass
 class AppContainer:
@@ -20,7 +20,7 @@ class AppContainer:
     config_repo: ConfigRepositoryPort
     pattern_repo: PatternRepositoryPort
     history_repo: HistoryRepositoryPort
-    catalog: CatalogRegistry
+    catalog: Any
 
     @classmethod
     def create_default(cls, config: Any) -> "AppContainer":
@@ -31,7 +31,7 @@ class AppContainer:
         history_repo = HistoryRepository(
             ConfigRepository.get_default_config_dir() / "history.json"
         )
-        catalog = CatalogRegistry()
+        catalog = catalog_registry
         
         return cls(
             config=config,
