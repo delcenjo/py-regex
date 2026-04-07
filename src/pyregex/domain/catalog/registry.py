@@ -273,19 +273,29 @@ class CatalogRegistry:
         self._expanded_paths.clear()
         self._tree = {}
         
+        # Fast string-based prefix to avoiding pathlib overhead
+        catalog_path_str = str(self.catalog_dir)
+        sep = os.sep
+
         # 2. Perform deep walk
         # root/category/sub/sub/leaf/index.yaml
-        for root, dirs, files in os.walk(self.catalog_dir):
-            rel_path = Path(root).relative_to(self.catalog_dir)
-            parts = rel_path.parts
-            
+        for root, dirs, files in os.walk(catalog_path_str):
             # We look for files ending in .yaml/.yml
             yaml_files = [f for f in files if f.endswith((".yaml", ".yml"))]
             if not yaml_files:
                 continue
                 
+            rel_path_str = root[len(catalog_path_str):]
+            if rel_path_str.startswith(sep):
+                rel_path_str = rel_path_str[len(sep):]
+            
+            if rel_path_str:
+                parts = rel_path_str.split(sep)
+            else:
+                parts = []
+                
             # If there's a yaml file, the folder name is the entry ID (v2.0)
-            entry_name = Path(root).name
+            entry_name = os.path.basename(root)
             category = parts[0] if parts else entry_name
             
             # Map it

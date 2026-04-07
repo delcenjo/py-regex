@@ -11,14 +11,26 @@ from pyregex.presentation.assistant.wizards.dynamic import DynamicWizard
 class CatalogWizardAdapter:
     """Adapts a CatalogEntry to the AssistantEngine's wizard instantiation pattern."""
 
-    def __init__(self, entry: CatalogEntry):
-        self.entry = entry
-        self.display_name = entry.wizard.get("display_name", entry.name.replace("_", " ").title())
-        self.description = entry.description
+    def __init__(self, entry_or_name: CatalogEntry | str):
+        if isinstance(entry_or_name, str):
+            self.entry_name = entry_or_name
+            self._entry = None
+            # Fast heuristic for display name without loading YAML
+            self.display_name = entry_or_name.replace("_", " ").title()
+            self.description = "Wizard del catálogo de Nebula"
+        else:
+            self.entry_name = entry_or_name.name
+            self._entry = entry_or_name
+            self.display_name = entry_or_name.wizard.get("display_name", self.entry_name.replace("_", " ").title())
+            self.description = entry_or_name.description
 
     def __call__(self, cli: Any, session: Any = None) -> DynamicWizard:
-        """Instantiate the dynamic wizard with the injected CLI."""
-        return DynamicWizard(self.entry, cli)
+        """Instantiate the dynamic wizard with the injected CLI (Loads YAML on demand)."""
+        if not self._entry:
+            # ONLY Load YAML here, when the user actually runs the wizard
+            self._entry = catalog_registry.get_entry(self.entry_name)
+            
+        return DynamicWizard(self._entry, cli)
 
 
 class CatalogModule:
@@ -51,19 +63,17 @@ class CatalogModule:
         return len(catalog_registry.list_entries(self._info.name))
 
     def get_wizards(self) -> Dict[str, Any]:
-        """Returns a dict of wizard_name -> Adapter mapping for the category."""
-        # Note: This is still used for the MENU display (which is filtered per page)
-        # but the banner now uses wizard_count.
+        """Returns a dict of wizard_name -> Adapter mapping for the category (Lazy)."""
         category_name = self._info.name
-        entries = catalog_registry.list_entries(category_name)
+        # We only list the names. We DO NOT call get_entry() here.
+        # This avoids opening thousands of YAML files.
+        entry_names = catalog_registry.list_entries(category_name)
         
         wizards = {}
-        for entry_name in entries:
-            # We only load on demand when actually displaying the menu or starting it
-            # For the banner count, we don't call this anymore.
-            entry = catalog_registry.get_entry(entry_name)
-            if entry:
-                wizards[entry_name] = CatalogWizardAdapter(entry)
+        for entry_name in entry_names:
+            # We create the adapter with JUST the name. 
+            # It will load the full entry only when called.
+            wizards[entry_name] = CatalogWizardAdapter(entry_name)
                 
         return wizards
 

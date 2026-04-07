@@ -42,9 +42,12 @@ class NebulaCompleter(Completer):
         self._cached_shortcuts: list[tuple[str, str]] = []  # [(display_name, category_display)]
 
     def _get_all_shortcuts(self) -> list[tuple[str, str]]:
-        """Lazily load all wizard shortcuts from the registry."""
+        """Lazily load manual module shortcuts (Excluding 28k+ catalog entries)."""
         if not self._cached_shortcuts:
             for info in self._registry.list_all():
+                # Skip catalog modules for global shortcuts to prevent O(N) memory/cpu hit
+                if info.name in ("health", "security", "devops", "finance", "legal", "science", "media", "social", "transport", "utils"):
+                    continue
                 try:
                     module = self._registry.get(info.name)
                     wizards = module.get_wizards()
@@ -100,13 +103,18 @@ class NebulaCompleter(Completer):
             if current_module and current_module in self._registry:
                 module = self._registry.get(current_module)
                 try:
-                    wizards = module.get_wizards()
-                    for wiz_name in wizards:
+                    entry_names = module.get_wizards().keys()
+                    # Limit completions for massive categories to avoid UI lag
+                    count = 0
+                    for wiz_name in entry_names:
+                        if count > 100 and not text: # Only show first 100 if no filter
+                            break
                         display = wiz_name.replace("_wizard", "")
-                        if not text or display.startswith(text) or wiz_name.startswith(text):
+                        if not text or text in display or text in wiz_name:
                             yield Completion(
                                 display, start_position=-len(text), display_meta=wiz_name
                             )
+                            count += 1
                 except Exception:
                     pass
 

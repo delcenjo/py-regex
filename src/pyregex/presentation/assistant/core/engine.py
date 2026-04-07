@@ -73,7 +73,7 @@ class AssistantEngine:
             return
         
         # 0. Perform High-Performance Industrial Discovery (O(N) traversal, no file parsing)
-        self.catalog_registry.fast_scan()
+        # (Lazy loaded when explicitly requested by user)
 
         # 1. Category Metadata Map (Common ones with icons/display)
         # In a full system, this could also be in YAML (category.yaml)
