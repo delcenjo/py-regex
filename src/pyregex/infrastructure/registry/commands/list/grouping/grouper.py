@@ -7,7 +7,7 @@ class Grouper:
 
     @staticmethod
     def group(
-        patterns: List[RegistryPattern], group_by: str
+        patterns: List[RegistryPattern], group_by: str | None
     ) -> Dict[str, List[RegistryPattern]]:
         """
         Groups patterns.

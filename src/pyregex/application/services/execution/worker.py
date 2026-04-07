@@ -58,11 +58,11 @@ def unified_worker(
             if task_type == "audit":
                 from pyregex.application.services.audit.engine import AuditEngine
 
-                engine = AuditEngine(registry=reg)
-                compiled = engine._compile_patterns(
+                audit_engine = AuditEngine(registry=reg)
+                compiled = audit_engine._compile_patterns(
                     params["rules"], params.get("ignore_case", False)
                 )
-                findings = engine._scan_file(path_obj, compiled)
+                findings = audit_engine._scan_file(path_obj, compiled)
                 if params.get("deep"):
                     findings = [f for f in findings if f.get("verified", True)]
                 return WorkerResult(
@@ -75,10 +75,10 @@ def unified_worker(
             elif task_type == "mask":
                 from pyregex.application.services.mask.engine import MaskEngine
 
-                engine = MaskEngine(
+                mask_engine = MaskEngine(
                     mode=params["mode"], salt=params["salt"], registry=reg
                 )
-                count = engine.mask_file(
+                count = mask_engine.mask_file(
                     filepath,
                     params["rules"],
                     inplace=params["inplace"],
@@ -91,17 +91,19 @@ def unified_worker(
                     TransformEngine,
                 )
 
-                engine = TransformEngine(registry=reg)
-                count = engine.transform_file(
-                    path_obj, pipeline=params["pipeline"], inplace=params["inplace"]
+                # Convert pipeline List[tuple] to Dict[str, str] for TransformEngine init
+                rules_dict = {k: v for k, v in params["pipeline"]}
+                transform_engine = TransformEngine(rules=rules_dict, registry=reg)
+                count = transform_engine.transform_file(
+                    path_obj, destination=None, inplace=params["inplace"]
                 )
                 return WorkerResult(filepath=filepath, success=True, items_count=count)
 
             elif task_type == "validate":
                 from pyregex.application.services.validate.engine import ValidateEngine
 
-                engine = ValidateEngine(registry=reg)
-                res = engine.validate_regex(
+                validate_engine = ValidateEngine(registry=reg)
+                res = validate_engine.validate_regex(
                     params["type_name"],
                     filepath,
                     fail_fast=params.get("fail_fast", False),

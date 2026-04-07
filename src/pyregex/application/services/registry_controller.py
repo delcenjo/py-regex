@@ -44,9 +44,9 @@ class RegistryController:
         name: str,
         pattern: str,
         description: str = "",
-        tags: List[str] = None,
+        tags: List[str] | None = None,
         origin: str = "manual",
-    ) -> Tuple[bool, List[str], RegistryPattern]:
+    ) -> Tuple[bool, List[str], RegistryPattern | None]:
         """Saves a rich pattern to the registry. Returns (success, errors, constructed_pattern)."""
         tags = tags or []
 
@@ -85,7 +85,7 @@ class RegistryController:
 
         return True, [], registry_pattern
 
-    def get_all(self, tag: str = None) -> List[RegistryPattern]:
+    def get_all(self, tag: str | None = None) -> List[RegistryPattern]:
         return self.search_engine.search_all(tag=tag)
 
     def search(self, keyword: str) -> List[RegistryPattern]:

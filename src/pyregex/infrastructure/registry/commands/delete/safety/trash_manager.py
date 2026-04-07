@@ -8,7 +8,7 @@ from pyregex.infrastructure.registry.storage.json_backend import JsonStorageBack
 class TrashManager:
     """Handles mapping deleted items safely to a trash repository."""
 
-    def __init__(self, trash_file_path: str = None):
+    def __init__(self, trash_file_path: str | Path | None = None):
         if not trash_file_path:
             config_dir = Path.home() / ".pyregex"
             config_dir.mkdir(parents=True, exist_ok=True)

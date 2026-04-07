@@ -53,6 +53,7 @@ class TestingController:
         matcher = GlobalMatcher(executors)
 
         # 2. Setup Input
+        reader: StringReader | FileReader | StreamReader
         if text:
             reader = StringReader(text)
         elif file_path:

@@ -20,7 +20,7 @@ class SearchEngine:
         names = self.indexer.category_index.get(category, set())
         return [self.indexer.name_index[name] for name in names]
 
-    def search_all(self, keyword: str = None, tag: str = None) -> List[RegistryPattern]:
+    def search_all(self, keyword: str | None = None, tag: str | None = None) -> List[RegistryPattern]:
         """A generic search that optionally filters by a global keyword and/or a specific tag."""
         results = []
         if tag:

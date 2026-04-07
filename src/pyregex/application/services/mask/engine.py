@@ -59,10 +59,10 @@ class MaskEngine:
 
         filtered = []
         last_end = -1
-        for m in matches:
-            start, end, name, value = m
+        for m_tuple in matches:
+            start, end, name, value = m_tuple
             if start >= last_end:
-                filtered.append(m)
+                filtered.append(m_tuple)
                 last_end = end
 
         parts = []

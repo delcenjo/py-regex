@@ -76,6 +76,7 @@ class TransformEngine:
         pipeline: List[tuple[str, str]],
         output_dir: Optional[str] = None,
         max_workers: Optional[int] = None,
+        progress_callback=None,
     ) -> tuple[int, int]:
         """Recursively transforms all files in a directory."""
         total_transformed = 0

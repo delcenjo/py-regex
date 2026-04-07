@@ -72,7 +72,8 @@ class ValidateEngine:
                     needs_iban = entry.get("iban_check", False)
                     needs_nif = entry.get("nif_check", False)
                 elif not pattern_str:
-                    pattern_str = entry
+                    if isinstance(entry, str):
+                        pattern_str = entry
 
             if not pattern_str:
                 available = ", ".join(self.registry.list_entities())

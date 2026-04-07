@@ -121,7 +121,7 @@ class TestSuiteRunner:
 
             did_match = match is not None
             status = TestStatus.PASS
-            actual_groups = {}
+            actual_groups: dict[str, str | None] = {}
             failure_reason = None
 
             if case.should_match and not did_match:
@@ -131,6 +131,7 @@ class TestSuiteRunner:
                 status = TestStatus.FAIL
                 failure_reason = "Expected NO match, but found a match."
             elif did_match:
+                assert match is not None
                 # Assertions on groups if specified
                 actual_groups = match.groupdict()
                 if case.expected_groups:
