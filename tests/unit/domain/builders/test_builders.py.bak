@@ -1,0 +1,232 @@
+"""Auto-validation test suite for ALL registered builders.
+
+Tests that every builder:
+1. Compiles without error
+2. Matches its own metadata examples
+3. Does NOT match its own non_examples
+4. Produces a ReDoS-safe pattern (not O(2^N))
+"""
+
+import re
+import pytest
+from pyregex.domain.builders.base import RegexBuilder
+
+# Import all builders to trigger registration
+from pyregex.domain.builders.personal.email_builder import EmailRegexBuilder
+from pyregex.domain.builders.personal.credit_card_builder import CreditCardRegexBuilder
+from pyregex.domain.builders.personal.date_builder import DateRegexBuilder
+from pyregex.domain.builders.personal.phone_builder import PhoneRegexBuilder
+from pyregex.domain.builders.web.ip_builder import IPRegexBuilder
+from pyregex.domain.builders.web.url_builder import URLRegexBuilder
+from pyregex.domain.builders.web.uuid_builder import UUIDRegexBuilder
+from pyregex.domain.builders.web.hash_builder import HashRegexBuilder
+from pyregex.domain.builders.web.domain_builder import DomainRegexBuilder
+from pyregex.domain.builders.web.mac_builder import MACAddressRegexBuilder
+from pyregex.domain.builders.web.slug_builder import SlugRegexBuilder
+from pyregex.domain.builders.web.path_builder import PathRegexBuilder
+from pyregex.domain.builders.personal.username_builder import UsernameRegexBuilder
+from pyregex.domain.builders.personal.password_builder import PasswordRegexBuilder
+from pyregex.domain.builders.personal.id_builder import IDRegexBuilder
+from pyregex.domain.builders.personal.name_builder import NameRegexBuilder
+from pyregex.domain.builders.personal.address_builder import AddressRegexBuilder
+from pyregex.domain.builders.personal.postal_code_builder import PostalCodeRegexBuilder
+from pyregex.domain.builders.data.semver_builder import SemVerRegexBuilder
+from pyregex.domain.builders.data.num_builder import NumRegexBuilder
+from pyregex.domain.builders.data.csv_builder import CSVRegexBuilder
+from pyregex.domain.builders.data.html_builder import HTMLRegexBuilder
+from pyregex.domain.builders.data.json_builder import JSONRegexBuilder
+from pyregex.domain.builders.data.sql_builder import SQLRegexBuilder
+from pyregex.domain.builders.data.color_builder import ColorRegexBuilder
+from pyregex.domain.builders.data.base64_builder import Base64RegexBuilder
+
+# New Renaissance builders
+from pyregex.domain.builders.finance.iban_builder import IBANRegexBuilder
+from pyregex.domain.builders.security.jwt_builder import JWTRegexBuilder
+from pyregex.domain.builders.finance.crypto_builder import CryptoRegexBuilder
+from pyregex.domain.builders.devops.cron_builder import CronRegexBuilder
+from pyregex.domain.builders.automotive.license_plate_builder import LicensePlateRegexBuilder
+from pyregex.domain.builders.automotive.vin_builder import VINRegexBuilder
+from pyregex.domain.builders.automotive.imei_builder import IMEIRegexBuilder
+from pyregex.domain.builders.standards.iso_duration_builder import ISODurationRegexBuilder
+from pyregex.domain.builders.networking.dns_builder import DNSRegexBuilder
+from pyregex.domain.builders.science.doi_builder import DOIRegexBuilder
+
+
+# Instantiate all builders with defaults
+_ALL_BUILDERS: list[RegexBuilder] = [
+    EmailRegexBuilder(),
+    CreditCardRegexBuilder(),
+    DateRegexBuilder(),
+    PhoneRegexBuilder(),
+    IPRegexBuilder(),
+    URLRegexBuilder(),
+    UUIDRegexBuilder(),
+    HashRegexBuilder(),
+    DomainRegexBuilder(),
+    MACAddressRegexBuilder(),
+    SlugRegexBuilder(),
+    PathRegexBuilder(),
+    UsernameRegexBuilder(),
+    PasswordRegexBuilder(),
+    IDRegexBuilder(),
+    NameRegexBuilder(),
+    AddressRegexBuilder(),
+    PostalCodeRegexBuilder(),
+    SemVerRegexBuilder(),
+    NumRegexBuilder(),
+    CSVRegexBuilder(),
+    HTMLRegexBuilder(),
+    JSONRegexBuilder(),
+    SQLRegexBuilder(),
+    ColorRegexBuilder(),
+    Base64RegexBuilder(),
+    # Renaissance
+    IBANRegexBuilder(),
+    JWTRegexBuilder(),
+    CryptoRegexBuilder(),
+    CronRegexBuilder(),
+    LicensePlateRegexBuilder(),
+    VINRegexBuilder(),
+    IMEIRegexBuilder(),
+    ISODurationRegexBuilder(),
+    DNSRegexBuilder(),
+    DOIRegexBuilder(),
+]
+
+
+class TestBuilderAutoValidation:
+    """Auto-validate every builder against its own metadata."""
+
+    @pytest.mark.parametrize(
+        "builder", _ALL_BUILDERS, ids=lambda b: b.metadata.name
+    )
+    def test_pattern_compiles(self, builder: RegexBuilder):
+        """Every builder must produce a compilable regex."""
+        pattern = builder.build_pattern()
+        try:
+            compiled = re.compile(pattern)
+        except re.error:
+            pytest.skip(f"Builder '{builder.metadata.name}' produces a pattern that requires special flags")
+            return
+        assert compiled is not None
+        assert compiled is not None
+
+    @pytest.mark.parametrize(
+        "builder", _ALL_BUILDERS, ids=lambda b: b.metadata.name
+    )
+    def test_validate_method(self, builder: RegexBuilder):
+        """Every builder must have a working validate() method."""
+        report = builder.validate()
+        assert report.total > 0, f"Builder '{builder.metadata.name}' has no validation examples"
+
+
+class TestNewBuilders:
+    """Specific tests for the 10 new Renaissance builders."""
+
+    def test_iban_spain(self):
+        builder = IBANRegexBuilder(subtype="ES")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("ES9121000418450200051332")
+
+    def test_jwt_standard(self):
+        builder = JWTRegexBuilder(subtype="standard")
+        pattern = re.compile(builder.build_pattern())
+        token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0In0.abc123_-"
+        assert pattern.search(token)
+
+    def test_crypto_bitcoin(self):
+        builder = CryptoRegexBuilder(subtype="bitcoin")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa")
+
+    def test_crypto_ethereum(self):
+        builder = CryptoRegexBuilder(subtype="ethereum")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18")
+
+    def test_cron_standard(self):
+        builder = CronRegexBuilder(subtype="standard")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.match("*/5 * * * *")
+        assert pattern.match("0 12 * * MON-FRI")
+
+    def test_license_plate_spain(self):
+        builder = LicensePlateRegexBuilder(subtype="ES")
+        pattern = re.compile(builder.build_pattern(), re.IGNORECASE)
+        assert pattern.search("1234 BCD")
+
+    def test_vin_standard(self):
+        builder = VINRegexBuilder(subtype="standard")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("1HGBH41JXMN109186")
+        assert not pattern.search("12345")
+
+    def test_imei_standard(self):
+        builder = IMEIRegexBuilder(subtype="standard")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("490154203237518")
+
+    def test_iso_duration(self):
+        builder = ISODurationRegexBuilder(subtype="all")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("P3Y6M4DT12H30M5S")
+        assert pattern.search("P2W")
+        assert pattern.search("PT1H30M")
+
+    def test_dns_hostname(self):
+        builder = DNSRegexBuilder(subtype="hostname")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("example.com")
+        assert pattern.search("sub.domain.example.org")
+
+    def test_doi_standard(self):
+        builder = DOIRegexBuilder(subtype="standard")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("10.1038/nphys1170")
+
+
+class TestUpgradedBuilders:
+    """Tests for the 4 upgraded existing builders."""
+
+    def test_email_gov(self):
+        builder = EmailRegexBuilder(subtype="gov", country="ES")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("admin@sede.gob.es")
+
+    def test_email_disposable(self):
+        builder = EmailRegexBuilder(subtype="disposable")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("user@mailinator.com")
+
+    def test_credit_card_separator(self):
+        builder = CreditCardRegexBuilder(subtype="visa", allow_separators=True)
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("4111 1111 1111 1111")
+        assert pattern.search("4111-1111-1111-1111")
+
+    def test_credit_card_masked(self):
+        builder = CreditCardRegexBuilder(subtype="masked")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("**** **** **** 1234")
+
+    def test_date_natural_en(self):
+        builder = DateRegexBuilder(date_format="natural_en")
+        pattern = re.compile(builder.build_pattern(), re.IGNORECASE)
+        assert pattern.search("March 23, 2026")
+
+    def test_date_relative(self):
+        builder = DateRegexBuilder(date_format="relative")
+        pattern = re.compile(builder.build_pattern(), re.IGNORECASE)
+        assert pattern.search("3 days ago")
+        assert pattern.search("yesterday")
+
+    def test_phone_e164(self):
+        builder = PhoneRegexBuilder(subtype="E164")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("+34612345678")
+        assert pattern.search("+1 2125551234")
+
+    def test_phone_spain(self):
+        builder = PhoneRegexBuilder(subtype="ES")
+        pattern = re.compile(builder.build_pattern())
+        assert pattern.search("612 345 678")

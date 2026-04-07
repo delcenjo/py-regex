@@ -1,0 +1,15 @@
+name: "Coverage Test Suite"
+pattern: "^(a|b)+c?$"
+description: "Testing AST coverage"
+
+fuzz:
+  enabled: false
+
+tests:
+  passes:
+    - "a"
+    - "ab"
+    - "bc"
+  fails:
+    - "d"
+    - "acb"

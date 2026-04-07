@@ -1,0 +1,21 @@
+name: "Email Validator Sentinel Suite"
+pattern: "^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$"
+description: "Enterprise validation for email strings."
+tags: ["email", "auth"]
+
+fuzz:
+  enabled: true
+  types: ["email", "ipv4"]
+  count: 10
+
+tests:
+  passes:
+    - "admin@company.com"
+    - "user.name+tag@sub.domain.co.uk"
+    - "hello-world123@test.org"
+    - input: "exact@match.com"
+  fails:
+    - "plainaddress"
+    - "@missinguser.com"
+    - "user@.com"
+    - "user@domain..com"
