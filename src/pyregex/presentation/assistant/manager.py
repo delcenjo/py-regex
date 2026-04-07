@@ -2,16 +2,13 @@
 
 from __future__ import annotations
 import argparse
-import re
-from typing import Any, Optional
+from typing import Any
 
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 
 from pyregex.utils import ansi
 from pyregex.i18n import translator as i18n
-from pyregex.infrastructure.persistence.pattern_repository import SavedPattern
-from pyregex.domain.builders.base import RegexBuilder
 
 from pyregex.presentation.assistant.flows.utils import UtilsFlows
 from pyregex.presentation.assistant.flows.actions import ActionFlows

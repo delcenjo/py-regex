@@ -492,30 +492,62 @@ class PlaygroundApp:
 
     def _build_matches_kb(self) -> KeyBindings:
         kb = KeyBindings()
+
         @kb.add("down")
-        def _(e): self._matches_scroll += 1; self._update_matches()
+        def _(e):
+            self._matches_scroll += 1
+            self._update_matches()
+
         @kb.add("up")
-        def _(e): self._matches_scroll = max(0, self._matches_scroll - 1); self._update_matches()
+        def _(e):
+            self._matches_scroll = max(0, self._matches_scroll - 1)
+            self._update_matches()
+
         @kb.add("pagedown")
-        def _(e): self._matches_scroll += 10; self._update_matches()
+        def _(e):
+            self._matches_scroll += 10
+            self._update_matches()
+
         @kb.add("pageup")
-        def _(e): self._matches_scroll = max(0, self._matches_scroll - 10); self._update_matches()
+        def _(e):
+            self._matches_scroll = max(0, self._matches_scroll - 10)
+            self._update_matches()
+
         @kb.add("home")
-        def _(e): self._matches_scroll = 0; self._update_matches()
+        def _(e):
+            self._matches_scroll = 0
+            self._update_matches()
+
         return kb
 
     def _build_detail_kb(self) -> KeyBindings:
         kb = KeyBindings()
+
         @kb.add("down")
-        def _(e): self._detail_scroll += 1; self._update_detail()
+        def _(e):
+            self._detail_scroll += 1
+            self._update_detail()
+
         @kb.add("up")
-        def _(e): self._detail_scroll = max(0, self._detail_scroll - 1); self._update_detail()
+        def _(e):
+            self._detail_scroll = max(0, self._detail_scroll - 1)
+            self._update_detail()
+
         @kb.add("pagedown")
-        def _(e): self._detail_scroll += 10; self._update_detail()
+        def _(e):
+            self._detail_scroll += 10
+            self._update_detail()
+
         @kb.add("pageup")
-        def _(e): self._detail_scroll = max(0, self._detail_scroll - 10); self._update_detail()
+        def _(e):
+            self._detail_scroll = max(0, self._detail_scroll - 10)
+            self._update_detail()
+
         @kb.add("home")
-        def _(e): self._detail_scroll = 0; self._update_detail()
+        def _(e):
+            self._detail_scroll = 0
+            self._update_detail()
+
         return kb
 
     def _build_keybindings(self):

@@ -21,7 +21,6 @@ from __future__ import annotations
 import asyncio
 import os
 import re
-import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Optional
@@ -30,7 +29,6 @@ from prompt_toolkit import Application
 from prompt_toolkit.buffer import Buffer
 from prompt_toolkit.data_structures import Point
 from prompt_toolkit.layout import Layout, HSplit, VSplit, Window, FormattedTextControl, ConditionalContainer, FloatContainer, Float
-from prompt_toolkit.layout.containers import DynamicContainer
 from prompt_toolkit.layout.menus import CompletionsMenu
 from prompt_toolkit.layout.controls import BufferControl
 from prompt_toolkit.layout.dimension import Dimension

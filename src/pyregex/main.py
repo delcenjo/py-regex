@@ -3,11 +3,9 @@
 from __future__ import annotations
 
 import sys
-from pathlib import Path
 def main() -> int:
     """Bootstrap the application and run the CLI."""
     try:
-        import os
         from pyregex.core.logging import setup_logger
 
         from pyregex.infrastructure.config.loader import ConfigLoader

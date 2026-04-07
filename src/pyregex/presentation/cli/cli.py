@@ -7,7 +7,6 @@ import sys
 import json
 from typing import Any, Optional, List
 
-from pyregex.application.services.context import current_context
 from pyregex.infrastructure.registry import registry
 
 from prompt_toolkit import prompt
@@ -21,7 +20,6 @@ from pyregex.core.shared.exceptions import (
 )
 from pyregex.utils import ansi
 from pyregex.i18n import translator as i18n
-from pyregex.presentation.assistant.manager import AssistantManager
 from pyregex.presentation.cli.dispatcher import CommandDispatcher
 from pyregex.presentation.cli.test import TestCommand
 from pyregex.presentation.cli.explain import ExplainCommand

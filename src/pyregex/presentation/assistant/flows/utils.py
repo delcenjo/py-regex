@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 import re
-from typing import Optional, Any, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter

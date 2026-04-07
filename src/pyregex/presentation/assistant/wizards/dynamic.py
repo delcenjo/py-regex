@@ -5,7 +5,7 @@ by rendering the Nebula UI directly from YAML metadata.
 """
 
 from __future__ import annotations
-from typing import Any, List, Optional, Dict
+from typing import Any, List, Dict
 
 from pyregex.domain.catalog.registry import CatalogEntry
 from pyregex.domain.builders.generic import GenericBuilder
@@ -43,7 +43,7 @@ class DynamicWizard(BaseWizard):
             handler_class = getattr(module, class_name)
             # Instantiate with CLI for interaction
             return handler_class(cli=self.cli)
-        except Exception as e:
+        except Exception:
             # Fallback to standard if handler fails
             return None
 

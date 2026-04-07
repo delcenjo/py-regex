@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from pyregex.presentation.playground.file.scanner import ScanMatch, ScanResult
+from pyregex.presentation.playground.file.scanner import ScanResult
 from pyregex.presentation.playground.file.reader import FileReader
 
 

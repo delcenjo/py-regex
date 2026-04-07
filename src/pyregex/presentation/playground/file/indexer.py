@@ -6,7 +6,6 @@ Memory-efficient: stores only int offsets, not line content.
 
 from __future__ import annotations
 
-import os
 import hashlib
 import json
 import time

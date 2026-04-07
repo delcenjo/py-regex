@@ -3,7 +3,7 @@
 from __future__ import annotations
 from typing import Any
 
-from prompt_toolkit import prompt, print_formatted_text, HTML
+from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 
 from pyregex.presentation.assistant.core.types import StepType

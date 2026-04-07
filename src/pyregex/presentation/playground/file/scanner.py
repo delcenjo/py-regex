@@ -10,7 +10,6 @@ Line-by-line regex matching against a FileReader with:
 from __future__ import annotations
 
 import re
-import signal
 import time
 from dataclasses import dataclass, field
 from typing import Callable, Iterator, Optional

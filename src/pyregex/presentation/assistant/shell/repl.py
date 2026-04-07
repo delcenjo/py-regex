@@ -124,7 +124,7 @@ class NebulaREPL:
         
         if state == SessionState.BROWSING:
             return HTML(
-                f"<b><ansiblue>nebula</ansiblue></b> <ansipurple>»</ansipurple> "
+                "<b><ansiblue>nebula</ansiblue></b> <ansipurple>»</ansipurple> "
             )
         elif state == SessionState.IN_MODULE:
             module = self.engine.session.current_module or "?"
