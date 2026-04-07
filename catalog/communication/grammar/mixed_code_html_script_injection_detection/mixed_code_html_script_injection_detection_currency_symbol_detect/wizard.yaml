@@ -1,0 +1,19 @@
+version: "2.0"
+metadata:
+  title: "Inyección Crypto Script"
+  description: "Detecta payloads de inyección diseñados para ejecutar mineros JS en el navegador."
+  tags: ["security", "mining", "crypto", "javascript"]
+  priority: 40
+wizard:
+  steps: []
+logic:
+  base_pattern: '(?i)<script[^>]*src=([\'"]?)[^>]*coinhive|cryptoloot|miner[^>]*\1>'
+corpus:
+  matches:
+    - value: "<script src=\"https://coinhive.com/lib/coinhive.min.js\"></script>"
+      label: "Coinhive clásico"
+    - value: "<script src='http://evil.com/miner.js'></script>"
+      label: "Genérico con variable miner"
+  non_matches:
+    - value: "<script src=\"jquery.min.js\"></script>"
+      reason: "Script legítimo"

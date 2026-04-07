@@ -1,0 +1,40 @@
+version: "2.0"
+
+metadata:
+  title: "USSD/MMI Service Codes"
+  description: "Detects Unstructured Supplementary Service Data (USSD) strings used for real-time interaction with mobile networks (e.g., checking balance, top-ups)."
+  author: "Antigravity"
+  tags: ["telecom", "gsm", "ussd", "mmi", "network-commands"]
+  priority: 160
+
+wizard:
+  steps:
+    - id: "enforce_hash"
+      question: "¿Debe terminar obligatoriamente en '#'?"
+      type: "boolean"
+      default: true
+
+logic:
+  # Standard pattern: *digit# or *digit*...#
+  base_pattern: '\*([1-9]\d{0,3})(?:[\*#][\d\*#]+)*#'
+  
+  variants:
+    - id: "short_code"
+      condition: "enforce_hash == true"
+      pattern: '^\*[1-9]\d{1,3}#$'
+
+corpus:
+  matches:
+    - value: "*100#"
+      label: "Balance_Check"
+    - value: "*123*456# "
+      label: "Advanced_USSD"
+  non_matches:
+    - value: "#100*"
+      reason: "Incorrect order"
+    - value: "123#"
+      reason: "Missing starting asterisk"
+
+business_rules:
+  protocol: "GSM 02.30"
+  type: "Interactive_Command"

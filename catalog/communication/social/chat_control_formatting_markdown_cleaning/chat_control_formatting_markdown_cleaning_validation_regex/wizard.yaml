@@ -1,0 +1,20 @@
+# wizard.yaml - Chat Markdown Formatting (Batch 5: Infrastructure)
+name: "Social Chat Markdown"
+description: "Identifies basic markdown formatting in chat messages (bold, italic, strike, code)"
+pattern: "(?x) ( \\*\\*.+?\\*\\* | \\*.+?\\* | __.+?__ | _.+?_ | ~~.+?~~ | `.+?` )"
+examples:
+  - "**bold text**"
+  - "*italicized*"
+  - "~~strike through~~"
+  - "`inline code`"
+labels: ["communication", "social", "formatting", "markdown", "cleaning"]
+validation:
+  min_length: 3
+  max_length: 500
+  tags: ["formatting", "ui"]
+  severity: "low"
+metadata:
+  version: "1.0.0"
+  author: "Antigravity"
+  domain: "communication.social.chat_control_formatting_markdown_cleaning"
+  node_type: "validation_regex"

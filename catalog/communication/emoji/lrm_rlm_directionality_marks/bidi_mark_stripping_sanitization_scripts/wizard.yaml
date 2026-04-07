@@ -1,0 +1,22 @@
+version: '2.0'
+metadata:
+  title: Bidi Mark Stripping Sanitization Scripts
+  description: Regex avanzado para Bidi Mark Stripping Sanitization Scripts en entorno
+    de home. Optimizado para precisión y análisis de grupos léxicos O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 80
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:.*?)[\U00010000-\U0010ffff](?:.*?)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas

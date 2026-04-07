@@ -1,0 +1,19 @@
+version: "2.0"
+metadata:
+  title: "Data URIs y Handlers Ocultos"
+  description: "Identifica esquemas maliciosos javascript: o base64 dentro de handlers HTML."
+  tags: ["security", "xss", "base64", "handlers"]
+  priority: 30
+wizard:
+  steps: []
+logic:
+  base_pattern: '(?i)on[a-z]+\s*=\s*([''"]?)\s*(?:javascript:|vbscript:|data:text/html;base64,)\s*(.*?)\1'
+corpus:
+  matches:
+    - value: "<img src=x onerror=javascript:alert(1)>"
+      label: "Onerror javascript inline"
+    - value: "<a href=\"javascript:alert(1)\">"
+      label: "Href con javascript handler"
+  non_matches:
+    - value: "<img src=x onerror=\"handleError()\">"
+      reason: "Llamada válida sin pseudo-protocolo javascript"

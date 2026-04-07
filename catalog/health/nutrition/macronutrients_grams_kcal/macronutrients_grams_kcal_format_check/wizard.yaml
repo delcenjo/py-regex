@@ -1,0 +1,17 @@
+version: "2.0"
+metadata:
+  title: "Formato Estándar Macronutrientes"
+  description: "Verifica que el layout de gramos y kcal siga estándar nutricional."
+  tags: ["health", "nutrition", "formatting", "standard"]
+  priority: 70
+wizard:
+  steps: []
+logic:
+  base_pattern: '(?i)(?:p|c|f):\s*\d+\.?\d*g\s*\|\s*kcal:\s*\d+'
+corpus:
+  matches:
+    - value: "p: 20g | kcal: 450"
+      label: "Formato correcto"
+  non_matches:
+    - value: "P: 20 kcal: 450"
+      reason: "Falta separador"

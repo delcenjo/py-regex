@@ -1,0 +1,19 @@
+version: "2.0"
+metadata:
+  title: "Obfuscastión XSS Script"
+  description: "Detecta etiquetas script ocultas usando encodings Unicode o Hex."
+  tags: ["security", "xss", "obfuscation", "html"]
+  priority: 20
+wizard:
+  steps: []
+logic:
+  base_pattern: '(?i)(?:<script|%3Cscript|\\u003cscript)[^>]*(?:>|%3E|\\u003e)'
+corpus:
+  matches:
+    - value: "%3Cscript%3Ealert('XSS')%3C%2Fscript%3E"
+      label: "URL Encoded payload"
+    - value: "\\u003cscript\\u003ealert(1)\\u003c/script\\u003e"
+      label: "Unicode Encoded payload"
+  non_matches:
+    - value: "<b>alert(1)</b>"
+      reason: "No contiene variante de script html"

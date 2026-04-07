@@ -1,0 +1,40 @@
+version: "2.0"
+
+metadata:
+  title: "ITU-T Country Calling Codes"
+  description: "Extracts international country calling codes (IDF) from phone strings. Used for geo-localizing phone data."
+  author: "Antigravity"
+  tags: ["telecom", "itu-t", "geography", "idd", "extraction"]
+  priority: 150
+
+wizard:
+  steps:
+    - id: "include_plus"
+      question: "¿La extracción debe mantener el signo '+'?"
+      type: "boolean"
+      default: true
+
+logic:
+  # Captures the prefix group
+  base_pattern: '(?:\+)(\d{1,3})(?=\s|\d)'
+  
+  variants:
+    - id: "raw_digits"
+      condition: "include_plus == false"
+      pattern: '(?<=\+)(\d{1,3})(?=\s|\d)'
+
+corpus:
+  matches:
+    - value: "+34 600..."
+      label: "ES_Prefix"
+    - value: "+1-202..."
+      label: "US_Prefix"
+    - value: "+81 3-..."
+      label: "JP_Prefix"
+  non_matches:
+    - value: "123-456"
+      reason: "No international prefix detected"
+
+business_rules:
+  lookup_resource: "ITU-T List of Country Calling Codes"
+  data_type: "Region_Identifier"

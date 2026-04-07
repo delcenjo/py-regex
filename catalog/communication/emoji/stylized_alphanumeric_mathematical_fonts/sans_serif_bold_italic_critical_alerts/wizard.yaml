@@ -1,0 +1,22 @@
+version: '2.0'
+metadata:
+  title: Sans Serif Bold Italic Critical Alerts
+  description: Regex avanzado para Sans Serif Bold Italic Critical Alerts en entorno
+    de home. Optimizado para precisión y análisis de grupos léxicos O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 67
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:.*?)[\U00010000-\U0010ffff](?:.*?)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas

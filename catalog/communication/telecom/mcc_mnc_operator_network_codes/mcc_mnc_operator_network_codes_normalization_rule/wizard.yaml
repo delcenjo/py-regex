@@ -1,0 +1,38 @@
+version: "2.0"
+
+metadata:
+  title: "MCC/MNC Operator Network Codes"
+  description: "Identifies Mobile Country Codes (MCC) and Mobile Network Codes (MNC) from network identity strings or technical logs."
+  author: "Antigravity"
+  tags: ["telecom", "gsm", "network", "mcc", "mnc"]
+  priority: 120
+
+wizard:
+  steps:
+    - id: "format_type"
+      question: "¿Qué formato esperas?"
+      type: "select"
+      options: ["Separado (214/01)", "Concatenado (21401)"]
+      default: "Concatenado (21401)"
+
+logic:
+  base_pattern: '\b(\d{3})(\d{2,3})\b'
+  
+  variants:
+    - id: "separated_format"
+      condition: "format_type == 'Separado (214/01)'"
+      pattern: '\b(\d{3})[/\-\s](\d{2,3})\b'
+
+corpus:
+  matches:
+    - value: "Network: 21401 (Movistar ES)"
+      label: "ES_Movistar"
+    - value: "MCC: 310, MNC: 260"
+      label: "US_T-Mobile"
+  non_matches:
+    - value: "1234"
+      reason: "Invalid length"
+
+business_rules:
+  external_mapping: "ITU MCC/MNC Database"
+  data_level: "Technical_Metadata"

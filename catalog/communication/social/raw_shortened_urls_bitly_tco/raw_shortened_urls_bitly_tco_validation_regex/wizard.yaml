@@ -1,0 +1,19 @@
+# wizard.yaml - URL Shortener Validation (Batch 5: Infrastructure)
+name: "Social URL Shortener"
+description: "Detects and validates shortened URLs from major services (bit.ly, t.co, goo.gl, ow.ly)"
+pattern: "(?i)(?:https?:\\/\\/)?(?:bit\\.ly|t\\.co|goo\\.gl|ow\\.ly|tinyurl\\.com|is\\.gd|buff\\.ly)\\/[a-zA-Z0-9_-]{4,12}(?=\\s|$|[.,!?;:])"
+examples:
+  - "Check this: bit.ly/3xY7zK"
+  - "Follow at https://t.co/V9z0kP8"
+  - "Short link: goo.gl/uR4w2Q"
+labels: ["communication", "social", "infrastructure", "url", "shortener"]
+validation:
+  min_length: 5
+  max_length: 100
+  tags: ["infrastructure", "network"]
+  severity: "low"
+metadata:
+  version: "1.0.0"
+  author: "Antigravity"
+  domain: "communication.social.raw_shortened_urls_bitly_tco"
+  node_type: "validation_regex"

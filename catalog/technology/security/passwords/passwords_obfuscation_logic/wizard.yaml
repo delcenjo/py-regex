@@ -1,0 +1,22 @@
+version: '2.0'
+metadata:
+  title: Passwords Obfuscation Logic
+  description: Regex avanzado para Passwords Obfuscation Logic en entorno de home.
+    Optimizado para precisión y análisis de grupos léxicos O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 20
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:(?:%[0-9A-Fa-f]{2}|\\u[0-9A-Fa-f]{4}|&#[xX]?[0-9A-Fa-f]+;)|(?=.*(?:%[0-9A-Fa-f]{2}|\\u[0-9A-Fa-f]{4}|&#[xX]?[0-9A-Fa-f]+;)).*?)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas

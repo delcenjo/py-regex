@@ -1,0 +1,39 @@
+version: "2.0"
+
+metadata:
+  title: "Shortened URLs (Bitly/t.co)"
+  description: "Identifies and extracts shortened URLs from social media posts. Commonly used to track marketing campaigns or detect malicious redirects."
+  author: "Antigravity"
+  tags: ["social", "urls", "bitly", "shortener"]
+  priority: 120
+
+wizard:
+  steps:
+    - id: "service"
+      question: "¿Servicio específico a detectar?"
+      type: "select"
+      options: ["Cualquiera (Genérico)", "Bitly (bit.ly)", "Twitter (t.co)"]
+      default: "Cualquiera (Genérico)"
+
+logic:
+  # Base pattern for most common shorteners
+  base_pattern: 'https?://(?:bit\.ly|t\.co|goo\.gl|tinyurl\.com)/[a-zA-Z0-9]+'
+  
+  variants:
+    - id: "bitly_specific"
+      condition: "service == 'Bitly (bit.ly)'"
+      pattern: 'https?://bit\.ly/[a-zA-Z0-9]+'
+
+corpus:
+  matches:
+    - value: "https://bit.ly/3xYz"
+      label: "Bitly_Link"
+    - value: "http://t.co/abc123"
+      label: "Twitter_Short_Link"
+  non_matches:
+    - value: "https://google.com"
+      reason: "Full domain, not a known shortener"
+
+business_rules:
+  purpose: "URL_Expansion_Required"
+  threat_potential: "High (Redirect)"

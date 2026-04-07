@@ -1,0 +1,19 @@
+version: "2.0"
+metadata:
+  title: "Anomalía en Macronutrientes (Gramos/Kcal)"
+  description: "Detecta valores anormales o extremos en ratios de macronutrientes."
+  tags: ["health", "nutrition", "macronutrients", "anomaly"]
+  priority: 50
+wizard:
+  steps: []
+logic:
+  base_pattern: '(?i)\b(?:protein|carbs|fat|kcal)[:=]\s*(?:>9999|\b[1-9]\d{4,}\b)\b'
+corpus:
+  matches:
+    - value: "Protein: 15000g"
+      label: "Anomalía de extra alta proteína"
+    - value: "Kcal= 20000"
+      label: "Anomalía de kilocalorías"
+  non_matches:
+    - value: "fat: 150g"
+      reason: "Cantidad normal"

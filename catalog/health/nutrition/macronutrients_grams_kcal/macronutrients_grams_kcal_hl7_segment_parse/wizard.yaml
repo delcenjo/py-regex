@@ -1,0 +1,17 @@
+version: "2.0"
+metadata:
+  title: "Segmento HL7 de Nutrición"
+  description: "Extrae segmentos ODX/OBX de ingesta calórica/macronutrientes HL7."
+  tags: ["health", "nutrition", "hl7", "protocol"]
+  priority: 90
+wizard:
+  steps: []
+logic:
+  base_pattern: '^OBX\|\d\|(?:ST|NM)\|MACRO\^[^|]+\|.*?\|(\d+\.?\d*)\|(?:g|kcal)\|'
+corpus:
+  matches:
+    - value: "OBX|1|NM|MACRO^Proteina||25.5|g|"
+      label: "Segmento válido de proteína"
+  non_matches:
+    - value: "OBX|1|NM|MACRO^Proteina||25.5|kg|"
+      reason: "Las unidades deben ser genéricas g/kcal"

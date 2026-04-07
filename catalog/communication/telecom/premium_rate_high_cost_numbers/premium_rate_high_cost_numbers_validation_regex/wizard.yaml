@@ -1,0 +1,46 @@
+version: "2.0"
+
+metadata:
+  title: "Premium Rate High Cost Numbers"
+  description: "Detects non-geographic numbers that incur additional costs (e.g., 900, 800, 902 in Spain, 1-900 in US). Essential for billing protection."
+  author: "Antigravity"
+  tags: ["telecom", "billing", "premium-rate", "high-cost", "fraud-prevention"]
+  priority: 130
+
+wizard:
+  steps:
+    - id: "region"
+      question: "¿Region de interés para códigos premium?"
+      type: "select"
+      options: ["España (90x, 80x)", "Reino Unido (08, 09)", "EE.UU. (900)", "Global"]
+      default: "España (90x, 80x)"
+
+logic:
+  # Base pattern for Spanish Premium
+  base_pattern: '^(?:90[0-9]|80[0-9])\d{6}$'
+  
+  variants:
+    - id: "es_premium"
+      condition: "region == 'España (90x, 80x)'"
+      pattern: '^(?:90[1257]|80[367])\d{6}$'
+    - id: "us_premium"
+      condition: "region == 'EE.UU. (900)'"
+      pattern: '^1?-?900-\d{3}-\d{4}$'
+
+corpus:
+  matches:
+    - value: "902123456"
+      label: "ES_Info_902"
+    - value: "806998877"
+      label: "ES_Entertainment_806"
+    - value: "1-900-555-0199"
+      label: "US_Premium"
+  non_matches:
+    - value: "916001122"
+      reason: "Geographic fixed line"
+    - value: "900123456"
+      reason: "Often Toll-Free, depending on country"
+
+business_rules:
+  category: "Revenue_Share"
+  compliance: "CNMC Regulatory Rules (ES)"

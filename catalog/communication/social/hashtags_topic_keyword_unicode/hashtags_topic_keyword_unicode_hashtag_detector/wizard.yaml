@@ -1,0 +1,39 @@
+version: "2.0"
+
+metadata:
+  title: "Hashtags Topic Keyword (Unicode)"
+  description: "Extracts hashtags from text, including full support for Unicode characters and emojis. Essential for sentiment analysis and trend tracking."
+  author: "Antigravity"
+  tags: ["social", "hashtag", "unicode", "meta-data"]
+  priority: 110
+
+wizard:
+  steps:
+    - id: "unicode_support"
+      question: "¿Permitir caracteres No-Latinos (Emoji/Unicode)?"
+      type: "select"
+      options: ["Sí (Full Unicode)", "No (Sólo A-Z, 0-9)"]
+      default: "Sí (Full Unicode)"
+
+logic:
+  # Base pattern including Unicode word characters
+  base_pattern: '#[\w\u0080-\uffff]{1,60}'
+  
+  variants:
+    - id: "ascii_only"
+      condition: "unicode_support == 'No (Sólo A-Z, 0-9)'"
+      pattern: '#[a-zA-Z0-9_]{1,60}'
+
+corpus:
+  matches:
+    - value: "#PyRegex"
+      label: "ASCII_Hashtag"
+    - value: "#programación🚀"
+      label: "Unicode_Emoji_Hashtag"
+  non_matches:
+    - value: "#"
+      reason: "Empty hashtag"
+
+business_rules:
+  specification: "Social_Discovery_Token"
+  type: "Metadata_Tag"

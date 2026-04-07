@@ -1,0 +1,42 @@
+version: "2.0"
+
+metadata:
+  title: "Cell ID / Base Station Tower Identifiers"
+  description: "Validates and parses global identifiers for mobile network cells (CGI, ECGI, NCGI). Essential for geolocation and network forensics."
+  author: "Antigravity"
+  tags: ["telecom", "gsm", "lte", "5g", "cellid", "cgi"]
+  priority: 210
+
+wizard:
+  steps:
+    - id: "tech"
+      question: "¿Tecnología de red?"
+      type: "select"
+      options: ["GSM/UMTS (CGI)", "LTE (ECGI)", "5G (NCGI)"]
+      default: "LTE (ECGI)"
+
+logic:
+  # Base pattern for MCC-MNC-LAC-CI (GSM)
+  base_pattern: '^\d{3}-\d{2,3}-\d{1,5}-\d{1,5}$'
+  
+  variants:
+    - id: "ecgi_lte"
+      condition: "tech == 'LTE (ECGI)'"
+      pattern: '^\d{3}-\d{2,3}-\d{7}$'
+    - id: "ncgi_5g"
+      condition: "tech == '5G (NCGI)'"
+      pattern: '^\d{3}-\d{2,3}-\d{10}$'
+
+corpus:
+  matches:
+    - value: "214-07-12345-6789"
+      label: "ES_Movistar_GSM"
+    - value: "214-01-1234567"
+      label: "ES_Vodafone_LTE"
+  non_matches:
+    - value: "abc-def"
+      reason: "Non-numeric identifiers"
+
+business_rules:
+  specification: "3GPP TS 23.003"
+  type: "Network_Topology_ID"

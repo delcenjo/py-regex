@@ -1,0 +1,19 @@
+# wizard.yaml - Bot Command Interaction (Batch 5: Infrastructure)
+name: "Social Bot Command"
+description: "Detects and validates interactive bot commands and their arguments (/, !)"
+pattern: "^(?:\\/|!)([a-zA-Z0-9_]{1,32})(?:\\s+[@a-zA-Z0-9_.-]+)*"
+examples:
+  - "/start"
+  - "!help documentation"
+  - "/ban @user_name spamming"
+labels: ["communication", "social", "infrastructure", "bot", "command"]
+validation:
+  min_length: 2
+  max_length: 50
+  tags: ["interaction", "automation"]
+  severity: "medium"
+metadata:
+  version: "1.0.0"
+  author: "Antigravity"
+  domain: "communication.social.bot_commands_slash_exclamation_marks"
+  node_type: "validation_regex"

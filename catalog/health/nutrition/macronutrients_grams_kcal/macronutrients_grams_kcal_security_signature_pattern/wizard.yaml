@@ -1,0 +1,17 @@
+version: "2.0"
+metadata:
+  title: "Firma de Seguridad Nutrición"
+  description: "Busca sellos y firmas FDA/EMA aprobadas en lotes nutricionales."
+  tags: ["health", "nutrition", "security", "fda"]
+  priority: 80
+wizard:
+  steps: []
+logic:
+  base_pattern: '(?i)Approved_by_(FDA|EMA)_Lot_[A-Z0-9]{8}'
+corpus:
+  matches:
+    - value: "Approved_by_FDA_Lot_X98H4FD2"
+      label: "Lote FDA válido"
+  non_matches:
+    - value: "Approved_by_FDA_Lot_X9"
+      reason: "Faltan caracteres en el lote"

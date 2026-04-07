@@ -1,0 +1,51 @@
+version: "2.0"
+
+metadata:
+  title: "E.164 International Phone Standard"
+  description: "Detects and validates international telephone numbers according to the ITU-T E.164 standard. This is the foundation for all global telecommunications addressing."
+  author: "Antigravity"
+  tags: ["telecom", "e164", "itu-t", "global", "standards"]
+  priority: 100
+
+wizard:
+  steps:
+    - id: "enforce_plus"
+      question: "¿Es obligatorio que el número empiece con el signo '+'?"
+      type: "boolean"
+      default: true
+    - id: "allow_spaces"
+      question: "¿Permitir espacios o guiones entre los dígitos?"
+      type: "boolean"
+      default: false
+
+logic:
+  # The base pattern is the most robust version
+  base_pattern: '^\+?[1-9]\d{1,14}$'
+  
+  variants:
+    - id: "strict_plus"
+      condition: "enforce_plus == true"
+      pattern: '^\+[1-9]\d{1,14}$'
+    - id: "relaxed_format"
+      condition: "allow_spaces == true"
+      pattern: '^\+?[1-9][\d\s\-]{1,20}\d$'
+
+corpus:
+  matches:
+    - value: "+34600112233"
+      label: "ES_International"
+    - value: "+12025550123"
+      label: "US_International"
+    - value: "+447700900000"
+      label: "UK_International"
+  non_matches:
+    - value: "0"
+      reason: "Too short"
+    - value: "+012345"
+      reason: "Invalid country code 0"
+    - value: "not-a-number"
+      reason: "Non-numeric"
+
+business_rules:
+  compliance: ["ITU-T E.164", "GDPR"]
+  max_length: 15

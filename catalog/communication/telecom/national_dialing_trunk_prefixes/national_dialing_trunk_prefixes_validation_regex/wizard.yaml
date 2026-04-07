@@ -1,0 +1,39 @@
+version: "2.0"
+
+metadata:
+  title: "National Dialing Trunk Prefixes"
+  description: "Validates the national access prefixes (e.g., '0' in UK/ES, '1' in US) required for dialing outside the local area but within the same country."
+  author: "Antigravity"
+  tags: ["telecom", "trunk", "prefix", "dialing-plan"]
+  priority: 230
+
+wizard:
+  steps:
+    - id: "country"
+      question: "¿Plan de numeración?"
+      type: "select"
+      options: ["Europa (Ppref: 0)", "EE.UU./Canadá (Ppref: 1)", "Australia (Ppref: 0)"]
+      default: "Europa (Ppref: 0)"
+
+logic:
+  # Europe/General: starts with 0 follow by area code
+  base_pattern: '^0[1-9]\d{8,11}$'
+  
+  variants:
+    - id: "nanp_trunk"
+      condition: "country == 'EE.UU./Canadá (Ppref: 1)'"
+      pattern: '^1[2-9]\d{9}$'
+
+corpus:
+  matches:
+    - value: "0916554433"
+      label: "ES_Trunk_Dial"
+    - value: "12125550199"
+      label: "US_Trunk_Dial"
+  non_matches:
+    - value: "600112233"
+      reason: "Mobile (Subscriber number format)"
+
+business_rules:
+  specification: "ITU-T E.164 Annex A"
+  type: "Access_Code"

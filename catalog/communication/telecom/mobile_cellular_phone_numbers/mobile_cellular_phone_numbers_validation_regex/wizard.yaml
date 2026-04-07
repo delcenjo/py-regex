@@ -1,0 +1,48 @@
+version: "2.0"
+
+metadata:
+  title: "International Mobile Phone Validation (E.164)"
+  description: "Detects and validates mobile phone numbers according to the E.164 international standard, with support for regional formatting."
+  author: "Antigravity"
+  tags: ["telecom", "phone", "e164", "communication"]
+  priority: 200
+
+wizard:
+  steps:
+    - id: "is_international"
+      question: "¿El número incluye el prefijo internacional (+... o 00...)?"
+      type: "boolean"
+      default: true
+    - id: "region_hint"
+      question: "¿De qué región es el número?"
+      type: "select"
+      options: ["Europa", "América", "Asia", "Otro"]
+      condition: "is_international == false"
+
+logic:
+  base_pattern: '^\+?[1-9]\d{1,14}$'
+  variants:
+    - id: "spain_mobile"
+      condition: "region_hint == 'Europa' or is_international == true"
+      pattern: '^(\+34|0034|34)?[67]\d{8}$'
+      description: "Móviles de España"
+    - id: "us_mobile"
+      condition: "region_hint == 'América'"
+      pattern: '^(\+1|1)?\s?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$'
+      description: "Standard US Mobile"
+
+corpus:
+  matches:
+    - value: "+34600112233"
+      label: "ES_International"
+    - value: "+1 202-555-0123"
+      label: "US_Standard"
+  non_matches:
+    - value: "12345"
+      reason: "Too short"
+    - value: "not-a-number"
+      reason: "Alphanumeric"
+
+business_rules:
+  compliance: ["GDPR", "E.164"]
+  data_type: "PII"

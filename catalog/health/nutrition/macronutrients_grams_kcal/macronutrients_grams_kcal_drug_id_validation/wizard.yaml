@@ -1,0 +1,19 @@
+version: "2.0"
+metadata:
+  title: "Validación Drug ID en Suplementos"
+  description: "Detecta IDs farmacéutico/suplementarios cruzados con macronutrientes."
+  tags: ["health", "nutrition", "drugs", "validation"]
+  priority: 60
+wizard:
+  steps: []
+logic:
+  base_pattern: '(?i)(?:Rx|DrugID|SuppID)-[A-Z0-9]{4,10}'
+corpus:
+  matches:
+    - value: "Rx-BCAA123"
+      label: "ID de suplemento"
+    - value: "DrugID-A9F8X"
+      label: "ID de receta"
+  non_matches:
+    - value: "Rx-"
+      reason: "Incompleto"

@@ -1,0 +1,38 @@
+version: "2.0"
+
+metadata:
+  title: "Toll-Free 800-900 Numbers"
+  description: "Validates free-to-call numbers across different regions. Crucial for customer service identification."
+  author: "Antigravity"
+  tags: ["telecom", "toll-free", "800", "freecall", "validation"]
+  priority: 140
+
+wizard:
+  steps:
+    - id: "standard"
+      question: "¿Estándar regional?"
+      type: "select"
+      options: ["España (900/800)", "EE.UU. (800/888)", "Global"]
+      default: "España (900/800)"
+
+logic:
+  base_pattern: '^(900|800)\d{6}$'
+  
+  variants:
+    - id: "us_toll_free"
+      condition: "standard == 'EE.UU. (800/888)'"
+      pattern: '^\+?1?-?(800|888|877|866|855|844|833)\d{7}$'
+
+corpus:
+  matches:
+    - value: "900123456"
+      label: "ES_Free"
+    - value: "8005550199"
+      label: "US_Free"
+  non_matches:
+    - value: "902123456"
+      reason: "Paid Shared Cost number"
+
+business_rules:
+  cost_tier: "Zero"
+  dialing_requirement: "Free from fixed lines"

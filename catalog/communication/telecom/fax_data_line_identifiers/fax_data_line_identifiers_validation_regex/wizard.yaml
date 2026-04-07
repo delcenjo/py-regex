@@ -1,0 +1,39 @@
+version: "2.0"
+
+metadata:
+  title: "Fax / Data Line Identifiers"
+  description: "Detects prefixes and number formats specifically reserved for Fax machines or digital data lines. Helps in traffic routing and classification."
+  author: "Antigravity"
+  tags: ["telecom", "fax", "data-line", "validation"]
+  priority: 220
+
+wizard:
+  steps:
+    - id: "format"
+      question: "¿Formato de línea esperado?"
+      type: "select"
+      options: ["Estándar (918...)", "Internacional Fax", "Cualquier Formato"]
+      default: "Estándar (918...)"
+
+logic:
+  # Common pattern for Spanish fax extensions (often 9x8 or similar depending on PABX)
+  base_pattern: '^[89][1-9]8\d{6}$'
+  
+  variants:
+    - id: "intl_fax"
+      condition: "format == 'Internacional Fax'"
+      pattern: '^\+?\d{1,4}[- ]?\d{2,5}[- ]?\d{4,10}$'
+
+corpus:
+  matches:
+    - value: "918443322"
+      label: "ES_Office_Fax"
+    - value: "+34 938 112 233"
+      label: "ES_Intl_Fax"
+  non_matches:
+    - value: "600112233"
+      reason: "Mobile number"
+
+business_rules:
+  protocol: "ITU-T T.30"
+  type: "Analog_Data_Transmission"

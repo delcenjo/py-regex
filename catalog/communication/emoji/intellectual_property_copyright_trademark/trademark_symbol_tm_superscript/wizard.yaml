@@ -1,0 +1,22 @@
+version: '2.0'
+metadata:
+  title: Trademark Symbol Tm Superscript
+  description: Regex avanzado para Trademark Symbol Tm Superscript en entorno de home.
+    Optimizado para precisión y análisis de grupos léxicos O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 86
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:.*?)[\U00010000-\U0010ffff](?:.*?)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas

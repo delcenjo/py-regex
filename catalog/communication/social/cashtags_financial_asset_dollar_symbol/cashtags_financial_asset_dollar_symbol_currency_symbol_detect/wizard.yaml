@@ -1,0 +1,39 @@
+version: "2.0"
+
+metadata:
+  title: "Cashtags Financial Asset ($symbol)"
+  description: "Detects financial 'cashtags' (Stock tickers, Cryptos) prefixed with the dollar sign. Used in financial social media analysis (StockTwits, Twitter)."
+  author: "Antigravity"
+  tags: ["social", "finance", "cashtag", "stocks", "crypto"]
+  priority: 130
+
+wizard:
+  steps:
+    - id: "asset_type"
+      question: "¿Tipo de activo?"
+      type: "select"
+      options: ["Stocks (1-5 chars)", "Crypto (3+ chars)", "Ambos"]
+      default: "Ambos"
+
+logic:
+  # Base pattern for $TICKER
+  base_pattern: '\$[A-Z]{1,10}'
+  
+  variants:
+    - id: "stock_strict"
+      condition: "asset_type == 'Stocks (1-5 chars)'"
+      pattern: '\$[A-Z]{1,5}'
+
+corpus:
+  matches:
+    - value: "$AAPL"
+      label: "Stock_Ticker"
+    - value: "$BTC"
+      label: "Crypto_Ticker"
+  non_matches:
+    - value: "$100"
+      reason: "Currency amount, not a ticker"
+
+business_rules:
+  format: "Financial_Mention"
+  security_type: "Equity/Digital_Asset"

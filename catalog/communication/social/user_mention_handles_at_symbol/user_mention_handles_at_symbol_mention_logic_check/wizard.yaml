@@ -1,0 +1,39 @@
+version: "2.0"
+
+metadata:
+  title: "User Mention Handles (@symbol)"
+  description: "Detects and validates user mentions across different social platforms. Supports standard @user and platform-specific variations (Mastodon, etc.)."
+  author: "Antigravity"
+  tags: ["social", "mention", "handle", "twitter", "instagram"]
+  priority: 100
+
+wizard:
+  steps:
+    - id: "platform"
+      question: "¿Para qué plataforma es el handle?"
+      type: "select"
+      options: ["Twitter/X / IG (Estándar)", "Mastodon (Full URI)", "Custom (Alfanumérico + _)"]
+      default: "Twitter/X / IG (Estándar)"
+
+logic:
+  # Base pattern for standard @user
+  base_pattern: '@[a-zA-Z0-9_]{1,30}'
+  
+  variants:
+    - id: "mastodon_mention"
+      condition: "platform == 'Mastodon (Full URI)'"
+      pattern: '@[a-zA-Z0-9_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+
+corpus:
+  matches:
+    - value: "@antigravity_ai"
+      label: "Standard_Twitter_Handle"
+    - value: "@user@example.com"
+      label: "Mastodon_Handle"
+  non_matches:
+    - value: "user@example.com"
+      reason: "Missing leading @ symbol"
+
+business_rules:
+  format: "Social_Mention"
+  case_sensitive: false

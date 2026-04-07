@@ -1,0 +1,39 @@
+version: "2.0"
+
+metadata:
+  title: "Spam / Robocall Blacklist Patterns"
+  description: "Heuristic and pattern-based detection of numbers typically associated with fraud, spam, or mass-marketing robocalls."
+  author: "Antigravity"
+  tags: ["telecom", "security", "spam", "fraud", "blacklist"]
+  priority: 500
+
+wizard:
+  steps:
+    - id: "mode"
+      question: "¿Nivel de agresividad del filtro?"
+      type: "select"
+      options: ["Estándar (Conocidos)", "Agresivo (Extraño/Secuencial)"]
+      default: "Estándar (Conocidos)"
+
+logic:
+  # Standard: Known spam prefixes and sequences
+  base_pattern: '^(?:\+?34)?(?:90[12]|80[36])\d{6}|(\d)\1{8,}'
+  
+  variants:
+    - id: "aggressive_detect"
+      condition: "mode == 'Agresivo (Extraño/Secuencial)'"
+      pattern: '^(?:\+?34)?(?:[89]0[0-9])\d{6}|(?:6[0-9][0-9])000[0-9]{3}|(?:7[0-9][0-9])888[0-9]{3}'
+
+corpus:
+  matches:
+    - value: "888888888"
+      label: "Sequential_Spam"
+    - value: "902000000"
+      label: "Blacklisted_Premium_ES"
+  non_matches:
+    - value: "916554433"
+      reason: "Legitimate geographic fixed line"
+
+business_rules:
+  threat_level: "Medium_High"
+  action: "Flag_For_Review"

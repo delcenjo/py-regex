@@ -1,0 +1,22 @@
+version: '2.0'
+metadata:
+  title: Mixed Code Html Script Injection Detection Timesta
+  description: Regex avanzado para Mixed Code Html Script Injection Detection Timesta
+    en entorno de home. Optimizado para precisión y análisis de grupos léxicos O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 50
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:.*)(?P<script_tag><script(?:\s+(?P<attr>[a-zA-Z_:-]+)\s*=\s*(?P<quot>['\"]?)(?P<val>.*?)(?P=quot))*[^>]*>)(?P<content>.*?)(?P<closing></script>)(?:.*)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas

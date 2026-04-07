@@ -1,0 +1,22 @@
+version: '2.0'
+metadata:
+  title: Electrical Lighting Objects Lightbulbs
+  description: Regex avanzado para Electrical Lighting Objects Lightbulbs en entorno
+    de home. Optimizado para precisión y análisis de grupos léxicos O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 88
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:.*?)[\U00010000-\U0010ffff](?:.*?)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas

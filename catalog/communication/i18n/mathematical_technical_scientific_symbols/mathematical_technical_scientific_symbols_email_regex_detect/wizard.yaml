@@ -1,0 +1,23 @@
+version: '2.0'
+metadata:
+  title: Mathematical Technical Scientific Symbols Email Re
+  description: Regex avanzado para Mathematical Technical Scientific Symbols Email
+    Re en entorno de home. Optimizado para precisión y análisis de grupos léxicos
+    O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 47
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:.*)(?P<email>(?P<local>(?!.*\.{2})[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)@(?P<domain>(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}))(?:.*)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas

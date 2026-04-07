@@ -1,0 +1,42 @@
+version: "2.0"
+
+metadata:
+  title: "SMS Banking Alerts (Short Codes)"
+  description: "Specialized detection of numerical short-codes used by banks for OTPs, balance alerts, and transaction notifications."
+  author: "Antigravity"
+  tags: ["telecom", "fintech", "banking", "sms", "short-code"]
+  priority: 350
+
+wizard:
+  steps:
+    - id: "provider_type"
+      question: "¿Qué tipo de remitente esperas?"
+      type: "select"
+      options: ["Short Code (5-6 dígitos)", "Alfanumérico (Banca)", "Cualquier remitente"]
+      default: "Short Code (5-6 dígitos)"
+
+logic:
+  # Base pattern for numerical short codes
+  base_pattern: '\b\d{4,6}\b'
+  
+  variants:
+    - id: "numerical_strict"
+      condition: "provider_type == 'Short Code (5-6 dígitos)'"
+      pattern: '^\d{5,6}$'
+    - id: "alphanumeric_sender"
+      condition: "provider_type == 'Alfanumérico (Banca)'"
+      pattern: '^[A-Z]{3,11}$'
+
+corpus:
+  matches:
+    - value: "21500"
+      label: "BBVA_Alert"
+    - value: "BANK_MSG"
+      label: "Alpha_Sender"
+  non_matches:
+    - value: "600112233"
+      reason: "Standard mobile number"
+
+business_rules:
+  use_case: "Financial Verification"
+  trust_level: "High"

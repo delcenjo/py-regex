@@ -1,0 +1,21 @@
+version: "2.0"
+metadata:
+  title: "Verificación Estrecha de Scripts"
+  description: "Extrae de alta eficiencia aperturas y cierres de scripts HTML para preprocesado."
+  tags: ["security", "parsing", "html", "high_precision"]
+  priority: 50
+wizard:
+  steps: []
+logic:
+  base_pattern: '<(?:/)?script\b[^>]*>'
+corpus:
+  matches:
+    - value: "<script defer>"
+      label: "Apertura script puro"
+    - value: "</script>"
+      label: "Cierre puro"
+    - value: "<script type=\"module\" src=\"app.js\">"
+      label: "Script complejo"
+  non_matches:
+    - value: "<noscript>enable JS</noscript>"
+      reason: "Etiqueta relacionada pero no ejecutará"

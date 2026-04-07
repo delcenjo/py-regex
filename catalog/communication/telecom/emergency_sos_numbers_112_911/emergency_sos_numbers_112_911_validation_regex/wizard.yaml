@@ -1,0 +1,43 @@
+version: "2.0"
+
+metadata:
+  title: "Emergency SOS Numbers (112, 911, etc.)"
+  description: "Detects universal and regional emergency services short-codes. Critical for high-priority classification and alerting systems."
+  author: "Antigravity"
+  tags: ["telecom", "emergency", "sos", "public-safety", "security"]
+  priority: 300
+
+wizard:
+  steps:
+    - id: "target_region"
+      question: "¿En qué región necesitas detectar el código de emergencia?"
+      type: "select"
+      options: ["Global", "Europa (112)", "EE.UU./Canadá (911)", "Sudamérica"]
+      default: "Global"
+
+logic:
+  base_pattern: '\b(112|911|999|911|000|060|091|092)\b'
+  
+  variants:
+    - id: "eu_standard"
+      condition: "target_region == 'Europa (112)'"
+      pattern: '\b(112|091|092)\b'
+    - id: "us_standard"
+      condition: "target_region == 'EE.UU./Canadá (911)'"
+      pattern: '\b(911)\b'
+
+corpus:
+  matches:
+    - value: "Llama al 112 ahora!"
+      label: "EU_SOS"
+    - value: "Emergency 911 dispatch"
+      label: "US_SOS"
+  non_matches:
+    - value: "9112"
+      reason: "Numerical overlap but incorrect code"
+    - value: "123"
+      reason: "Not a standard emergency code"
+
+business_rules:
+  priority_level: "Critical"
+  action: "Flag_Immediate"

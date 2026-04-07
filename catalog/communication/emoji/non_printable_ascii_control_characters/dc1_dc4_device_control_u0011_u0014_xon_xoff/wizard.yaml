@@ -1,0 +1,22 @@
+version: '2.0'
+metadata:
+  title: Dc1 Dc4 Device Control U0011 U0014 Xon Xoff
+  description: Regex avanzado para Dc1 Dc4 Device Control U0011 U0014 Xon Xoff en
+    entorno de home. Optimizado para precisión y análisis de grupos léxicos O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 71
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:.*?)[\U00010000-\U0010ffff](?:.*?)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas

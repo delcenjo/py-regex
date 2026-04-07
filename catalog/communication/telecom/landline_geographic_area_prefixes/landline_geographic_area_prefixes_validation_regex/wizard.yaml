@@ -1,0 +1,49 @@
+version: "2.0"
+
+metadata:
+  title: "Landline Geographic Prefixes"
+  description: "Validates and classifies landline numbers based on geographic area codes. Supports regional formatting rules."
+  author: "Antigravity"
+  tags: ["telecom", "landline", "prefix", "geography", "validation"]
+  priority: 110
+
+wizard:
+  steps:
+    - id: "country"
+      question: "¿Para qué país quieres validar fijos?"
+      type: "select"
+      options: ["España", "Reino Unido", "EE.UU.", "Global (Genérico)"]
+      default: "España"
+
+logic:
+  # Base pattern for Spain (starts with 8 or 9, followed by 8 digits)
+  base_pattern: '^[89][1-9]\d{7}$'
+  
+  variants:
+    - id: "es_formatted"
+      condition: "country == 'España'"
+      pattern: '^(?:\+34|0034|34)?[89][1-9]\d{7}$'
+    - id: "uk_landline"
+      condition: "country == 'Reino Unido'"
+      pattern: '^(?:\+44|0)1\d{8,10}$'
+    - id: "us_landline"
+      condition: "country == 'EE.UU.'"
+      pattern: '^(?:\+1|1)?\s?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$'
+
+corpus:
+  matches:
+    - value: "916554433"
+      label: "ES_Madrid"
+    - value: "935443322"
+      label: "ES_BCN"
+    - value: "0121 496 0000"
+      label: "UK_Birmingham"
+  non_matches:
+    - value: "600112233"
+      reason: "Mobile number prefix"
+    - value: "902112233"
+      reason: "Premium/Non-geographic"
+
+business_rules:
+  type: "Geographic_Fixed_Line"
+  dialing_rules: "ITU-T Q.7xx"

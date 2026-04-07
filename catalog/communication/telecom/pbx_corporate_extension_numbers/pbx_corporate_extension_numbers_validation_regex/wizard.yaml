@@ -1,0 +1,43 @@
+version: "2.0"
+
+metadata:
+  title: "PBX Corporate Extension Numbers"
+  description: "Identifies internal extension numbers used within a Private Branch Exchange (PBX). Supports 'ext', 'x', and direct 3-5 digit formats."
+  author: "Antigravity"
+  tags: ["telecom", "pbx", "extension", "corporate", "internal"]
+  priority: 240
+
+wizard:
+  steps:
+    - id: "style"
+      question: "¿Cómo se presenta la extensión?"
+      type: "select"
+      options: ["Solo número (3-5 dígitos)", "Con prefijo (ext/x)", "Ambos"]
+      default: "Solo número (3-5 dígitos)"
+
+logic:
+  # Base pattern for internal extension
+  base_pattern: '\b\d{3,5}\b'
+  
+  variants:
+    - id: "prefix_ext"
+      condition: "style == 'Con prefijo (ext/x)'"
+      pattern: '(?i)(?:ext|x|extn)\.?\s?(\d{3,5})'
+
+corpus:
+  matches:
+    - value: "ext 1234"
+      label: "Typical_Ext"
+    - value: "x5566"
+      label: "Short_Ext"
+    - value: "4001"
+      label: "Internal_Direct"
+  non_matches:
+    - value: "12"
+      reason: "Too short for standard PBX extension"
+    - value: "112"
+      reason: "Conflicts with emergency numbers"
+
+business_rules:
+  environment: "Private_Network"
+  dialing_mode: "Internal_Only"

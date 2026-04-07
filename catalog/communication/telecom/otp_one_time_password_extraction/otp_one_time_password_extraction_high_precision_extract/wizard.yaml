@@ -1,0 +1,44 @@
+version: "2.0"
+
+metadata:
+  title: "OTP (One-Time Password) Extraction"
+  description: "High-precision extraction of temporary security codes from SMS, emails, or push notifications."
+  author: "Antigravity"
+  tags: ["security", "auth", "otp", "2fa", "sms"]
+  priority: 400
+
+wizard:
+  steps:
+    - id: "digit_count"
+      question: "¿Cuántos dígitos suele tener el código?"
+      type: "select"
+      options: ["4 dígitos", "6 dígitos", "Cualquier longitud (4-8)"]
+      default: "6 dígitos"
+
+logic:
+  # Looks for numeric codes near trigger keywords
+  base_pattern: '(?i)(?:code|código|contraseña|otp|verify|verificación)[:\s\-]+(\d{4,8})'
+  
+  variants:
+    - id: "six_digits_strict"
+      condition: "digit_count == '6 dígitos'"
+      pattern: '(?i)(?:code|código|otp|verify)[:\s\-]+(\d{6})'
+    - id: "four_digits_strict"
+      condition: "digit_count == '4 dígitos'"
+      pattern: '(?i)(?:code|código|otp|verify)[:\s\-]+(\d{4})'
+
+corpus:
+  matches:
+    - value: "Your verification code is 123456"
+      label: "Standard_SMS"
+    - value: "Tu código de acceso: 9876"
+      label: "ES_Auth"
+    - value: "OTP: 443221"
+      label: "Standard_OTP"
+  non_matches:
+    - value: "Contact us at 123456789"
+      reason: "Phone number, not an OTP code"
+
+business_rules:
+  security_warning: "High - Sensitive Content"
+  retention_policy: "Transient - Do not store"

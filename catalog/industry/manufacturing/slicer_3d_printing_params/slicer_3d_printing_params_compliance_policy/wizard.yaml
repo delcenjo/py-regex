@@ -1,0 +1,22 @@
+version: '2.0'
+metadata:
+  title: Slicer 3D Printing Params Compliance Policy
+  description: Regex avanzado para Slicer 3D Printing Params Compliance Policy en
+    entorno de home. Optimizado para precisión y análisis de grupos léxicos O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 35
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:.*?)(?P<generic_key>[A-Za-z0-9_-]+)\s*[:=]\s*(?P<generic_val>(?:\d+(?:\.\d+)?)|(?:[\"'].*?[\"']))(?:.*?)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas

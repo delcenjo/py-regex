@@ -1,0 +1,33 @@
+version: "2.0"
+metadata:
+  title: "Extracción Script Injection"
+  description: "Detecta atributos críticos de etiquetas script usadas en inyecciones XSS (src, type)."
+  tags: ["security", "xss", "html", "injection"]
+  priority: 10
+wizard:
+  steps:
+    - id: "capture_attribute"
+      question: "¿Atributo clave a capturar?"
+      type: "select"
+      options: ["src", "type", "all"]
+      default: "all"
+logic:
+  base_pattern: '(?i)<script[^>]*\b(src|type)\s*=\s*([\'"])(.*?)\2'
+  variants:
+    - id: "only_src"
+      condition: "capture_attribute == 'src'"
+      pattern: '(?i)<script[^>]*\bsrc\s*=\s*([\'"])(.*?)\1'
+    - id: "only_type"
+      condition: "capture_attribute == 'type'"
+      pattern: '(?i)<script[^>]*\btype\s*=\s*([\'"])(.*?)\1'
+corpus:
+  matches:
+    - value: "<script src=\"http://evil.com/xss.js\"></script>"
+      label: "Script con src malicioso"
+    - value: "<script type='application/javascript'>alert(1)</script>"
+      label: "Script con comillas simples en type"
+  non_matches:
+    - value: "<scr ipt src='bad'></scri pt>"
+      reason: "Etiqueta mal formada sin inyección real directa al parser"
+    - value: "script src='test'"
+      reason: "No es una etiqueta HTML"

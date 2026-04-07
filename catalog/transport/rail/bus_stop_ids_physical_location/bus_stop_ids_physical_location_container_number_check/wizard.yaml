@@ -1,0 +1,23 @@
+version: '2.0'
+metadata:
+  title: Bus Stop Ids Physical Location Container Number Ch
+  description: Regex avanzado para Bus Stop Ids Physical Location Container Number
+    Ch en entorno de home. Optimizado para precisión y análisis de grupos léxicos
+    O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 22
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:.*?)(?P<generic_key>[A-Za-z0-9_-]+)\s*[:=]\s*(?P<generic_val>(?:\d+(?:\.\d+)?)|(?:[\"'].*?[\"']))(?:.*?)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas

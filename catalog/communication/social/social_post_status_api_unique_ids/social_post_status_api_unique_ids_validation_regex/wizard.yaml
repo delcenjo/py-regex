@@ -1,0 +1,39 @@
+version: "2.0"
+
+metadata:
+  title: "Social Post Status API IDs"
+  description: "Validates the unique numeric or alphanumeric identifiers for social media posts (Tweets, FB Posts, IG Media IDs)."
+  author: "Antigravity"
+  tags: ["social", "api", "ids", "tracking"]
+  priority: 140
+
+wizard:
+  steps:
+    - id: "id_type"
+      question: "¿Formato del ID?"
+      type: "select"
+      options: ["Numérico (Twitter Snowflake)", "Alfanumérico (IG/FB)", "Cualquier Formato"]
+      default: "Numérico (Twitter Snowflake)"
+
+logic:
+  # Snowflale ID (Standard big integers)
+  base_pattern: '^\d{15,20}$'
+  
+  variants:
+    - id: "ig_alphanumeric"
+      condition: "id_type == 'Alfanumérico (IG/FB)'"
+      pattern: '^[a-zA-Z0-9_\-]+{10,35}$'
+
+corpus:
+  matches:
+    - value: "1234567890123456789"
+      label: "Twitter_Status_ID"
+    - value: "C-abc-123-xyz"
+      label: "IG_Media_ID"
+  non_matches:
+    - value: "post-123"
+      reason: "Too short or invalid prefix"
+
+business_rules:
+  source: "Platform_API"
+  type: "Unique_Entity_ID"

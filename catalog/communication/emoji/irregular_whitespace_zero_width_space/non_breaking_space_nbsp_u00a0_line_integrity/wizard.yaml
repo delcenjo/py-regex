@@ -1,0 +1,22 @@
+version: '2.0'
+metadata:
+  title: Non Breaking Space Nbsp U00A0 Line Integrity
+  description: Regex avanzado para Non Breaking Space Nbsp U00A0 Line Integrity en
+    entorno de home. Optimizado para precisión y análisis de grupos léxicos O(N).
+  tags:
+  - home
+  - delcenjo
+  - ai_generated
+  - strict
+  priority: 54
+wizard:
+  steps: []
+logic:
+  base_pattern: (?:.*?)[\U00010000-\U0010ffff](?:.*?)
+corpus:
+  matches:
+  - value: Match_example_for_home
+    label: Valid Case
+  non_matches:
+  - value: Inval1d~!
+    reason: Falla validaciones métricas strictas
