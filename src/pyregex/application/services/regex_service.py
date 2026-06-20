@@ -64,7 +64,7 @@ class RegexService:
             if entry: return GenericBuilder(entry), "Security token/API key pattern"
 
         # Spanish intents
-        if any(w in intent for w in ["correo", "email"]):
+        if any(w in intent for w in ["correo"]):
             entry = catalog_registry.get_entry("email")
             if entry: return GenericBuilder(entry), "Patrón de correo electrónico"
 

@@ -19,7 +19,4 @@ class VersionTracker:
         if not existing_pattern:
             return new_name
 
-        next_v = self.calculate_next_version(existing_pattern)
-        # Simply append _v{N} if it's a new derived version, or return same name for overwrite
-        # In this minimal implementation, we assume if they hit a conflict we overwrite but bump version.
         return new_name

@@ -242,11 +242,6 @@ class FilePlaygroundApp:
                 self._update_all() # Final update with all matches and stats
 
         except asyncio.CancelledError:
-            pass
-
-
-
-        except asyncio.CancelledError:
             # Task was cancelled by a newer one
             pass
 

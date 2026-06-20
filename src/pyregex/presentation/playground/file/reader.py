@@ -338,7 +338,7 @@ class FileReader:
         return (
             f"FileReader({self._path.name!r}, "
             f"{self._format_size(self._size)}, "
-            f"{len(self._line_offsets)} lines, {state})"
+            f"{len(getattr(self, '_line_offsets', ()) or ())} lines, {state})"
         )
 
     @staticmethod

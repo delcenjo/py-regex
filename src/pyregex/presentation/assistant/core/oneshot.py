@@ -78,20 +78,15 @@ def _show_category_menu(category: str, cli: Any = None) -> int:
     print(f"    [ q] {'Salir':20s}")
 
     completer = WordCompleter([str(i) for i in range(1, len(entries) + 1)] + entries + ["q"])
-
-    completer = WordCompleter(
-        [str(i) for i in range(1, len(wizard_names) + 1)] + shortnames + ["q"]
-    )
     choice = pt_prompt("> ", completer=completer).strip().lower()
 
     if choice == "q" or not choice:
         return 0
 
-    # Resolve by number or name
     target_wizard = None
-    if choice.isdigit() and 1 <= int(choice) <= len(wizard_names):
-        target_wizard = shortnames[int(choice) - 1]
-    elif choice in shortnames:
+    if choice.isdigit() and 1 <= int(choice) <= len(entries):
+        target_wizard = entries[int(choice) - 1]
+    elif choice in entries:
         target_wizard = choice
 
     if target_wizard:
