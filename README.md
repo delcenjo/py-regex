@@ -1,5 +1,7 @@
 # PyRegex
 
+![CI](https://github.com/delcenjo/py-regex/actions/workflows/ci.yml/badge.svg)
+
 A command-line toolkit for working with regular expressions: explain and
 visualise them, test them, profile their performance (including catastrophic
 backtracking / ReDoS), and apply them to files (PII auditing and masking). It
