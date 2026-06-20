@@ -38,7 +38,6 @@ def main() -> int:
             else:
                 repl.run()
             return 0
-        # ------------------------------------------------
 
         # 3. Create Container
         from pyregex.container import AppContainer

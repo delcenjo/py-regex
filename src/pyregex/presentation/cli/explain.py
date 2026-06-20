@@ -52,7 +52,7 @@ class ExplainCommand(BaseCommand):
         # 1. Natural Language Representation
         print(f"{ansi.FG_CYAN}--- TRADUCCIÓN SEMÁNTICA ---{ansi.RESET}")
         for n in result["narrative"]:
-            print(f" {ansi.success('✓')} {n}")
+            print(f" {ansi.success('')} {n}")
 
         # 2. Advanced Output (Tree + Metrics)
         if args.verbose:

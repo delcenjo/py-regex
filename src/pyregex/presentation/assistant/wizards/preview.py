@@ -22,9 +22,9 @@ class RegexPreview:
 
         try:
             re.compile(pattern)
-            print(f"  {ansi.success('✓')} Patrón válido")
+            print(f"  {ansi.success('')} Patrón válido")
         except re.error as e:
-            print(f"  {ansi.error('✗')} Patrón inválido: {e}")
+            print(f"  {ansi.error('')} Patrón inválido: {e}")
 
     def show_test(
         self, pattern: str, examples: list[str], non_examples: list[str] | None = None
@@ -42,17 +42,17 @@ class RegexPreview:
         for text in examples[:4]:
             match = rx.search(text)
             if match:
-                print(f"    {ansi.success('✓')} {text}")
+                print(f"    {ansi.success('')} {text}")
             else:
                 print(f"    {ansi.warning('~')} {text} {ansi.dim('(no match)')}")
 
         for text in non_examples[:3]:
             match = rx.search(text)
             if match:
-                print(f"    {ansi.error('✗')} {text} {ansi.dim('(unexpected match)')}")
+                print(f"    {ansi.error('')} {text} {ansi.dim('(unexpected match)')}")
             else:
                 print(
-                    f"    {ansi.success('✓')} {text} {ansi.dim('(correctly rejected)')}"
+                    f"    {ansi.success('')} {text} {ansi.dim('(correctly rejected)')}"
                 )
 
     def show_complexity(self, pattern: str) -> None:

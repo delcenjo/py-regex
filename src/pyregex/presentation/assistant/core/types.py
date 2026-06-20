@@ -148,7 +148,7 @@ class ModuleInfo:
     category: ModuleCategory
     display_name: str
     description: str
-    icon: str = "📦"
+    icon: str = ""
     wizard_count: int = 0
     commands: list[str] = field(default_factory=list)
     version: str = "1.0.0"

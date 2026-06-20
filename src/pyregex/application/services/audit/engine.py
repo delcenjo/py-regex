@@ -335,12 +335,12 @@ class AuditEngine:
     def render_detailed_report(self, results: list[dict], root_path: str = "") -> str:
         """Renders comprehensive line-by-line detailed output."""
         if not results:
-            return ansi.success("✅ AUDIT REPORT: No sensitive items detected.")
+            return ansi.success("AUDIT REPORT: No sensitive items detected.")
 
         title = (
-            f"📊 AUDIT REPORT - {Path(root_path).absolute()}"
+            f"AUDIT REPORT - {Path(root_path).absolute()}"
             if root_path
-            else "📊 AUDIT REPORT"
+            else "AUDIT REPORT"
         )
         output = [ansi.bold(title)]
         output.append("━" * 60)
@@ -357,13 +357,13 @@ class AuditEngine:
             )
 
         output.append("━" * 60)
-        output.append(ansi.error(f"💥 {len(results)} SENSITIVE ITEMS DETECTED"))
+        output.append(ansi.error(f"{len(results)} SENSITIVE ITEMS DETECTED"))
         return "\n".join(output)
 
     def render_summary_table(self, results: list[dict]) -> str:
         """Renders an aggregated ASCII summary table."""
         if not results:
-            return ansi.success("✅ SUMMARY: 0 sensitive items found.")
+            return ansi.success("SUMMARY: 0 sensitive items found.")
 
         summary: dict[str, dict[str, Any]] = {}
         for r in results:
@@ -373,7 +373,7 @@ class AuditEngine:
             summary[t]["matches"] += 1
             summary[t]["lines"].add(r["line"])
 
-        output = [ansi.error(f"📈 SUMMARY: {len(results)} sensitive items found")]
+        output = [ansi.error(f"SUMMARY: {len(results)} sensitive items found")]
         output.append("┌" + "─" * 17 + "┬" + "─" * 10 + "┬" + "─" * 15 + "┐")
         output.append(
             f"│ {ansi.bold('Type'.ljust(15))} │ {ansi.bold('Matches'.ljust(8))} │ {ansi.bold('Lines'.ljust(13))} │"

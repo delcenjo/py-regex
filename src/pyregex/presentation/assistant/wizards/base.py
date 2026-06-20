@@ -42,7 +42,7 @@ class BaseWizard(ABC):
     name: str = ""
     display_name: str = ""
     description: str = ""
-    icon: str = "🧩"
+    icon: str = ""
     tags: list[str] = []
 
     def __init__(self, cli: Any = None, session: SessionContext | None = None):

@@ -63,7 +63,7 @@ class ValidationReport:
         return [r for r in self.results if not r.passed]
 
     def summary(self) -> str:
-        status = "✅ PASS" if self.passed else "❌ FAIL"
+        status = "PASS" if self.passed else "FAIL"
         return (
             f"{status} [{self.builder_name}] "
             f"{self.total - len(self.failures)}/{self.total} checks passed | "
@@ -83,7 +83,7 @@ class SafetyReport:
     vulnerabilities: list[str] = field(default_factory=list)
 
     def summary(self) -> str:
-        icon = "🛡️" if self.is_safe else "💀"
+        icon = "" if self.is_safe else ""
         return f"{icon} [{self.builder_name}] {self.complexity} (score={self.score})"
 
 

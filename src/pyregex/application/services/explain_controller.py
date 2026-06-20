@@ -24,7 +24,7 @@ class ExplainController:
             parser = RegexParser(pattern)
             ast_root = parser.parse()
         except Exception as e:
-            return f"❌ Error parsing regex: {e}"
+            return f"Error parsing regex: {e}"
 
         # 2. Semantic Analysis
         metrics = self.analyzer.analyze(ast_root)

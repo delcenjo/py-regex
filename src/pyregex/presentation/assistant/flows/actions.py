@@ -296,7 +296,7 @@ class ActionFlows:
                     if p.is_favorite
                 ]
                 for p in favs:
-                    print(f" ⭐ {ansi.bold(p.name)}: {ansi.regex_display(p.pattern)}")
+                    print(f" {ansi.bold(p.name)}: {ansi.regex_display(p.pattern)}")
 
             elif choice == "stats":
                 stats = self.cli.pattern_repo.get_stats()
@@ -328,7 +328,7 @@ class ActionFlows:
             elif choice == "collections":
                 stats = self.cli.pattern_repo.get_stats()
                 for col in stats["collections"]:
-                    print(f" 📂 {col}")
+                    print(f" {col}")
 
             elif choice == "export":
                 filename = self.cli._get_arg_or_prompt(

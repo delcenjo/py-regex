@@ -64,7 +64,7 @@ class MultiLangExporter:
         return LanguageOutput(
             language="javascript",
             code=code,
-            note="⚠️ Lookbehind no soportado en todos los navegadores",
+            note="Lookbehind no soportado en todos los navegadores",
         )
 
     def _go(self, pattern: str, flags: int) -> LanguageOutput:
@@ -84,7 +84,7 @@ class MultiLangExporter:
             language="go",
             code=code,
             import_line='"regexp"',
-            note="⚠️ Go usa RE2: no soporta lookahead/lookbehind",
+            note="Go usa RE2: no soporta lookahead/lookbehind",
         )
 
     def _java(self, pattern: str, flags: int) -> LanguageOutput:

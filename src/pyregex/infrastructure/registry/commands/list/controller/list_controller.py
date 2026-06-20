@@ -39,8 +39,6 @@ class ListController:
 
         # Pagination handling depends on if it's grouped or flat.
         # For simplicity in UX, if we group, we might paginate keys or elements.
-        # Let's paginate the entire dict items if grouped.
-        # Wait, if grouped, items is a dictionary. Our paginator handles lists.
         # For grouped/tree views, pagination is tricky. Let's pass the whole dict directly if it's grouped.
         if query.group_by:
             # Group views (Tree) handle the whole dictionary directly to avoid disjointed category headers

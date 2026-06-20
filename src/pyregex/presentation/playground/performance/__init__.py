@@ -24,13 +24,13 @@ class BacktrackReport:
     @property
     def icon(self) -> str:
         icons = {
-            "none": "✅",
-            "low": "💡",
-            "medium": "⚠️",
-            "high": "🔴",
-            "critical": "💀",
+            "none": "",
+            "low": "",
+            "medium": "",
+            "high": "",
+            "critical": "",
         }
-        return icons.get(self.risk_level, "❓")
+        return icons.get(self.risk_level, "")
 
 
 class BacktrackDetector:
@@ -104,7 +104,7 @@ class BacktrackDetector:
 
         # Basic nested quantifier check
         if re.search(r"\([^)]*[+*]\)\s*[+*]", pattern):
-            details.append("🔍 Cuantificador anidado detectado")
+            details.append("Cuantificador anidado detectado")
             risk = "high"
 
         return BacktrackReport(
@@ -116,7 +116,7 @@ class BacktrackDetector:
     def format_report(self, report: BacktrackReport) -> list[str]:
         """Format report for display."""
         lines = [f"  {report.icon} Riesgo de backtracking: {report.risk_level.upper()}"]
-        lines.append(f"  📊 Complejidad: {report.complexity}")
+        lines.append(f"  Complejidad: {report.complexity}")
 
         for d in report.details:
             lines.append(f"    {d}")
@@ -126,6 +126,6 @@ class BacktrackDetector:
         if report.estimated_time_ms:
             lines.append(f"    Tiempo estimado: {report.estimated_time_ms:.1f}ms")
         if report.safe_rewrite:
-            lines.append(f"    ✏️ Fix sugerido: {report.safe_rewrite}")
+            lines.append(f"    Fix sugerido: {report.safe_rewrite}")
 
         return lines

@@ -357,7 +357,7 @@ class PyRegexCLI:
                             print(output)
                         else:
                             print(ansi.success(
-                                f"✓ {result.match_count:,} matches exportados a {play_output}"
+                                f"{result.match_count:,} matches exportados a {play_output}"
                             ))
                         reader.close()
                         return 0

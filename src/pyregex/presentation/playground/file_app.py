@@ -4,7 +4,7 @@ Professional file-based regex playground launched via `px play --file <path>`.
 
 Layout:
 ┌────────────────────────────────────────────────────────────┐
-│ 📂 PyRegex File Mode │ access.log (2.1GB) │ UTF-8        │
+│ PyRegex File Mode │ access.log (2.1GB) │ UTF-8        │
 ├────────────────────────────────────────────────────────────┤
 │ REGEX: (editable pattern)                                  │
 ├──────────────────────────────┬─────────────────────────────┤
@@ -12,7 +12,7 @@ Layout:
 │  1│ 192.168.1.1 ...          │  1. L:1  "192.168.1.1"     │
 │ >5│ 172.16.0.1 ...           │  2. L:5  "172.16.0.1"      │
 ├──────────────────────────────┴─────────────────────────────┤
-│ ⚡ 2.3ms │ 847/125K │ F8 export │ Ctrl+Q salir            │
+│ 2.3ms │ 847/125K │ F8 export │ Ctrl+Q salir            │
 └────────────────────────────────────────────────────────────┘
 """
 
@@ -216,7 +216,7 @@ class FilePlaygroundApp:
             
             # Phase 3: Background Deep Scan
             self._is_scanning = True
-            self._update_stats()  # show scanning indicator (⚡)
+            self._update_stats()  # show scanning indicator ()
             
             try:
                 loop = asyncio.get_event_loop()
@@ -394,19 +394,19 @@ class FilePlaygroundApp:
 
         # Export message (Show at the TOP always, 1st thing)
         if self._export_msg:
-            # If it's an error it starts with ❌
-            style = "class:error" if "❌" in self._export_msg else "class:success"
+            # If it's an error it starts with 
+            style = "class:error" if "" in self._export_msg else "class:success"
             lines.append((style, f"  {self._export_msg}\n"))
             lines.append(("class:dim", "  " + "─"*50 + "\n"))
 
         if self._scan_result is None:
             lines.append(("class:dim", "  Escribe un regex arriba...\n"))
         elif self._scan_result.match_count == 0:
-            lines.append(("class:warning", "  ⚠️ Sin coincidencias\n"))
+            lines.append(("class:warning", "  Sin coincidencias\n"))
         else:
             sr = self._scan_result
             lines.append(
-                ("class:success", f"  ✅ {sr.match_count:,} matches ")
+                ("class:success", f"  {sr.match_count:,} matches ")
             )
             lines.append(
                 ("class:dim", f"en {sr.line_match_count:,}/{sr.total_lines:,} líneas\n\n")
@@ -484,7 +484,7 @@ class FilePlaygroundApp:
     def _update_header(self) -> None:
         fi = self._file_info
         parts: list[tuple[str, str]] = [
-            ("class:header_title", " 📂 PyRegex File Mode "),
+            ("class:header_title", " PyRegex File Mode "),
             ("class:header_sep", " │ "),
             ("class:header_file", f" {fi.path.split('/')[-1] if fi else '?'} "),
             ("class:header_sep", " │ "),
@@ -510,7 +510,7 @@ class FilePlaygroundApp:
         if self._alias_resolver.has_aliases(raw):
             expanded_display = self._alias_resolver.get_expanded_display(raw)
             parts.append(("class:header_sep", " │ "))
-            parts.append(("class:header_alias", f" 🔗 {expanded_display} "))
+            parts.append(("class:header_alias", f" {expanded_display} "))
 
         self._header_content.text = FormattedText(parts)
 
@@ -524,11 +524,11 @@ class FilePlaygroundApp:
         mem_delta_mb = mem_mb - self._base_memory_mb
 
         self._stats_content.text = FormattedText([
-            ("class:stats_time", f" ⚡ {scan_time_ms:>5.1f}ms " if not self._is_scanning else " ⚡ ESCANEANDO... "),
+            ("class:stats_time", f" {scan_time_ms:>5.1f}ms " if not self._is_scanning else " ESCANEANDO... "),
             ("class:dim", " │ "),
             ("class:stats_count", f" {total_matches:,} matches in {total_lines:,} lines "),
             ("class:dim", " │ "),
-            ("class:stats_mem", f" 🧠 {mem_delta_mb:>+.1f}MB "),
+            ("class:stats_mem", f" {mem_delta_mb:>+.1f}MB "),
             ("class:dim", " │ "),
             ("class:key", "C-j"), ("", " paneles "),
             ("class:dim", "│ "),
@@ -823,7 +823,7 @@ class FilePlaygroundApp:
                     sr, ExportOptions(format="clipboard", include_groups=True)
                 )
                 self._export_msg = (
-                    f"✓ {sr.match_count:,} matches → portapapeles "
+                    f"{sr.match_count:,} matches → portapapeles "
                     f"(Repetir para sig. formato)"
                 )
             else:
@@ -839,11 +839,11 @@ class FilePlaygroundApp:
                     ),
                 )
                 self._export_msg = (
-                    f"✓ {fmt.upper()}: {out_path} "
+                    f"{fmt.upper()}: {out_path} "
                     f"({len(output):,} bytes) — Repetir para sig."
                 )
         except Exception as e:
-            self._export_msg = f"❌ Error exportando: {e}"
+            self._export_msg = f"Error exportando: {e}"
 
         self._update_matches()
 

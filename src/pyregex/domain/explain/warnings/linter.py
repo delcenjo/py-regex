@@ -32,7 +32,7 @@ class WarningLinter(ASTVisitor):
     def visit_dot(self, node: DotNode) -> Any:
         if self._in_greedy_quantifier:
             self.warnings.append(
-                "⚠ High potential for catastrophic backtracking (ReDoS) due to greedy .* or .+"
+                "High potential for catastrophic backtracking (ReDoS) due to greedy .* or .+"
             )
 
     def visit_char_class(self, node: CharClassNode) -> Any:
@@ -50,7 +50,7 @@ class WarningLinter(ASTVisitor):
             for inner in node.child.children:
                 if isinstance(inner, QuantifierNode) and node.greedy and inner.greedy:
                     self.warnings.append(
-                        "⚠ Nested greedy quantifiers detected. Extremely high risk of ReDoS."
+                        "Nested greedy quantifiers detected. Extremely high risk of ReDoS."
                     )
                     break
 
@@ -70,7 +70,7 @@ class WarningLinter(ASTVisitor):
             and isinstance(node.children[0], LiteralNode)
         ):
             self.warnings.append(
-                "⚠ Useless capture group covering a static literal string."
+                "Useless capture group covering a static literal string."
             )
 
         for child in node.children:

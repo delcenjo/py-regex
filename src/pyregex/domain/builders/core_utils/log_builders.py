@@ -336,7 +336,6 @@ class ALBLogRegexBuilder(LogRegexBuilder):
         return {"subtype": "default"}
 
     def build_pattern(self) -> str:
-        # User's provided exact regex for ALB:
         return r'^(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) "(\S+) (\S+) (\S+)" (\d{3}) (\d+) (\d+) (\d+) "([^"]*)" "([^"]*)" (\S+) (\S+) (\S+) (\S+)$'
 
 
@@ -359,7 +358,6 @@ class ELBLogRegexBuilder(LogRegexBuilder):
         return {"subtype": "default"}
 
     def build_pattern(self) -> str:
-        # User's provided exact regex for ELB:
         return r'^(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) "(\S+) (\S+) (\S+)" (\d{3}) (\d+) (\d+) (\d+) "([^"]*)" "([^"]*)"$'
 
 

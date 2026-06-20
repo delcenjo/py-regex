@@ -58,7 +58,7 @@ class HtmlExporter:
 <body>
     <div class="dashboard">
         <div class="header">
-            <h1>🚀 Warp Profiler Dossier</h1>
+            <h1>Warp Profiler Dossier</h1>
             <p>Empirical Performance Analysis for: <span class="code">{profile.pattern}</span></p>
         </div>
 

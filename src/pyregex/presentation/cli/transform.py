@@ -84,7 +84,7 @@ class TransformCommand(BaseCommand):
                 print(ansi.info(f"Transforming directory: {path}"))
                 with tqdm(
                     total=len(files_to_transform),
-                    desc="✨ Transforming",
+                    desc="Transforming",
                     unit="file",
                     disable=not files_to_transform,
                 ) as pbar:

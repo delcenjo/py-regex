@@ -139,11 +139,11 @@ class UtilsFlows:
                 print(f" - {ansi.label('Complexity:')} {report['complexity_score']}")
                 print(f" - {i18n.t('perf_menu.results.risks')}")
                 for risk in report["risks"]:
-                    print(f"   ⚠ {risk}")
+                    print(f"   {risk}")
                 if report["suggestions"]:
                     print(f"\n {ansi.bold('Suggestions:')}")
                     for sugg in report["suggestions"]:
-                        print(f"   💡 {sugg}")
+                        print(f"   {sugg}")
 
             elif choice == "optimize" and current_pattern:
                 level = (

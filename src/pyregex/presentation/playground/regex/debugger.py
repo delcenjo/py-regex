@@ -23,7 +23,7 @@ class DebugStep:
 
     @property
     def display(self) -> str:
-        status = "✓" if self.success else "✗"
+        status = "" if self.success else ""
         return (
             f"[{self.step_num:3d}] {status} pos={self.text_pos:3d} | {self.operation}"
         )
@@ -56,7 +56,7 @@ class StepDebugger:
                     step_num=0,
                     text_pos=0,
                     pattern_pos=0,
-                    operation="❌ Error de compilación",
+                    operation="Error de compilación",
                     text_context="",
                     pattern_context=pattern_str,
                     success=False,
@@ -74,7 +74,7 @@ class StepDebugger:
                         step_num=step_num,
                         text_pos=pos,
                         pattern_pos=0,
-                        operation=f"⚠️ Máximo de pasos alcanzado ({self.max_steps})",
+                        operation=f"Máximo de pasos alcanzado ({self.max_steps})",
                         text_context="...",
                         pattern_context="...",
                         success=False,
@@ -107,7 +107,7 @@ class StepDebugger:
                         step_num=step_num,
                         text_pos=pos,
                         pattern_pos=0,
-                        operation=f'✅ Match: "{m.group()[:30]}" (len={m.end() - m.start()})',
+                        operation=f'Match: "{m.group()[:30]}" (len={m.end() - m.start()})',
                         text_context=text_ctx,
                         pattern_context=pattern_str,
                         success=True,
@@ -132,7 +132,7 @@ class StepDebugger:
                                     step_num=step_num,
                                     text_pos=m.start(i),
                                     pattern_pos=0,
-                                    operation=f'  📎 Grupo {label} = "{g[:30]}"',
+                                    operation=f'  Grupo {label} = "{g[:30]}"',
                                     text_context=text_ctx,
                                     pattern_context="",
                                     success=True,
@@ -154,7 +154,7 @@ class StepDebugger:
                             step_num=step_num,
                             text_pos=pos,
                             pattern_pos=0,
-                            operation=f"🔍 Probando en pos {pos} ('{text[pos]}'): sin match",
+                            operation=f"Probando en pos {pos} ('{text[pos]}'): sin match",
                             text_context=text_ctx,
                             pattern_context=pattern_str,
                             success=False,
@@ -175,7 +175,7 @@ class StepDebugger:
         success_count = sum(1 for s in steps if s.success)
         fail_count = len(steps) - success_count
         lines.append(
-            f"  Total: {len(steps)} pasos | ✓ {success_count} | ✗ {fail_count}"
+            f"  Total: {len(steps)} pasos | {success_count} | {fail_count}"
         )
         lines.append("")
 

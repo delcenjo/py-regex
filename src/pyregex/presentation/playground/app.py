@@ -44,7 +44,7 @@ class PlaygroundApp:
 
     Layout:
     ┌────────────────────────────────────────────────────────┐
-    │ 🎯 PyRegex Playground        Flags: [i] [m] [s] [x]  │
+    │ PyRegex Playground        Flags: [i] [m] [s] [x]  │
     ├────────────────────────────────────────────────────────┤
     │ REGEX:                                                 │
     │ > (editable regex input)                               │
@@ -55,7 +55,7 @@ class PlaygroundApp:
     │                          │ DETAILS:                    │
     │                          │ (groups/explain/debug)      │
     ├──────────────────────────┴─────────────────────────────┤
-    │ ⚡ Stats  │  Keybindings                               │
+    │ Stats  │  Keybindings                               │
     └────────────────────────────────────────────────────────┘
     """
 
@@ -185,14 +185,14 @@ class PlaygroundApp:
         lines: list[tuple[str, str]] = []
 
         if state.compile_error:
-            lines.append(("class:error", f"  ❌ {state.compile_error}\n"))
+            lines.append(("class:error", f"  {state.compile_error}\n"))
         elif not state.regex_text:
             lines.append(("class:dim", f"  {i18n.t('playground.empty_regex', fallback='Escribe un regex arriba...')}\n"))
         elif not state.matches:
-            lines.append(("class:warning", f"  {i18n.t('playground.no_matches', fallback='⚠️ Sin coincidencias')}\n"))
+            lines.append(("class:warning", f"  {i18n.t('playground.no_matches', fallback='Sin coincidencias')}\n"))
         else:
             lines.append(
-                ("class:success", f"  {i18n.t('playground.matches_count', count=len(state.matches), fallback=f'✅ {len(state.matches)} coincidencia(s)')}\n\n")
+                ("class:success", f"  {i18n.t('playground.matches_count', count=len(state.matches), fallback=f'{len(state.matches)} coincidencia(s)')}\n\n")
             )
             for i, m in enumerate(state.matches[:50]):
                 txt = m.text if len(m.text) <= 45 else m.text[:42] + "..."
@@ -240,11 +240,11 @@ class PlaygroundApp:
             lines = self._render_optimize()
         else:  # matches detail (default)
             if state.complexity.warnings:
-                lines.append(("class:header", f"\n  {i18n.t('playground.warnings', fallback='⚠️ ADVERTENCIAS:')}\n"))
+                lines.append(("class:header", f"\n  {i18n.t('playground.warnings', fallback='ADVERTENCIAS:')}\n"))
                 for w in state.complexity.warnings:
                     lines.append(("class:warning", f"    • {w}\n"))
             if state.complexity.suggestions:
-                lines.append(("class:header", f"\n  {i18n.t('playground.suggestions', fallback='💡 SUGERENCIAS:')}\n"))
+                lines.append(("class:header", f"\n  {i18n.t('playground.suggestions', fallback='SUGERENCIAS:')}\n"))
                 for s in state.complexity.suggestions:
                     lines.append(("class:info", f"    • {s}\n"))
             if not state.complexity.warnings and not state.complexity.suggestions:
@@ -261,15 +261,15 @@ class PlaygroundApp:
         perf = state.perf
 
         parts: list[tuple[str, str]] = []
-        parts.append(("class:stats_icon", " ⚡ "))
+        parts.append(("class:stats_icon", " "))
         parts.append(("class:stats", f"{perf.total_time_us:.0f}μs "))
         parts.append(("class:stats_sep", "│ "))
 
         count = len(state.matches)
         if count > 0:
-            parts.append(("class:stats_good", f"✓ {count} match "))
+            parts.append(("class:stats_good", f"{count} match "))
         elif state.compile_error:
-            parts.append(("class:stats_bad", "✗ error "))
+            parts.append(("class:stats_bad", "error "))
         else:
             parts.append(("class:stats_dim", "○ 0 match "))
         parts.append(("class:stats_sep", "│ "))
@@ -304,7 +304,7 @@ class PlaygroundApp:
 
     def _update_header(self) -> None:
         parts = [
-            ("class:header_title", " 🎯 PyRegex Playground "),
+            ("class:header_title", " PyRegex Playground "),
             ("class:header_sep", " │ "),
             ("class:header_mode", f" Vista: {self._detail_mode.upper()} "),
             ("class:header_sep", " │ "),
@@ -315,13 +315,13 @@ class PlaygroundApp:
         if self._alias_resolver.has_aliases(raw):
             expanded_display = self._alias_resolver.get_expanded_display(raw)
             parts.append(("class:header_sep", " │ "))
-            parts.append(("class:header_alias", f" 🔗 {expanded_display} "))
+            parts.append(("class:header_alias", f" {expanded_display} "))
         self._header_content.text = FormattedText(parts)
 
     def _make_header(self) -> FormattedText:
         return FormattedText(
             [
-                ("class:header_title", " 🎯 PyRegex Playground "),
+                ("class:header_title", " PyRegex Playground "),
             ]
         )
 
@@ -346,7 +346,7 @@ class PlaygroundApp:
             lines.append(("class:dim", f"  {i18n.t('playground.explain_prompt', fallback='Escribe un regex para ver la explicación')}\n"))
         else:
             narrative = self.explain_bridge.get_narrative_text(state.regex_text)
-            lines.append(("class:header", f"  {i18n.t('playground.explain_header', fallback='📖 EXPLICACIÓN:')}\n\n"))
+            lines.append(("class:header", f"  {i18n.t('playground.explain_header', fallback='EXPLICACIÓN:')}\n\n"))
             for n in narrative:
                 n_str = str(n)
                 lines.append(("class:explain_text", f"  {n_str}\n"))
@@ -366,7 +366,7 @@ class PlaygroundApp:
             for step_line in self.debugger.format_debug(steps, verbose=True)[:100]:
                 style = (
                     "class:debug_ok"
-                    if "✅" in step_line or "✓" in step_line
+                    if "" in step_line or "" in step_line
                     else "class:debug_fail"
                 )
                 lines.append((style, f"{step_line}\n"))
@@ -376,7 +376,7 @@ class PlaygroundApp:
         lines: list[tuple[str, str]] = []
         state = self.engine.state
         ri = state.replace_info
-        lines.append(("class:header", f"  {i18n.t('playground.replace_header', fallback='🔄 SUSTITUCIÓN:')}\n\n"))
+        lines.append(("class:header", f"  {i18n.t('playground.replace_header', fallback='SUSTITUCIÓN:')}\n\n"))
         pat_str = self._replace_buffer.text or i18n.t('playground.replace_empty', fallback='(vacío)')
         lines.append(
             (

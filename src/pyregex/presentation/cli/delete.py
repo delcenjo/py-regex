@@ -67,7 +67,7 @@ class DeleteCommand(BaseCommand):
             return 1
 
         except DependencyWarning as e:
-            print(ansi.warning(f"⚠ Pattern '{target}' is currently in use by:"))
+            print(ansi.warning(f"Pattern '{target}' is currently in use by:"))
             for dep in e.dependencies:
                 print(f"  - {dep}")
             print()

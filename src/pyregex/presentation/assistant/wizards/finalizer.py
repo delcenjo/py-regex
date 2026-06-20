@@ -85,12 +85,12 @@ class WizardFinalizer:
         if result.examples:
             print(f"\n  {ansi.bold('Ejemplos que coinciden:')}")
             for ex in result.examples[:5]:
-                print(f"    {ansi.success('✓')} {ex}")
+                print(f"    {ansi.success('')} {ex}")
 
         if result.non_examples:
             print(f"\n  {ansi.bold('Ejemplos que NO coinciden:')}")
             for ex in result.non_examples[:3]:
-                print(f"    {ansi.error('✗')} {ex}")
+                print(f"    {ansi.error('')} {ex}")
 
         if result.tags:
             print(f"\n  {ansi.dim('Tags:')} {', '.join(result.tags)}")
@@ -116,7 +116,7 @@ class WizardFinalizer:
                     tags=result.tags,
                 )
             )
-            print(ansi.success(f"✓ Guardado como '{name}'"))
+            print(ansi.success(f"Guardado como '{name}'"))
         except Exception as e:
             print(ansi.error(f"Error guardando: {e}"))
 
@@ -130,12 +130,12 @@ class WizardFinalizer:
             matches = list(rx.finditer(text))
             if matches:
                 print(
-                    ansi.success(f"  ✓ {len(matches)} coincidencia(s) encontrada(s):")
+                    ansi.success(f"  {len(matches)} coincidencia(s) encontrada(s):")
                 )
                 for m in matches[:10]:
                     print(f"    [{m.start()}-{m.end()}] '{m.group()}'")
             else:
-                print(ansi.error("  ✗ Sin coincidencias"))
+                print(ansi.error("  Sin coincidencias"))
         except re.error as e:
             print(ansi.error(f"  Error en regex: {e}"))
 
@@ -146,10 +146,10 @@ class WizardFinalizer:
         if new:
             try:
                 re.compile(new)
-                print(ansi.success("  ✓ Patrón válido"))
+                print(ansi.success("  Patrón válido"))
                 return new
             except re.error as e:
-                print(ansi.error(f"  ✗ Patrón inválido: {e}"))
+                print(ansi.error(f"  Patrón inválido: {e}"))
                 return None
         return None
 
@@ -164,7 +164,7 @@ class WizardFinalizer:
             if hasattr(result, "semantic_lines") and result.semantic_lines:
                 print(f"\n  {ansi.bold('Explicación:')}")
                 for line in result.semantic_lines:
-                    print(f"    {ansi.success('✓')} {line}")
+                    print(f"    {ansi.success('')} {line}")
             else:
                 print(f"\n  {ansi.dim('Sin explicación disponible para este patrón')}")
         except Exception as e:
@@ -183,7 +183,7 @@ class WizardFinalizer:
                 )
                 proc.communicate(pattern.encode())
                 if proc.returncode == 0:
-                    print(ansi.success("  ✓ Copiado al portapapeles (xclip)"))
+                    print(ansi.success("  Copiado al portapapeles (xclip)"))
                     return
             except Exception:
                 pass
@@ -196,7 +196,7 @@ class WizardFinalizer:
                 )
                 proc.communicate(pattern.encode())
                 if proc.returncode == 0:
-                    print(ansi.success("  ✓ Copiado al portapapeles (xsel)"))
+                    print(ansi.success("  Copiado al portapapeles (xsel)"))
                     return
             except Exception:
                 pass
@@ -207,7 +207,7 @@ class WizardFinalizer:
                 proc = subprocess.Popen(["wl-copy"], stdin=subprocess.PIPE)
                 proc.communicate(pattern.encode())
                 if proc.returncode == 0:
-                    print(ansi.success("  ✓ Copiado al portapapeles (wl-copy)"))
+                    print(ansi.success("  Copiado al portapapeles (wl-copy)"))
                     return
             except Exception:
                 pass
@@ -218,7 +218,7 @@ class WizardFinalizer:
                 proc = subprocess.Popen(["pbcopy"], stdin=subprocess.PIPE)
                 proc.communicate(pattern.encode())
                 if proc.returncode == 0:
-                    print(ansi.success("  ✓ Copiado al portapapeles (pbcopy)"))
+                    print(ansi.success("  Copiado al portapapeles (pbcopy)"))
                     return
             except Exception:
                 pass
@@ -227,5 +227,5 @@ class WizardFinalizer:
         import base64
         encoded = base64.b64encode(pattern.encode()).decode()
         print(f"\033]52;c;{encoded}\a", end="", flush=True)
-        print(ansi.success("  ✓ Copiado al portapapeles (terminal OSC 52)"))
+        print(ansi.success("  Copiado al portapapeles (terminal OSC 52)"))
 

@@ -120,7 +120,7 @@ class MaskEngine:
                 return 0
 
             if total_count > 0:
-                print(f"✅ {ansi.warning('Would mask')} {total_count} items in {path}")
+                print(f"{ansi.warning('Would mask')} {total_count} items in {path}")
             return total_count
 
         if inplace or output_path:
@@ -156,14 +156,14 @@ class MaskEngine:
                             pct = min(100, int(bytes_processed / file_size * 100))
                             elapsed = time.monotonic() - t0
                             sys.stderr.write(
-                                f"\r⏳ Processing {path.name}... {pct}% ({elapsed:.1f}s)"
+                                f"\rProcessing {path.name}... {pct}% ({elapsed:.1f}s)"
                             )
                             sys.stderr.flush()
 
                 if is_large:
                     elapsed = time.monotonic() - t0
                     sys.stderr.write(
-                        f"\r✅ Processed {path.name} in {elapsed:.1f}s              \n"
+                        f"\rProcessed {path.name} in {elapsed:.1f}s              \n"
                     )
                     sys.stderr.flush()
 
@@ -177,7 +177,7 @@ class MaskEngine:
                     target = path if inplace else dest
                     label = "(in-place)" if inplace else ""
                     print(
-                        f"✅ {ansi.success('Masked')} {total_count} items → {target} {label}"
+                        f"{ansi.success('Masked')} {total_count} items → {target} {label}"
                     )
 
             except Exception:

@@ -50,10 +50,10 @@ def run_wizard_oneshot(shortcut: str, cli: Any = None) -> int:
             print(f"\n  {ansi.dim('Cancelado.')}")
             return 0
         except Exception as e:
-            print(f"\n  {ansi.error('✗')} Error: {e}")
+            print(f"\n  {ansi.error('')} Error: {e}")
             return 1
 
-    print(f"  {ansi.error('✗')} Comando o categoría desconocida: '{shortcut}'")
+    print(f"  {ansi.error('')} Comando o categoría desconocida: '{shortcut}'")
     return 1
 
 
@@ -64,10 +64,10 @@ def _show_category_menu(category: str, cli: Any = None) -> int:
 
     entries = catalog_registry.list_entries(category)
     if not entries:
-        print(f"  {ansi.error('✗')} Categoría vacía o no encontrada: {category}")
+        print(f"  {ansi.error('')} Categoría vacía o no encontrada: {category}")
         return 1
 
-    print(f"\n  📂 {ansi.bold(category.title())}")
+    print(f"\n  {ansi.bold(category.title())}")
     print(f"  {ansi.dim(f'Explorando wizards en {category}')}\n")
 
     for i, name in enumerate(entries, 1):
@@ -97,5 +97,5 @@ def _show_category_menu(category: str, cli: Any = None) -> int:
     if target_wizard:
         return run_wizard_oneshot(target_wizard, cli)
 
-    print(f"  {ansi.error('✗')} Opción inválida")
+    print(f"  {ansi.error('')} Opción inválida")
     return 1

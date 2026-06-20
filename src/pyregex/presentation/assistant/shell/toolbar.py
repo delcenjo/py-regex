@@ -54,7 +54,7 @@ class StatusToolbar:
         else:
             hint = "help | back | quit"
             
-        parts.append(f"<ansicyan><b>⌨</b> {hint}</ansicyan>")
+        parts.append(f"<ansicyan><b></b> {hint}</ansicyan>")
 
         return HTML(f" <b>{'  ' + '   '.join(parts)}</b> ")
 

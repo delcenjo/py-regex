@@ -7,7 +7,7 @@ from pyregex.application.services.validate.engine import ValidationResult
 def render_detailed_report(result: ValidationResult) -> str:
     """Renders a full ANSI-colored validation report."""
     lines = []
-    title = f"📊 VALIDATION REPORT - {result.source}"
+    title = f"VALIDATION REPORT - {result.source}"
     lines.append(ansi.bold(title))
     lines.append("━" * 60)
 
@@ -17,13 +17,13 @@ def render_detailed_report(result: ValidationResult) -> str:
     )
     lines.append(
         color_fn(
-            f"✅ {result.valid}/{result.total} {result.type_name} válidos ({pct:.1f}%)"
+            f"{result.valid}/{result.total} {result.type_name} válidos ({pct:.1f}%)"
         )
     )
 
     if result.errors:
         lines.append("")
-        lines.append(ansi.error(f"❌ {len(result.errors)} errores encontrados:"))
+        lines.append(ansi.error(f"{len(result.errors)} errores encontrados:"))
         lines.append("")
         for err in result.errors:
             loc = f"Línea {err.line}"
@@ -39,7 +39,7 @@ def render_detailed_report(result: ValidationResult) -> str:
 def render_summary(result: ValidationResult) -> str:
     """One-line summary."""
     pct = result.percentage
-    status = "✅" if pct == 100 else "⚠️" if pct >= 50 else "❌"
+    status = "" if pct == 100 else "" if pct >= 50 else ""
     return f"{status} {result.valid}/{result.total} {result.type_name} válidos ({pct:.1f}%) en {result.source}"
 
 

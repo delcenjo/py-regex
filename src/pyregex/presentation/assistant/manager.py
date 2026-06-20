@@ -28,17 +28,17 @@ except ImportError:
 
 # Display info for all 12 categories
 _CATEGORY_DISPLAY = {
-    "personal": "🧑 Datos Personales",
-    "web": "🌐 Web & Red",
-    "structured": "📋 Datos Estructurados",
-    "systems": "🖥️ Sistemas",
-    "utils": "🛠️ Utilidades",
-    "finance": "🏦 Finanzas & Banca",
-    "security": "🔐 Seguridad & Auth",
-    "devops": "⚙️ DevOps & IaC",
-    "data": "📊 Data & Formatos",
-    "i18n": "🌍 Internacionalización",
-    "compliance": "⚖️ Compliance & Legal",
+    "personal": "Datos Personales",
+    "web": "Web & Red",
+    "structured": "Datos Estructurados",
+    "systems": "Sistemas",
+    "utils": "Utilidades",
+    "finance": "Finanzas & Banca",
+    "security": "Seguridad & Auth",
+    "devops": "DevOps & IaC",
+    "data": "Data & Formatos",
+    "i18n": "Internacionalización",
+    "compliance": "Compliance & Legal",
 }
 
 
@@ -90,7 +90,6 @@ class AssistantManager:
             # But usually the assistant is'interactive. cmd_create in cli.py returns 0 after one flow if it finishes.
             # However, the loop in cli.py (line 725) is 'while True'.
             # But line 946 says 'return 0' inside the loop? Wait.
-            # Let's re-check cli.py line 946.
 
             # Re-checking cli.py:
             # 946:             return 0

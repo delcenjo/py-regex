@@ -36,7 +36,7 @@ class CatalogWizardAdapter:
 class CatalogModule:
     """A dynamic module that exposes all catalog entries for a specific category."""
 
-    def __init__(self, name: str, display_name: Optional[str] = None, icon: str = "🧩", description: str = "", cli: Any = None):
+    def __init__(self, name: str, display_name: Optional[str] = None, icon: str = "", description: str = "", cli: Any = None):
         # Enum safety: Find the category or use UTILS
         cat = ModuleCategory.UTILS
         for c in ModuleCategory:

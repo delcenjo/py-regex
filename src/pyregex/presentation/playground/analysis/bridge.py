@@ -157,8 +157,8 @@ class ExplainBridge:
         c = self.get_complexity(pattern)
         filled = min(5, c.score // 20)
         empty = 5 - filled
-        colors = {0: "🟢", 1: "🟢", 2: "🟡", 3: "🟠", 4: "🔴", 5: "🔴"}
-        return f"{'●' * filled}{'○' * empty} {colors.get(filled, '⚪')} {c.level}"
+        colors = {0: "", 1: "", 2: "", 3: "", 4: "", 5: ""}
+        return f"{'●' * filled}{'○' * empty} {colors.get(filled, '')} {c.level}"
 
     def invalidate_cache(self, pattern: Optional[str] = None) -> None:
         if pattern:

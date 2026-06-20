@@ -24,7 +24,7 @@ class SentinelReporter:
     def print_welcome(self):
         """Prints the Sentinel startup banner."""
         self.console.print(
-            "[bold bright_blue]🛡️ Sentinel[/bold bright_blue] [dim]— PyRegex Mass Unit Testing Engine[/dim]"
+            "[bold bright_blue]Sentinel[/bold bright_blue] [dim]— PyRegex Mass Unit Testing Engine[/dim]"
         )
         self.console.print("=" * 60)
 

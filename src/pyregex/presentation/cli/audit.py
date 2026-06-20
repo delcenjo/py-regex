@@ -115,7 +115,7 @@ class AuditCommand(BaseCommand):
 
             with tqdm(
                 total=len(files_to_scan),
-                desc="🔍 Auditing",
+                desc="Auditing",
                 unit="file",
                 disable=not files_to_scan,
             ) as pbar:

@@ -76,7 +76,6 @@ class Scanner:
             # But wait, `?` alone is a quantifier. We tracked LAZY_MODIFIER if it follows another quantifier.
             # However, for simplicity, we map `a*?` as `TokenType.QUANTIFIER '*'` and `TokenType.LAZY_MODIFIER '?'`.
             # Actually, treating `*?` as a single QUANTIFIER token or two tokens is a choice.
-            # Let's keep them single tokens for *, +, ?, *?, +?, ??
             return Token(TokenType.QUANTIFIER, char, start, self.pos)
 
         if char == "{":

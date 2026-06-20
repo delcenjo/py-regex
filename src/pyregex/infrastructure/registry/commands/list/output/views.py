@@ -41,7 +41,7 @@ class DetailedView(BaseView):
 
         out = []
         for p in items:
-            out.append(ansi.header(f"★ {p.name}"))
+            out.append(ansi.header(f"{p.name}"))
             out.append(f"  Regex:    {ansi.regex_display(p.pattern)}")
             out.append(f"  Desc:     {p.metadata.description or 'N/A'}")
             out.append(f"  Category: {p.metadata.category}")

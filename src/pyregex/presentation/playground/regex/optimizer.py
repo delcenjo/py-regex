@@ -22,8 +22,8 @@ class Suggestion:
 
     @property
     def icon(self) -> str:
-        icons = {"info": "💡", "warning": "⚠️", "error": "❌", "critical": "🔴"}
-        return icons.get(self.severity, "❓")
+        icons = {"info": "", "warning": "", "error": "", "critical": ""}
+        return icons.get(self.severity, "")
 
 
 class PatternOptimizer:
@@ -232,7 +232,7 @@ class PatternOptimizer:
     def format_suggestions(self, suggestions: list[Suggestion]) -> list[str]:
         """Format suggestions as displayable text."""
         if not suggestions:
-            return ["  ✅ Sin sugerencias — patrón correcto"]
+            return ["  Sin sugerencias — patrón correcto"]
 
         lines = []
         for s in suggestions:

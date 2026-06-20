@@ -91,11 +91,11 @@ class NebulaCompleter(Completer):
             
             for folder in subfolders:
                 if folder.startswith(text):
-                    yield Completion(folder, start_position=-len(text), display_meta="📁 Carpeta")
+                    yield Completion(folder, start_position=-len(text), display_meta="Carpeta")
             
             for entry in entries:
                 if entry.startswith(text):
-                    yield Completion(entry, start_position=-len(text), display_meta="🪄 Wizard")
+                    yield Completion(entry, start_position=-len(text), display_meta="Wizard")
 
         # 2. In-module Prompt Completions
         elif state == SessionState.IN_MODULE:

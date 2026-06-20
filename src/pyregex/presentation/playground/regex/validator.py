@@ -20,8 +20,8 @@ class ValidationIssue:
 
     @property
     def icon(self) -> str:
-        icons = {"error": "❌", "warning": "⚠️", "info": "💡"}
-        return icons.get(self.severity, "❓")
+        icons = {"error": "", "warning": "", "info": ""}
+        return icons.get(self.severity, "")
 
 
 @dataclass
@@ -240,7 +240,7 @@ class LiveValidator:
     def format_issues(self, result: ValidationResult) -> list[str]:
         """Format validation issues for display."""
         if not result.issues:
-            return ["  ✅ Patrón válido"]
+            return ["  Patrón válido"]
 
         lines = []
         for issue in result.issues:

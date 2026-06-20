@@ -55,7 +55,7 @@ class ValidateCommand(BaseCommand):
             max_workers = getattr(args, "parallel", None)
             print(ansi.info(f"Validating directory: {path}"))
 
-            with tqdm(desc="🔍 Validating", unit="file") as pbar:
+            with tqdm(desc="Validating", unit="file") as pbar:
                 success_count, total_count = engine.validate_directory(
                     str(path),
                     type_name=args.type,
@@ -66,11 +66,11 @@ class ValidateCommand(BaseCommand):
                 )
 
             if success_count == total_count:
-                print(ansi.success(f"✅ All {total_count} files are valid."))
+                print(ansi.success(f"All {total_count} files are valid."))
             else:
                 print(
                     ansi.error(
-                        f"❌ Validation failed for {total_count - success_count} files."
+                        f"Validation failed for {total_count - success_count} files."
                     )
                 )
             return 0 if success_count == total_count else 1

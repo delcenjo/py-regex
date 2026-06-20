@@ -104,22 +104,22 @@ class SafeCompiler:
 
         # Heuristic warnings
         if len(pattern) > 500:
-            issues.append("⚠️ Patrón muy largo — considere dividirlo")
+            issues.append("Patrón muy largo — considere dividirlo")
 
         # Check for common mistakes
         if pattern.count("(") != pattern.count(")"):
-            issues.append("⚠️ Paréntesis desbalanceados")
+            issues.append("Paréntesis desbalanceados")
 
         if ".+" in pattern or ".*" in pattern:
             if ".+?" not in pattern and ".*?" not in pattern:
                 issues.append(
-                    "💡 Cuantificadores codiciosos (.+ .*) pueden causar backtracking"
+                    "Cuantificadores codiciosos (.+ .*) pueden causar backtracking"
                 )
 
         # Nested quantifiers (ReDoS risk)
         nested = re.search(r"\([^)]*[+*][^)]*\)[+*]", pattern)
         if nested:
-            issues.append("🔴 Cuantificadores anidados — riesgo de ReDoS")
+            issues.append("Cuantificadores anidados — riesgo de ReDoS")
 
         return issues
 

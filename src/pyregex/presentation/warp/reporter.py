@@ -21,7 +21,7 @@ class WarpReporter:
 
     def print_welcome(self):
         self.console.print(
-            "\n[bold magenta]🚀 Warp Profiler[/bold magenta] [dim]— Empirical Complexity Benchmark[/dim]"
+            "\n[bold magenta]Warp Profiler[/bold magenta] [dim]— Empirical Complexity Benchmark[/dim]"
         )
         self.console.print("=" * 60)
 
@@ -81,7 +81,7 @@ class WarpReporter:
         t5 = Text()
         if profile.timeout_hit:
             t5 = Text(
-                "\n\n⚠️ ENGINE BLOCKED: Timeout reached due to catastrophic backtracking.",
+                "\n\nENGINE BLOCKED: Timeout reached due to catastrophic backtracking.",
                 style="bold red",
             )
 

@@ -151,7 +151,7 @@ class NebulaREPL:
         """Handle engine response and display output."""
         if not response.success:
             if response.error:
-                print(f"\n  {ansi.error('✗')} {response.error}")
+                print(f"\n  {ansi.error('')} {response.error}")
             return
 
         result = response.result
@@ -190,7 +190,7 @@ class NebulaREPL:
                     print(f"  {ansi.bold(k)}: {v}")
 
         elif result == "ambiguous":
-            print(f"\n  {ansi.warning('⚠')} Comando ambiguo. Opciones:")
+            print(f"\n  {ansi.warning('')} Comando ambiguo. Opciones:")
             for w in response.warnings:
                 print(f"    • {w}")
 

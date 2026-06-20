@@ -78,30 +78,30 @@ class AssistantEngine:
         # 1. Category Metadata Map (Common ones with icons/display)
         # In a full system, this could also be in YAML (category.yaml)
         category_meta = {
-            "personal": ("🧑 Datos Personales", "🧑", "Personal, contacto, identidad"),
-            "web": ("🌐 Web y Protocolos", "🌐", "URLs, HTTP, APIs, protocolos"),
-            "finance": ("💰 Finanzas y Banca", "💰", "IBAN, SWIFT, tarjetas, facturas"),
-            "security": ("🔒 Seguridad", "🔒", "AWS, API Keys, Tokens, Credenciales"),
-            "devops": ("🚀 DevOps y Logs", "🚀", "Syslog, Docker, K8s, Terraform, Git"),
-            "data": ("📊 Datos y Formatos", "📊", "JSON, XML, YAML, CSV, SQL"),
-            "networking": ("📡 Redes", "📡", "IPv4/v6, MAC, Puertos, DNS"),
-            "standards": ("📜 Estándares", "📜", "ISO, MIME, RFC, Semver"),
-            "i18n": ("🌍 I18n", "🌍", "Códigos postales, locales, fechas"),
-            "text": ("📝 Texto", "📝", "Markdown, LaTeX, Sentencias, Citas"),
-            "science": ("🧪 Ciencia", "🧪", "Fórmulas, DNA, Unidades, DOI"),
-            "programming": ("🐍 Programación", "🐍", "Python, JS, Java, Rust, Go"),
-            "automotive": ("🚗 Automotriz", "🚗", "Matrículas, VIN, OBDII"),
-            "healthcare": ("🏥 Salud", "🏥", "ICD-10, NDC, NPI, Vitales"),
-            "legal": ("⚖️ Legal", "⚖️", "Citas, Leyes, Patentes, GDPR"),
-            "communication": ("💬 Comunicación", "💬", "Telecomunicaciones, social, filtros"),
-            "culture": ("🎨 Cultura", "🎨", "Música, arte, geografía"),
-            "daily": ("🏡 Vida Diaria", "🏡", "Compras, hogar, hobbies"),
-            "economy": ("📈 Economía", "📈", "Impuestos, contabilidad, mercados"),
-            "health": ("🏥 Salud", "🏥", "Medicina, fitness, bienestar"),
-            "industry": ("🏗️ Industria", "🏗️", "Construcción, logística, procesos"),
-            "society": ("👥 Sociedad", "👥", "Política, leyes, demografía"),
-            "technology": ("💻 Tecnología", "💻", "Hardware, software, AI"),
-            "transport": ("🚗 Transporte", "🚗", "Vehículos, rutas, navegación"),
+            "personal": ("Datos Personales", "", "Personal, contacto, identidad"),
+            "web": ("Web y Protocolos", "", "URLs, HTTP, APIs, protocolos"),
+            "finance": ("Finanzas y Banca", "", "IBAN, SWIFT, tarjetas, facturas"),
+            "security": ("Seguridad", "", "AWS, API Keys, Tokens, Credenciales"),
+            "devops": ("DevOps y Logs", "", "Syslog, Docker, K8s, Terraform, Git"),
+            "data": ("Datos y Formatos", "", "JSON, XML, YAML, CSV, SQL"),
+            "networking": ("Redes", "", "IPv4/v6, MAC, Puertos, DNS"),
+            "standards": ("Estándares", "", "ISO, MIME, RFC, Semver"),
+            "i18n": ("I18n", "", "Códigos postales, locales, fechas"),
+            "text": ("Texto", "", "Markdown, LaTeX, Sentencias, Citas"),
+            "science": ("Ciencia", "", "Fórmulas, DNA, Unidades, DOI"),
+            "programming": ("Programación", "", "Python, JS, Java, Rust, Go"),
+            "automotive": ("Automotriz", "", "Matrículas, VIN, OBDII"),
+            "healthcare": ("Salud", "", "ICD-10, NDC, NPI, Vitales"),
+            "legal": ("Legal", "", "Citas, Leyes, Patentes, GDPR"),
+            "communication": ("Comunicación", "", "Telecomunicaciones, social, filtros"),
+            "culture": ("Cultura", "", "Música, arte, geografía"),
+            "daily": ("Vida Diaria", "", "Compras, hogar, hobbies"),
+            "economy": ("Economía", "", "Impuestos, contabilidad, mercados"),
+            "health": ("Salud", "", "Medicina, fitness, bienestar"),
+            "industry": ("Industria", "", "Construcción, logística, procesos"),
+            "society": ("Sociedad", "", "Política, leyes, demografía"),
+            "technology": ("Tecnología", "", "Hardware, software, AI"),
+            "transport": ("Transporte", "", "Vehículos, rutas, navegación"),
         }
 
         # 2. Discover @register_module'd classes (Manual modules)
@@ -114,7 +114,7 @@ class AssistantEngine:
             # If a manual module already registered this category, we might skip or merge.
             # For now, we only register if it's missing.
             if cat_name not in self.registry:
-                display, icon, desc = category_meta.get(cat_name, (None, "🧩", ""))
+                display, icon, desc = category_meta.get(cat_name, (None, "", ""))
                 try:
                     dyn_mod = CatalogModule(cat_name, display, icon, desc, self.cli)
                     self.registry.register(dyn_mod)

@@ -129,7 +129,7 @@ class MaskCommand(BaseCommand):
 
             with tqdm(
                 total=len(files_to_mask),
-                desc="🎭 Masking",
+                desc="Masking",
                 unit="file",
                 disable=not files_to_mask,
             ) as pbar:

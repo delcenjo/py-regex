@@ -258,13 +258,13 @@ class Vulnerability:
     @property
     def icon(self) -> str:
         icons = {
-            Severity.SAFE: "✅",
-            Severity.LOW: "💡",
-            Severity.MEDIUM: "⚠️",
-            Severity.HIGH: "🔴",
-            Severity.CRITICAL: "💀",
+            Severity.SAFE: "",
+            Severity.LOW: "",
+            Severity.MEDIUM: "",
+            Severity.HIGH: "",
+            Severity.CRITICAL: "",
         }
-        return icons.get(self.severity, "❓")
+        return icons.get(self.severity, "")
 
 
 @dataclass
@@ -305,13 +305,13 @@ class ReDoSReport:
     @property
     def icon(self) -> str:
         icons = {
-            Severity.SAFE: "✅",
-            Severity.LOW: "💡",
-            Severity.MEDIUM: "⚠️",
-            Severity.HIGH: "🔴",
-            Severity.CRITICAL: "💀",
+            Severity.SAFE: "",
+            Severity.LOW: "",
+            Severity.MEDIUM: "",
+            Severity.HIGH: "",
+            Severity.CRITICAL: "",
         }
-        return icons.get(self.risk_level, "❓")
+        return icons.get(self.risk_level, "")
 
     def to_dict(self) -> dict:
         return {
