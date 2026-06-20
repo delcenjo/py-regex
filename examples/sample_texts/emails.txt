@@ -1,0 +1,10 @@
+john.doe@example.com
+jane_smith123@sub.domain.org
+invalid-email@com
+contact@company.co.uk
+support@app.io
+this is not an email
+admin@localhost
+user+tag@gmail.com
+@missing-user.com
+user@missing-tld

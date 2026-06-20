@@ -1,0 +1,21 @@
+version: '2.0'
+metadata:
+  title: IPv6 Address
+  description: Validates a fully expanded IPv6 address.
+  tags:
+  - network
+  - validation
+  priority: 70
+wizard:
+  steps: []
+logic:
+  base_pattern: '^(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}$'
+corpus:
+  matches:
+  - value: '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
+    label: Full form
+  non_matches:
+  - value: '2001:db8::1'
+    reason: Compressed form not covered
+  - value: 'gggg::1'
+    reason: Invalid hextet

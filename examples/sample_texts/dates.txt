@@ -1,0 +1,10 @@
+2024-03-17 (ISO)
+17/03/2024 (EU)
+03/17/2024 (US)
+Invalid date: 32/13/2024
+Another one: 1-1-1990
+2023-12-25
+31.12.1999 (Dot separator)
+15-08-2022
+01/01/70 (Short year)
+99/99/9999 (Invalid values)

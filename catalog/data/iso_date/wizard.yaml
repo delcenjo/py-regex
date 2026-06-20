@@ -1,0 +1,21 @@
+version: '2.0'
+metadata:
+  title: ISO Date
+  description: Validates an ISO-8601 calendar date (YYYY-MM-DD).
+  tags:
+  - data
+  - validation
+  priority: 75
+wizard:
+  steps: []
+logic:
+  base_pattern: '^\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$'
+corpus:
+  matches:
+  - value: '2026-06-20'
+    label: Valid date
+  non_matches:
+  - value: '2026-13-01'
+    reason: Month out of range
+  - value: '2026/06/20'
+    reason: Wrong separators

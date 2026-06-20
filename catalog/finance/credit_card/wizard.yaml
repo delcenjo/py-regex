@@ -1,0 +1,23 @@
+version: '2.0'
+metadata:
+  title: Credit Card
+  description: Validates Visa, Mastercard and Amex numbers (digits only).
+  tags:
+  - finance
+  - validation
+  priority: 78
+wizard:
+  steps: []
+logic:
+  base_pattern: '^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})$'
+corpus:
+  matches:
+  - value: '4111111111111111'
+    label: Visa
+  - value: '5500005555555559'
+    label: Mastercard
+  non_matches:
+  - value: '1234567890123456'
+    reason: Unknown prefix
+  - value: '411111111111'
+    reason: Too short

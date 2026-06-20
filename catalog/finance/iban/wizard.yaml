@@ -1,0 +1,23 @@
+version: '2.0'
+metadata:
+  title: IBAN
+  description: Validates the structural format of an IBAN.
+  tags:
+  - finance
+  - validation
+  priority: 68
+wizard:
+  steps: []
+logic:
+  base_pattern: '^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$'
+corpus:
+  matches:
+  - value: 'ES9121000418450200051332'
+    label: Spanish IBAN
+  - value: 'GB29NWBK60161331926819'
+    label: UK IBAN
+  non_matches:
+  - value: 'es9121000418450200051332'
+    reason: Lowercase country code
+  - value: 'ES12'
+    reason: Too short

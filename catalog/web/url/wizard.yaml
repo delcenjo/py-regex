@@ -1,0 +1,23 @@
+version: '2.0'
+metadata:
+  title: HTTP(S) URL
+  description: Validates an http or https URL.
+  tags:
+  - web
+  - validation
+  priority: 85
+wizard:
+  steps: []
+logic:
+  base_pattern: '^https?://[^\s/$.?#][^\s]*$'
+corpus:
+  matches:
+  - value: 'https://example.com'
+    label: HTTPS root
+  - value: 'http://sub.example.com/path?q=1'
+    label: Path and query
+  non_matches:
+  - value: 'ftp://example.com'
+    reason: Unsupported scheme
+  - value: 'example.com'
+    reason: Missing scheme

@@ -1,0 +1,23 @@
+version: '2.0'
+metadata:
+  title: URL Slug
+  description: Lowercase, hyphen-separated URL slug.
+  tags:
+  - web
+  - normalization
+  priority: 60
+wizard:
+  steps: []
+logic:
+  base_pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+corpus:
+  matches:
+  - value: 'my-first-post'
+    label: Hyphenated
+  - value: 'post123'
+    label: Alphanumeric
+  non_matches:
+  - value: 'My-Post'
+    reason: Uppercase letters
+  - value: '-leading'
+    reason: Leading hyphen

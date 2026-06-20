@@ -1,0 +1,21 @@
+version: '2.0'
+metadata:
+  title: Strong Password
+  description: At least 8 chars with lower, upper, digit and symbol.
+  tags:
+  - security
+  - validation
+  priority: 72
+wizard:
+  steps: []
+logic:
+  base_pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$'
+corpus:
+  matches:
+  - value: 'Str0ng!pwd'
+    label: Meets all rules
+  non_matches:
+  - value: 'weakpass'
+    reason: No upper/digit/symbol
+  - value: 'Sh0rt!'
+    reason: Too short

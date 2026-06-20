@@ -1,0 +1,23 @@
+version: '2.0'
+metadata:
+  title: Email Address
+  description: Validates a standard email address.
+  tags:
+  - web
+  - validation
+  priority: 90
+wizard:
+  steps: []
+logic:
+  base_pattern: '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+corpus:
+  matches:
+  - value: 'user@example.com'
+    label: Standard address
+  - value: 'a.b+tag@mail.co.uk'
+    label: Subaddressing and subdomain
+  non_matches:
+  - value: 'user@@example.com'
+    reason: Double at-sign
+  - value: 'user@example'
+    reason: Missing TLD

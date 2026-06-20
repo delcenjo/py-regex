@@ -1,0 +1,23 @@
+version: '2.0'
+metadata:
+  title: IPv4 Address
+  description: Validates a dotted-decimal IPv4 address.
+  tags:
+  - network
+  - validation
+  priority: 88
+wizard:
+  steps: []
+logic:
+  base_pattern: '^(?:(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$'
+corpus:
+  matches:
+  - value: '192.168.0.1'
+    label: Private address
+  - value: '8.8.8.8'
+    label: Public address
+  non_matches:
+  - value: '256.1.1.1'
+    reason: Octet out of range
+  - value: '1.2.3'
+    reason: Too few octets

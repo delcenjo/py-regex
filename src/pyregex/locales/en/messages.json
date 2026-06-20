@@ -1,0 +1,2348 @@
+{
+  "catalog": {
+    "markdown_heading": {
+      "subtypes": {
+        "any": "Any Heading (H1-H6)",
+        "h1": "Main Heading (H1 Only)"
+      }
+    }
+  },
+  "welcome": "Welcome to PyRegex - Professional Regex Tool",
+  "first_run": {
+    "title": "Welcome! Let's configure PyRegex for the first time.",
+    "select_language": "Select language (en/es): ",
+    "select_region": "Enter your region (e.g., US, ES, GB): ",
+    "select_theme": "Select theme (dark/light): ",
+    "show_examples": "Show examples by default? (y/n): ",
+    "setup_complete": "Setup complete! Configuration saved to {path}."
+  },
+  "cli": {
+    "description": "Professional CLI tool for regex generation and testing.",
+    "commands": {
+      "create": "Interactive regex creation assistant.",
+      "test": "Test a regex against text or file.",
+      "explain": "Explain a regex pattern in plain language.",
+      "save": "Save a regex pattern for future use.",
+      "list": "List all saved patterns.",
+      "delete": "Delete a saved pattern.",
+      "run": "Run a saved pattern against text.",
+      "config": "Manage tool configuration.",
+      "export": "Export pattern as code snippets.",
+      "history": "Show recent patterns history.",
+      "extract": "Extract matches to structured format (JSON/CSV).",
+      "replace": "Perform text replacements with interactive preview.",
+      "bench": "Profile regex performance over multiple iterations."
+    },
+    "args": {
+      "pattern": "Regular expression pattern.",
+      "text": "Text to test against.",
+      "file": "File to test against.",
+      "name": "Name of the pattern.",
+      "description": "Short description of the pattern.",
+      "set": "Set config key=value.",
+      "verbose": "Show detailed explanation.",
+      "ignore_case": "Ignore case during testing.",
+      "multiline": "Enable multiline mode (^ and $ match line starts/ends).",
+      "dotall": "Dot matches all characters including newlines.",
+      "format": "Export format (python, javascript, java).",
+      "limit": "Number of history entries to show.",
+      "tags": "Comma-separated tags for the pattern.",
+      "tag": "Filter by specific tag.",
+      "scope": "Filter by scope (private, global, all).",
+      "line_by_line": "Analyze text line by line with match counts."
+    }
+  },
+  "common": {
+    "error": "Error: {message}",
+    "success": "Success: {message}",
+    "pattern": "Pattern: {pattern}",
+    "flags": "Flags: {flags}",
+    "matches_found": "Found {count} matches.",
+    "no_matches": "No matches found.",
+    "saved": "Pattern '{name}' saved successfully.",
+    "deleted": "Pattern '{name}' deleted.",
+    "not_found": "Pattern '{name}' not found.",
+    "tags": "Tags",
+    "scope": "Scope",
+    "private": "Private",
+    "global": "Global",
+    "all": "All",
+    "stats": {
+      "title": "Test Statistics",
+      "total_matches": "Total Matches",
+      "lines_hit": "Lines with Matches",
+      "match_rate": "Match Rate",
+      "total_lines": "Total Lines"
+    },
+    "url": "URL",
+    "password": "Password",
+    "id_number": "ID Number (DNI/NIE)",
+    "ip_address": "IP Address",
+    "color": "HEX Color",
+    "edit": "Edit",
+    "logs": "Logs",
+    "apache": "Apache Access",
+    "nginx": "Nginx Access",
+    "syslog": "Syslog",
+    "select_pattern": "Select a pattern to edit",
+    "back": "Back",
+    "quit": "Quit",
+    "file_not_found": "File not found: {file}",
+    "parse_error": "Syntax parsing error: {error}"
+  },
+  "explainer": {
+    "digit": "digit",
+    "word": "alphanumeric character",
+    "whitespace": "whitespace character",
+    "start": "start of line/string",
+    "end": "end of line/string",
+    "any": "any character (except newline)",
+    "exactly": "exactly {n} {item}",
+    "range": "between {min} and {max} {item}",
+    "at_least": "at least {min} {item}",
+    "optional": "optional",
+    "capture_group": "capture group",
+    "non_capture_group": "non-capturing group",
+    "character_set": "character set / range",
+    "word_boundary": "word boundary",
+    "or": "or",
+    "flags": {
+      "ignore_case": "Case insensitive",
+      "multiline": "Multiline mode",
+      "dotall": "Dot matches all"
+    },
+    "examples": {
+      "user": "user",
+      "domain": "example",
+      "ext": "com",
+      "path": "path/project"
+    }
+  },
+  "assistant": {
+    "select_type": "Select pattern type (or 'q' to quit):",
+    "invalid_choice": "Please select a valid option.",
+    "result_banner": "Generated Result",
+    "immediate_examples": "Immediate Examples:",
+    "match": "MATCH",
+    "no_match": "NO MATCH",
+    "menu_title": "Interactive Assistant",
+    "categories": {
+      "personal": "PERSONAL DATA / CONTACT (Emails, Phones, IDs, Names...)",
+      "web": "WEB / NETWORKS (URLs, IPs, MACs, Domains, JSON...)",
+      "structured": "STRUCTURED DATA (CSV, HTML, SQL, Versioning...)",
+      "systems": "LOGS / SYSTEMS (AWS, Docker, K8s, Syslog, DB...)",
+      "utils": "UTILITIES / ADVANCED (Custom, Merge, Edit, Security...)"
+    },
+    "types": {
+      "email": "Email (Standard, Corporate, EDU...)",
+      "phone": "Phone (Local, Int'l, Extensions...)",
+      "id": "ID Number (DNI, NIE, SSN, Passport...)",
+      "cc": "Credit Card (Visa, MC, Amex...)",
+      "postal": "Postal/ZIP Code (US, UK, Custom...)",
+      "adr": "Address (Street, City, State...)",
+      "name": "Full Name",
+      "usr": "Username (Alphanumeric, Rules...)",
+      "u": "URL (HTTP/S, FTP, Custom scheme...)",
+      "net": "IPv4 Address",
+      "ipv6": "IPv6 Address",
+      "mac": "MAC Address",
+      "uuid": "UUID/GUID",
+      "dom": "Domain/Hostname",
+      "slug": "Slugs/URLs (Web-safe strings...)",
+      "hash": "Hash (MD5, SHA1, SHA256...)",
+      "qr": "QR/Base64 Data",
+      "path": "File Paths (Linux, Windows...)",
+      "json": "JSON keys/values",
+      "csv": "CSV/Delimited Data",
+      "html": "HTML/XML Tags",
+      "sql": "SQL Queries (CRUD, Tables, Joins...)",
+      "ver": "Semantic Version",
+      "num": "Numbers (Int, Float, Scientific...)",
+      "c": "Colors (HEX, RGB, HSL...)",
+      "w": "Password Strength",
+      "token": "Text Tokens/NLP (Words, Symbols...)",
+      "logs": "System Logs (Apache, Nginx, Syslog...)",
+      "aws": "AWS Logs (CloudWatch, ALB, ELB...)",
+      "docker": "Docker Logs (Containers, Usage...)",
+      "k8s": "Kubernetes Logs (Pods, Namespaces...)",
+      "db": "Database Queries (SELECT, DDL...)",
+      "ssh": "SSH Connections (Auth, Error, GeoIP...)",
+      "err": "Error Codes (HTTP, Python, Java...)",
+      "time": "Timestamps (ISO, Unix, RFC...)",
+      "date": "Dates (Standard, Textual, Ranges...)",
+      "netflow": "Network Flow (IPs, Ports, Anomaly...)",
+      "edit": "Edit Saved Pattern",
+      "hist": "Recent Patterns",
+      "custom": "Custom Regex",
+      "merge": "Combine Patterns",
+      "perf": "Performance Optimized",
+      "secure": "Security Sensitive (PII, Secrets, SSRF...)"
+    },
+    "wizards": {
+      "select_variant": "Select Variant",
+      "back": "Back",
+      "step_of": "Step {current} of {total}",
+      "disabled": "disabled"
+    },
+    "banner": {
+      "help_tip": "Tip: Type 'help' for full command list",
+      "back_tip": "Tip: Type 'back' or 'b' to go back at any time",
+      "status_tip": "Tip: Type 'status' to see session stats",
+      "start_tip": "Type help to start or a direct command"
+    },
+    "repl": {
+      "back_desc": "Go back"
+    }
+  },
+  "history": {
+    "title": "Recent Patterns History",
+    "empty": "No history available yet.",
+    "cleared": "History cleared successfully."
+  },
+  "phone_menu": {
+    "title": "Phone Number Pattern Options",
+    "local": "Local numbers (no country code)",
+    "intl": "International numbers (with country code)",
+    "ext": "Numbers with extensions",
+    "custom": "Custom pattern",
+    "region_select": "Select country/region format:",
+    "separators_prompt": "Allow spaces or dashes as separators? (y/n):",
+    "country_codes_prompt": "Enter country code(s) (e.g., +34, +1):",
+    "ext_prompt": "Format of extension (x/ext/#):",
+    "regions": {
+      "ES": "Spain",
+      "US": "United States",
+      "UK": "United Kingdom",
+      "FR": "France",
+      "DE": "Germany",
+      "custom": "Enter custom format"
+    }
+  },
+  "json_menu": {
+    "title": "JSON Patterns (keys, values, paths)",
+    "keys": "Match specific keys",
+    "vals": "Match specific values",
+    "types": "Match by value type",
+    "nest": "Nested objects/arrays",
+    "array": "Arrays (items/length)",
+    "path": "JSON path extraction",
+    "escape": "Handle escaped characters",
+    "all": "Any valid JSON key/value/path",
+    "custom": "Custom regex",
+    "key_select": "Select key match type:",
+    "key_options": {
+      "exact": "Exact key match",
+      "prefix": "Key starts with",
+      "suffix": "Key ends with",
+      "contains": "Key contains substring",
+      "regex": "Key matches custom regex"
+    },
+    "val_select": "Select value type to match:",
+    "val_options": {
+      "string": "String values",
+      "number": "Numbers (int/float)",
+      "bool": "Boolean",
+      "null": "Null",
+      "all": "Any value"
+    },
+    "nest_select": "Select nesting type:",
+    "nest_options": {
+      "obj": "Nested object {...}",
+      "arr": "Nested array [...]",
+      "depth": "Max nesting depth (1-5):"
+    },
+    "path_select": "Select path notation:",
+    "path_options": {
+      "dot": "Dot notation (user.name)",
+      "bracket": "Bracket notation (user[\"name\"])",
+      "wildcard": "Wildcard support (*)",
+      "recursive": "Recursive descent (..)"
+    },
+    "escape_select": "Select escapes to handle:",
+    "escape_options": {
+      "quotes": "Double quotes (\\\")",
+      "backslash": "Backslash (\\\\)",
+      "unicode": "Unicode (\\uXXXX)",
+      "all": "All common escapes"
+    },
+    "enter_key": "Enter key name/pattern:",
+    "enter_val": "Enter value to match:",
+    "enter_depth": "Enter max nesting depth (default: 3):"
+  },
+  "csv_menu": {
+    "title": "CSV/TSV/Delimited Data Patterns",
+    "delim": "Delimiter (comma, tab, semicolon, custom)",
+    "quote": "Quoted fields (single, double, optional)",
+    "escape": "Escape characters (\\)",
+    "types": "Field data types (string, int, float, bool)",
+    "header": "Header row present/absent",
+    "rows": "Number of rows (min/max)",
+    "columns": "Number of columns (min/max)",
+    "nested": "Nested delimiters or JSON in fields",
+    "all": "Any delimited data",
+    "custom": "Custom regex",
+    "delim_select": "Select delimiter:",
+    "delim_options": {
+      "comma": "Comma (,)",
+      "tab": "Tab (\\t)",
+      "semicolon": "Semicolon (;)",
+      "pipe": "Pipe (|)",
+      "custom": "Custom delimiter"
+    },
+    "quote_select": "Select quote style:",
+    "quote_options": {
+      "double": "\"quoted\"",
+      "single": "'quoted'",
+      "optional": "Optional",
+      "none": "No quotes"
+    },
+    "escape_select": "Select escape style:",
+    "escape_options": {
+      "backslash": "Backslash (\\)",
+      "doublequote": "Double-quote (\"\")",
+      "all": "Both"
+    },
+    "enter_delim": "Enter custom delimiter:",
+    "enter_min_rows": "Enter minimum number of rows:",
+    "enter_max_rows": "Enter maximum number of rows:",
+    "enter_min_cols": "Enter minimum number of columns:",
+    "enter_max_cols": "Enter maximum number of columns:"
+  },
+  "html_menu": {
+    "title": "HTML/XML Tags & Attributes Patterns",
+    "tags": "Match specific tags",
+    "attrs": "Match specific attributes",
+    "vals": "Attribute values",
+    "id": "ID/Class selectors",
+    "self": "Self-closing tags",
+    "nest": "Nested tags",
+    "comments": "HTML/XML comments",
+    "doctype": "<!DOCTYPE> declarations",
+    "all": "Any tag/attribute/value",
+    "custom": "Custom regex",
+    "tag_select": "Select tag match type:",
+    "tag_options": {
+      "exact": "Exact tag name",
+      "prefix": "Tags starting with",
+      "suffix": "Tags ending with",
+      "contains": "Tags containing substring",
+      "regex": "Custom tag regex"
+    },
+    "attr_select": "Select attribute match type:",
+    "attr_options": {
+      "exact": "Exact attribute name",
+      "prefix": "Attribute starts with",
+      "suffix": "Attribute ends with",
+      "contains": "Attribute contains substring",
+      "regex": "Custom attribute regex"
+    },
+    "val_select": "Select value type to match:",
+    "val_options": {
+      "string": "Quoted string",
+      "number": "Numeric",
+      "url": "URL",
+      "color": "HEX/RGB",
+      "all": "Any value"
+    },
+    "id_select": "Select selector type:",
+    "id_options": {
+      "id": "ID selector",
+      "class": "Class selector",
+      "multiple": "Multiple classes",
+      "wildcard": "Wildcard support"
+    },
+    "nest_select": "Select nesting depth:",
+    "nest_options": {
+      "depth": "Max nesting depth (1-5):",
+      "inline": "Inline elements only",
+      "block": "Block elements only"
+    },
+    "doc_select": "Select doctype type:",
+    "doc_options": {
+      "html5": "HTML5",
+      "xhtml": "XHTML",
+      "xml": "XML declaration",
+      "all": "Any doctype"
+    },
+    "enter_tag": "Enter tag name/pattern:",
+    "enter_attr": "Enter attribute name/pattern:",
+    "enter_val": "Enter value pattern:",
+    "include_comm": "Include comments?",
+    "include_self": "Include self-closing tags?"
+  },
+  "id_menu": {
+    "title": "ID Number / Identification Patterns",
+    "dni": "Spanish DNI/NIE",
+    "ssn": "US Social Security Number",
+    "passport": "International passports",
+    "custom": "Custom ID pattern",
+    "type_select": "Select type (DNI/NIE):",
+    "format_select": "Select format:",
+    "country_select": "Select country/format:",
+    "types": {
+      "dni": "DNI (8 digits + letter)",
+      "nie": "NIE (X/Y/Z + 7 digits + letter)",
+      "both": "Accept DNI or NIE"
+    },
+    "formats": {
+      "std": "Standard (XXX-XX-XXXX)",
+      "no_dash": "Only digits (XXXXXXXXX)"
+    },
+    "countries": {
+      "any": "Generic (alphanumeric, 6-9 chars)",
+      "us": "US Passport (9 digits)",
+      "uk": "UK Passport (9 chars, letter+digits)",
+      "es": "Spanish Passport (8 digits + letter)",
+      "custom": "Enter custom format"
+    }
+  },
+  "ipv6_menu": {
+    "title": "IPv6 Address Patterns",
+    "full": "Full IPv6",
+    "compressed": "Compressed notation (::)",
+    "mixed": "IPv6 + IPv4 mapping",
+    "with_port": "IPv6 with optional port",
+    "cidr": "IPv6 CIDR notation",
+    "all": "Any IPv6 format",
+    "custom": "Custom regex"
+  },
+  "path_menu": {
+    "title": "File / Directory Path Patterns",
+    "os": "OS type",
+    "abs": "Absolute path",
+    "rel": "Relative path",
+    "home": "Home directory (~)",
+    "ext": "File extensions",
+    "space": "Spaces in names",
+    "wildcard": "Wildcards (*, ?, [...])",
+    "normalize": "Normalize slashes/backslashes",
+    "all": "Any valid path",
+    "custom": "Custom regex",
+    "os_select": "Select OS type:",
+    "os_options": {
+      "unix": "Unix/Linux/macOS",
+      "win": "Windows",
+      "both": "Both"
+    },
+    "abs_select": "Select path style:",
+    "abs_options": {
+      "unix": "/root/path/to/file",
+      "win": "C:\\path\\to\\file"
+    },
+    "rel_select": "Select relative style:",
+    "rel_options": {
+      "current": "./file or ./dir/file",
+      "parent": "../parent/dir/file",
+      "nested": "nested/dir/file"
+    },
+    "inc_home": "Include home shortcut? (~):",
+    "inc_ext": "Include file extensions? (y/n):",
+    "ext_list": "Specify allowed extensions (comma-separated):",
+    "allow_space": "Allow spaces in file/dir names? (y/n):",
+    "wild_options": {
+      "title": "Select wildcards to support:",
+      "any": "Match any chars (*)",
+      "single": "Match single char (?)",
+      "set": "Match character set ([...])"
+    },
+    "norm_select": "Normalize slashes to:",
+    "norm_options": {
+      "unix": "Convert all to /",
+      "win": "Convert all to \\",
+      "both": "Accept both"
+    }
+  },
+  "qr_menu": {
+    "title": "QR Code / Base64 Text Patterns",
+    "std": "Standard Base64",
+    "url": "URL-safe Base64",
+    "padding": "Include optional padding (=)",
+    "length": "Min/Max length",
+    "charset": "Allowed characters only",
+    "all": "Any Base64",
+    "custom": "Custom regex",
+    "strict": "Strict padding (== or =) required?",
+    "min_len": "Min length (default: 1):",
+    "max_len": "Max length (default: 4096):",
+    "inc_padding": "Include padding opcional? (y/n):",
+    "charset_select": "Select allowed charset:",
+    "charset_options": {
+      "std": "Standard (A-Za-z0-9+/)",
+      "url": "URL-safe (A-Za-z0-9_-)",
+      "custom": "Specify custom characters"
+    },
+    "enter_chars": "Enter specific allowed characters:"
+  },
+  "hash_menu": {
+    "title": "Hash Patterns (MD5, SHA1, SHA256)",
+    "md5": "MD5 hash",
+    "sha1": "SHA1 hash",
+    "sha256": "SHA256 hash",
+    "case": "Uppercase / Lowercase / Mixed",
+    "prefix": "Prefix (optional)",
+    "suffix": "Suffix (optional)",
+    "length": "Validate exact length",
+    "all": "Any common hash",
+    "custom": "Custom regex",
+    "case_select": "Select case:",
+    "case_options": {
+      "upper": "Uppercase only",
+      "lower": "Lowercase only",
+      "mixed": "Mixed case"
+    },
+    "add_prefix": "Add prefix? (y/n):",
+    "enter_prefix": "Specify prefix (e.g., $SHA1$, hash_):",
+    "add_suffix": "Add suffix? (y/n):",
+    "enter_suffix": "Specify suffix (e.g., .md5, .sha1):",
+    "enter_len": "Enter exact length for selected hash type (MD5=32, SHA1=40, SHA256=64):"
+  },
+  "slug_menu": {
+    "title": "Slugs / Safe Filenames / URL-safe Patterns",
+    "ascii": "ASCII only",
+    "unicode": "Unicode / International characters",
+    "case": "Lowercase / Uppercase / Mixed",
+    "separator": "Dash (-) / Underscore (_) / Mixed",
+    "length": "Limit length (min/max)",
+    "ext": "Include file extensions (optional)",
+    "normalize": "Remove / replace spaces & special chars",
+    "all": "Any valid slug / filename / URL-safe",
+    "custom": "Custom regex",
+    "ascii_options": {
+      "letters": "Letters (a-zA-Z)",
+      "numbers": "Numbers (0-9)",
+      "punct": "Dash (-) and Underscore (_)"
+    },
+    "unicode_options": {
+      "letters": "Letters (any language)",
+      "numbers": "Numbers (any language)",
+      "punct": "Dash (-) and Underscore (_)"
+    },
+    "case_options": {
+      "lower": "Force lowercase",
+      "upper": "Force uppercase",
+      "mixed": "Allow mixed case"
+    },
+    "sep_options": {
+      "dash": "Dash (-)",
+      "underscore": "Underscore (_)",
+      "mixed": "Dash or underscore"
+    },
+    "norm_options": {
+      "space": "Replace spaces with dash/underscore",
+      "special": "Remove invalid special chars",
+      "unicode": "Normalize Unicode chars"
+    },
+    "min_len": "Min length (default 1):",
+    "max_len": "Max length (default 255):",
+    "include_ext": "Include file extensions? (y/n):",
+    "ext_list": "Allowed extensions (comma-separated, e.g. txt,csv,md):"
+  },
+  "domain_menu": {
+    "title": "Domain / Hostname Patterns",
+    "root": "Root domain (example.com)",
+    "sub": "Subdomain (sub.example.com)",
+    "tld": "Top-level domains (TLDs)",
+    "punycode": "Punycode domains (xn--)",
+    "port": "Include optional port",
+    "wildcard": "Wildcard domains (*.example.com)",
+    "ip": "Domain as IP address (IPv4/IPv6)",
+    "all": "Any domain/hostname",
+    "custom": "Custom regex",
+    "root_options": {
+      "basic": "Basic letters/numbers",
+      "dash": "Allow dash in domain",
+      "length": "Limit length? (2-63 chars)"
+    },
+    "sub_options": {
+      "single": "Single subdomain",
+      "multi": "Multiple subdomains"
+    },
+    "tld_options": {
+      "generic": "Generic TLDs (com, org, net)",
+      "country": "Country-code TLDs (es, us, uk)",
+      "all": "Any valid TLD"
+    },
+    "puny_options": {
+      "xn": "Domains starting with xn--"
+    },
+    "ip_options": {
+      "ipv4": "IPv4",
+      "ipv6": "IPv6",
+      "all": "Both"
+    },
+    "include_port": "Include port? (y/n):",
+    "include_wildcard": "Include wildcard? (y/n):",
+    "include_ip": "Include domain as IP? (y/n):"
+  },
+  "uuid_menu": {
+    "title": "UUID / GUID Patterns",
+    "v1": "UUID version 1 (time-based)",
+    "v2": "UUID version 2 (DCE security)",
+    "v3": "UUID version 3 (MD5 hash)",
+    "v4": "UUID version 4 (random)",
+    "v5": "UUID version 5 (SHA-1 hash)",
+    "case": "Uppercase / Lowercase / Mixed",
+    "dashes": "Include dashes?",
+    "braces": "Include braces?",
+    "all": "Match any valid UUID/GUID",
+    "custom": "Custom regex",
+    "case_select": "Select case:",
+    "case_options": {
+      "upper": "Uppercase only",
+      "lower": "Lowercase only",
+      "mixed": "Mixed case (default)"
+    },
+    "include_dashes": "Include dashes? (y/n):",
+    "wrap_braces": "Wrap UUID with braces? (y/n):"
+  },
+  "mac_menu": {
+    "title": "MAC Address Patterns",
+    "colon": "Colon-separated (00:11:22:33:44:55)",
+    "dash": "Dash-separated (00-11-22-33-44-55)",
+    "dot": "Dot-separated (0011.2233.4455)",
+    "case": "Case sensitivity (upper/lower/mixed)",
+    "vendor": "Vendor OUI validation",
+    "all": "Any MAC format",
+    "custom": "Custom regex",
+    "case_select": "Allow:",
+    "dot_select": "Allow:",
+    "case_options": {
+      "upper": "Uppercase letters (A-F)",
+      "lower": "Lowercase letters (a-f)",
+      "mixed": "Mixed case"
+    },
+    "dot_options": {
+      "cisco": "Cisco style (0011.2233.4455)",
+      "juniper": "Juniper style (0011:2233:4455)"
+    },
+    "vendor_prompt": "Enter known vendor prefix(es), comma-separated (e.g., 00:11:22):"
+  },
+  "net_menu": {
+    "title": "IP Address Patterns",
+    "ipv4": "IPv4 addresses",
+    "ipv6": "IPv6 addresses",
+    "cidr": "CIDR notation",
+    "range": "IP ranges",
+    "all": "Any IP address",
+    "custom": "Custom IP regex",
+    "ipv4_select": "Format options:",
+    "ipv6_select": "Include:",
+    "cidr_select": "Include:",
+    "range_select": "Specify range:",
+    "ipv4_formats": {
+      "full": "Full IPv4 (0.0.0.0 - 255.255.255.255)",
+      "private": "Private ranges (10.*, 172.16-31.*, 192.168.*)",
+      "loopback": "Loopback (127.*)",
+      "any": "Match any IPv4 (full + private + loopback)"
+    },
+    "ipv6_formats": {
+      "full": "Full IPv6 (::1, 2001:db8::1)",
+      "compressed": "Compressed (::, ::1, 2001:db8::)",
+      "mixed": "IPv6 + IPv4 mapping (::ffff:192.168.0.1)"
+    },
+    "cidr_options": {
+      "ipv4": "IPv4 CIDR (192.168.0.0/24)",
+      "ipv6": "IPv6 CIDR (2001:db8::/32)",
+      "all": "Both"
+    },
+    "range_options": {
+      "ipv4": "IPv4 ranges (e.g., 192.168.1.1-192.168.1.255)",
+      "ipv6": "IPv6 ranges",
+      "both": "Any IP range"
+    }
+  },
+  "url_menu": {
+    "title": "URL Patterns",
+    "scheme": "Protocol / Scheme (HTTP, HTTPS, FTP)",
+    "domain": "Domain / Subdomain / TLD",
+    "port": "Port numbers (optional)",
+    "path": "Path / File / Directory",
+    "query": "Query strings / parameters",
+    "anchor": "Anchors / Fragments",
+    "ipv4": "IPv4 addresses as URLs",
+    "ipv6": "IPv6 addresses as URLs",
+    "all": "Full URL with all components",
+    "custom": "Custom URL regex",
+    "scheme_select": "Select allowed schemes:",
+    "domain_select": "Allow:",
+    "path_select": "Include:",
+    "include_port": "Include port? (y/n):",
+    "include_query": "Include query string? (y/n):",
+    "include_anchor": "Include anchor? (y/n):",
+    "schemes": {
+      "http": "HTTP",
+      "https": "HTTPS",
+      "ftp": "FTP",
+      "all": "HTTP, HTTPS, FTP"
+    },
+    "domain_options": {
+      "sub": "Subdomains",
+      "tld": "TLD only (com, org, net, es, etc.)",
+      "all": "Subdomains + TLD"
+    },
+    "path_options": {
+      "dir": "Directory paths",
+      "file": "File names",
+      "all": "Both"
+    }
+  },
+  "usr_menu": {
+    "title": "Username Patterns",
+    "simple": "Simple usernames",
+    "complex": "Usernames with special characters",
+    "length": "Length restrictions",
+    "intl": "Unicode usernames",
+    "custom": "Custom regex",
+    "char_select": "Allowed characters:",
+    "special_select": "Allowed special characters:",
+    "unicode_select": "Allow:",
+    "min_len_prompt": "Minimum length:",
+    "max_len_prompt": "Maximum length:",
+    "prevent_consecutive": "Prevent consecutive special characters? (y/n):",
+    "prevent_start_end": "Prevent starting/ending with special character? (y/n):",
+    "simple_types": {
+      "alnum": "Letters + digits (default)",
+      "letters": "Only letters",
+      "digits": "Only digits"
+    },
+    "special_types": {
+      "underscore": "_",
+      "dash": "-",
+      "dot": ".",
+      "all": "Allow _, -, ."
+    },
+    "intl_options": {
+      "letters": "Letters with accents/diacritics",
+      "numbers": "Digits",
+      "special": "Special chars (_-.)",
+      "emoji": "Emojis",
+      "all": "Everything"
+    }
+  },
+  "name_menu": {
+    "title": "Full Name Patterns",
+    "simple": "Simple names (First + Last)",
+    "multi": "Multiple names (Middle, compound surnames)",
+    "intl": "International names (accents, diacritics)",
+    "custom": "Custom regex",
+    "format_select": "Select format:",
+    "include_select": "Include:",
+    "allow_select": "Allow:",
+    "simple_formats": {
+      "fl": "First Last (e.g., John Doe)",
+      "lf": "Last, First (e.g., Doe, John)",
+      "fmi": "First Middle Initial Last (e.g., John A. Doe)"
+    },
+    "multi_options": {
+      "middle": "Middle names (optional)",
+      "compound": "Compound surnames (e.g., García López)",
+      "both": "Both middle names and compound surnames"
+    },
+    "intl_options": {
+      "accents": "Accented letters (é, ñ, ü, etc.)",
+      "hyphen": "Hyphenated names (Anne-Marie)",
+      "apostrophe": "Names with apostrophes (O'Connor)",
+      "all": "Enable all"
+    }
+  },
+  "adr_menu": {
+    "title": "Address / Street / City Patterns",
+    "street": "Street + number",
+    "city": "City names",
+    "postal_city": "Postal code + city",
+    "full": "Full address (street, number, postal code, city, country)",
+    "custom": "Custom address pattern",
+    "format_select": "Select format:",
+    "allow_accents": "Allow accents / diacritics? (y/n):",
+    "include_country": "Include country code? (y/n):",
+    "street_formats": {
+      "us": "United States (Street number + Street name)",
+      "eu": "Europe (Street name + number)",
+      "es": "Spain (Street name + number + optional floor)",
+      "custom": "Enter custom format"
+    }
+  },
+  "cc_menu": {
+    "title": "Credit Card Number Patterns",
+    "visa": "Visa (13-16 digits, starts with 4)",
+    "mc": "MasterCard (16 digits, starts 51-55 or 2221-2720)",
+    "amex": "American Express (15 digits, starts 34 or 37)",
+    "discover": "Discover (16 digits, starts 6011, 65, 644-649)",
+    "all": "Any major credit card",
+    "custom": "Custom card format",
+    "mc_options": "MasterCard Range Options:",
+    "mc_ranges": {
+      "old": "Old Range (51-55)",
+      "new": "New Range (2221-2720)",
+      "both": "Accept all MasterCard ranges"
+    }
+  },
+  "postal_menu": {
+    "title": "Postal / ZIP Code Patterns",
+    "us": "United States (ZIP / ZIP+4)",
+    "uk": "United Kingdom",
+    "ca": "Canada",
+    "es": "Spain",
+    "de": "Germany",
+    "fr": "France",
+    "custom": "Custom postal code",
+    "all": "Any supported country",
+    "us_options": "US ZIP Options:",
+    "uk_options": "UK Postcode Options:",
+    "allow_lowercase": "Allow lowercase letters? (y/n):",
+    "us_formats": {
+      "std": "Standard 5-digit ZIP (e.g., 12345)",
+      "plus4": "ZIP+4 (e.g., 12345-6789)",
+      "both": "Accept both formats"
+    }
+  },
+  "email_menu": {
+    "title": "Email Pattern Options",
+    "std": "Standard email (any domain)",
+    "corp": "Corporate / specific domains",
+    "edu": "Educational domains",
+    "custom": "Custom domain",
+    "free": "Free email providers only (Gmail, Yahoo, Outlook)",
+    "pvt": "Private/local emails (localhost, intranet)",
+    "corp_options": "Corporate Domain Options",
+    "all_corp": "Any corporate domain (e.g., @company.com)",
+    "list_corp": "Choose from predefined list",
+    "custom_corp": "Enter custom corporate domain(s)",
+    "edu_options": "Educational Domain Options",
+    "any_edu": "Any educational domain",
+    "country_edu": "Filter by country (US, UK, ES, etc.)",
+    "custom_edu": "Custom educational domain(s)",
+    "free_options": "Free Email Providers",
+    "gmail": "Gmail",
+    "yahoo": "Yahoo",
+    "outlook": "Outlook/Hotmail",
+    "all_free": "All common free providers",
+    "custom_free": "Add custom free providers",
+    "post_gen": {
+      "save": "Save pattern",
+      "test": "Test pattern",
+      "edit": "Edit regex manually",
+      "quit": "Quit without saving"
+    },
+    "enter_domain": "Enter custom domain (e.g., example.com):",
+    "enter_country": "Enter country code (US, UK, ES):"
+  },
+  "sql_menu": {
+    "title": "SQL Queries & Literals Patterns",
+    "type": "Query type (SELECT, INSERT, UPDATE, DELETE)",
+    "table": "Table names",
+    "cols": "Column names",
+    "vals": "Literals / Values",
+    "where": "WHERE clause",
+    "join": "JOIN clauses",
+    "func": "SQL functions (COUNT, SUM, etc.)",
+    "op": "Operators (=, <>, >, <, IN, LIKE)",
+    "all": "Any valid SQL snippet",
+    "custom": "Custom regex",
+    "type_select": "Select query type:",
+    "type_options": {
+      "select": "SELECT",
+      "insert": "INSERT",
+      "update": "UPDATE",
+      "delete": "DELETE",
+      "merge": "MERGE / UPSERT",
+      "all": "Any type"
+    },
+    "table_select": "Select table matching logic:",
+    "table_options": {
+      "exact": "Exact table name",
+      "prefix": "Table starts with",
+      "suffix": "Table ends with",
+      "contains": "Table contains substring",
+      "regex": "Custom table regex"
+    },
+    "enter_table": "Enter table name/pattern:",
+    "col_select": "Select column matching logic:",
+    "col_options": {
+      "exact": "Exact column",
+      "prefix": "Starts with",
+      "suffix": "Ends with",
+      "contains": "Contains substring",
+      "regex": "Custom column regex"
+    },
+    "enter_col": "Enter column name/pattern:",
+    "val_select": "Select literal type:",
+    "val_options": {
+      "string": "String literals ('text')",
+      "number": "Numbers (int/float)",
+      "bool": "Boolean (true/false)",
+      "null": "NULL",
+      "date": "Date/Datetime literals",
+      "all": "Any literal"
+    },
+    "where_select": "Select WHERE clause type:",
+    "where_options": {
+      "simple": "Column = value",
+      "range": "Column BETWEEN value1 AND value2",
+      "like": "Column LIKE pattern",
+      "in": "Column IN (val1, val2, ...)",
+      "compound": "AND / OR / NOT"
+    },
+    "join_select": "Select JOIN type:",
+    "join_options": {
+      "inner": "INNER JOIN",
+      "left": "LEFT JOIN / LEFT OUTER JOIN",
+      "right": "RIGHT JOIN / RIGHT OUTER JOIN",
+      "full": "FULL JOIN / FULL OUTER JOIN",
+      "cross": "CROSS JOIN"
+    },
+    "func_select": "Select function category:",
+    "func_options": {
+      "agg": "Aggregates (COUNT, SUM, AVG, MIN, MAX)",
+      "string": "String (CONCAT, SUBSTR, LENGTH)",
+      "date": "Date/Time (NOW, DATEADD, DATEDIFF)",
+      "custom": "Other functions",
+      "all": "Any function"
+    },
+    "op_select": "Select operator:",
+    "op_options": {
+      "eq": "=",
+      "neq": "<>",
+      "gt": ">",
+      "lt": "<",
+      "gte": ">=",
+      "lte": "<=",
+      "in": "IN",
+      "like": "LIKE",
+      "and": "AND",
+      "or": "OR",
+      "not": "NOT"
+    }
+  },
+  "ver_menu": {
+    "title": "Semantic Versioning (SemVer) Patterns",
+    "basic": "Match basic MAJOR.MINOR.PATCH",
+    "pre": "Pre-release identifiers (alpha, beta, rc)",
+    "build": "Build metadata (+build)",
+    "range": "Version ranges (>=1.0.0 <2.0.0)",
+    "prefix": "Prefixes (v1.2.3)",
+    "suffix": "Suffixes/extensions",
+    "strict": "Strict SemVer (full compliance)",
+    "all": "Any valid SemVer",
+    "custom": "Custom regex",
+    "basic_select": "Select version component:",
+    "basic_options": {
+      "major": "Major version",
+      "minor": "Minor version",
+      "patch": "Patch version",
+      "all": "MAJOR.MINOR.PATCH combined"
+    },
+    "pre_select": "Select pre-release type:",
+    "pre_options": {
+      "alpha": "alpha",
+      "beta": "beta",
+      "rc": "release candidate",
+      "numeric": "numeric pre-release (1,2,...)",
+      "custom": "Custom pre-release"
+    },
+    "build_select": "Select build metadata type:",
+    "build_options": {
+      "numeric": "Numeric build metadata",
+      "alphanumeric": "Alphanumeric",
+      "hash": "Git commit hashes",
+      "all": "Any build metadata"
+    },
+    "range_select": "Select range type:",
+    "range_options": {
+      "caret": "^1.2.3 (Compatible changes)",
+      "tilde": "~1.2.3 (Patch updates)",
+      "gt": ">1.0.0 (Greater than)",
+      "lt": "<2.0.0 (Less than)",
+      "gte": ">=1.0.0 (Greater or equal)",
+      "lte": "<=2.0.0 (Less or equal)",
+      "hyphen": "1.0.0 - 2.0.0 (Range)",
+      "wildcard": "1.2.x, 1.*.* (Wildcards)"
+    },
+    "prefix_select": "Select prefix:",
+    "prefix_options": {
+      "v": "v (v1.2.3)",
+      "version": "version (version 1.2.3)",
+      "custom": "Other prefix",
+      "none": "No prefix"
+    },
+    "suffix_select": "Select suffix components:",
+    "suffix_options": {
+      "release": "-alpha/-beta/-rc",
+      "build": "+build metadata",
+      "custom": "Any other suffix"
+    },
+    "strict_select": "Select strict mode:",
+    "strict_options": {
+      "full": "Full SemVer compliance",
+      "ignore_case": "Ignore case in pre-release"
+    },
+    "enter_prefix": "Enter custom version prefix:",
+    "enter_suffix": "Enter custom version suffix:"
+  },
+  "num_menu": {
+    "title": "Numbers Patterns (int/float/scientific/range)",
+    "int": "Integer numbers",
+    "float": "Floating point numbers",
+    "sci": "Scientific notation",
+    "range": "Min/Max ranges",
+    "sign": "Signed/unsigned",
+    "sep": "Thousands / decimal separators",
+    "hex": "Hexadecimal numbers",
+    "bin": "Binary numbers",
+    "all": "Any numeric format",
+    "custom": "Custom regex",
+    "int_select": "Select integer type:",
+    "int_options": {
+      "pos": "Positive integers",
+      "neg": "Negative integers",
+      "all": "Both positive and negative",
+      "minmax": "Min/Max limits"
+    },
+    "float_select": "Select floating point type:",
+    "float_options": {
+      "dot": "Dot decimal separator (3.14)",
+      "comma": "Comma decimal separator (3,14)",
+      "scientific": "Include scientific notation",
+      "minmax": "Min/Max limits"
+    },
+    "sci_select": "Select scientific notation type:",
+    "sci_options": {
+      "e": "Lowercase e",
+      "E": "Uppercase E",
+      "both": "Both e/E",
+      "signed": "Sign in exponent"
+    },
+    "range_select": "Select range type:",
+    "range_options": {
+      "min": "Minimum value",
+      "max": "Maximum value",
+      "between": "Between min and max",
+      "inclusive": "Inclusive/exclusive"
+    },
+    "sign_select": "Select sign configuration:",
+    "sign_options": {
+      "pos": "Positive only",
+      "neg": "Negative only",
+      "both": "Signed numbers"
+    },
+    "sep_select": "Select separator format:",
+    "sep_options": {
+      "comma": "1,000.00",
+      "dot": "1.000,00",
+      "space": "1 000.00",
+      "none": "No separators"
+    },
+    "hex_select": "Select hexadecimal format:",
+    "hex_options": {
+      "prefix": "0x prefix",
+      "noprefix": "Without prefix",
+      "upper": "Uppercase letters",
+      "lower": "Lowercase letters",
+      "both": "Both cases"
+    },
+    "bin_select": "Select binary format:",
+    "bin_options": {
+      "prefix": "0b prefix",
+      "noprefix": "Without prefix"
+    },
+    "enter_min": "Enter minimum value:",
+    "enter_max": "Enter maximum value:"
+  },
+  "color_menu": {
+    "title": "Colors Patterns (HEX, RGB, RGBA, HSL, Names)",
+    "hex": "HEX colors (#FFF, #FFFFFF)",
+    "rgb": "RGB colors (rgb(255, 255, 255))",
+    "rgba": "RGBA colors (rgba(255, 255, 255, 0.5))",
+    "hsl": "HSL colors (hsl(360, 100%, 50%))",
+    "hsla": "HSLA colors (hsla(360, 100%, 50%, 0.5))",
+    "name": "Named CSS colors (red, blue, lightgreen)",
+    "short": "Short forms / shorthand",
+    "all": "Any valid color format",
+    "custom": "Custom regex",
+    "hex_select": "Select HEX color format:",
+    "hex_options": {
+      "short": "3-character shorthand (#FFF)",
+      "full": "6-character (#FFFFFF)",
+      "withAlpha": "8-character with alpha (#FFFFFFFF)",
+      "case": "Uppercase / lowercase / both"
+    },
+    "rgb_select": "Select RGB format options:",
+    "rgb_options": {
+      "int": "Integer 0-255",
+      "percent": "Percent 0%-100%",
+      "spaces": "Allow spaces after commas"
+    },
+    "rgba_select": "Select RGBA format options:",
+    "rgba_options": {
+      "alphaFloat": "0.0-1.0",
+      "spaces": "Allow spaces after commas"
+    },
+    "hsl_select": "Select HSL format options:",
+    "hsl_options": {
+      "hue": "0-360",
+      "sat": "0%-100%",
+      "light": "0%-100%"
+    },
+    "hsla_select": "Select HSLA format options:",
+    "hsla_options": {
+      "alphaFloat": "0.0-1.0"
+    },
+    "name_select": "Select named color scope:",
+    "name_options": {
+      "basic": "Standard 140 CSS color names",
+      "extended": "Include X11 / extended names",
+      "case": "Ignore case or exact"
+    },
+    "short_select": "Select shorthand forms:",
+    "short_options": {
+      "hex3": "#RGB",
+      "hex4": "#RGBA"
+    }
+  },
+  "pwd_menu": {
+    "title": "Password Strength Patterns",
+    "length": "Minimum / Maximum length",
+    "upper": "Uppercase letters",
+    "lower": "Lowercase letters",
+    "digit": "Digits",
+    "special": "Special characters (!@#$%^&* etc.)",
+    "spaces": "Allow/disallow spaces",
+    "strength": "Strength level (weak, medium, strong)",
+    "repeat": "Repeated characters",
+    "all": "Any valid password",
+    "custom": "Custom regex",
+    "length_select": "Select length option:",
+    "length_options": {
+      "min": "Minimum length",
+      "max": "Maximum length",
+      "range": "Specific range (e.g., 8-16)"
+    },
+    "upper_select": "Select uppercase constraint:",
+    "upper_options": {
+      "min": "Minimum uppercase letters",
+      "exact": "Exact count"
+    },
+    "lower_select": "Select lowercase constraint:",
+    "lower_options": {
+      "min": "Minimum lowercase letters",
+      "exact": "Exact count"
+    },
+    "digit_select": "Select digits constraint:",
+    "digit_options": {
+      "min": "Minimum digits",
+      "exact": "Exact count"
+    },
+    "special_select": "Select special characters constraint:",
+    "special_options": {
+      "min": "Minimum special characters",
+      "exact": "Exact count",
+      "chars": "Custom allowed symbols"
+    },
+    "spaces_select": "Select space policy:",
+    "spaces_options": {
+      "allow": "Allow spaces",
+      "disallow": "No spaces"
+    },
+    "strength_select": "Select strength level preset:",
+    "strength_options": {
+      "weak": "Minimum 6 chars, any type",
+      "medium": "Minimum 8 chars, letters+digits",
+      "strong": "Minimum 10 chars, letters+digits+symbols",
+      "custom": "User-defined rules"
+    },
+    "repeat_select": "Select character repetition policy:",
+    "repeat_options": {
+      "none": "No repeated consecutive characters",
+      "limit": "Limit repeats (e.g., max 2 in a row)"
+    },
+    "enter_val": "Enter value:",
+    "enter_min": "Enter minimum length/count:",
+    "enter_max": "Enter maximum length/count:",
+    "enter_limit": "Enter maximum consecutive repeats:",
+    "enter_chars": "Enter allowed special chars (e.g. !@#$%):"
+  },
+  "token_menu": {
+    "title": "Text Tokens / NLP Preprocessing Patterns",
+    "word": "Words",
+    "phrase": "Phrases",
+    "digit": "Digits / numbers",
+    "punct": "Punctuation marks",
+    "symbol": "Symbols / special characters",
+    "stopwords": "Common stopwords",
+    "case": "Lowercase / Uppercase / Mixed",
+    "length": "Min/Max token length",
+    "regex": "Regex-based token patterns",
+    "all": "Any token",
+    "custom": "Custom regex",
+    "word_select": "Select word type:",
+    "word_options": {
+      "alpha": "Alphabetic words only",
+      "alnum": "Alphanumeric words",
+      "unicode": "Unicode letters",
+      "minmax": "Min/Max letters"
+    },
+    "phrase_select": "Select phrase type:",
+    "phrase_options": {
+      "quoted": "Quoted phrases (\"Hello world\")",
+      "sentence": "Sentence-like patterns",
+      "minmax": "Min/Max words per phrase"
+    },
+    "digit_select": "Select digit/number type:",
+    "digit_options": {
+      "int": "Integers only",
+      "float": "Floats only",
+      "scientific": "Scientific notation",
+      "range": "Min/Max"
+    },
+    "punct_select": "Select punctuation marks:",
+    "punct_options": {
+      "basic": "Basic . , ; : ! ?",
+      "extended": "Include brackets, quotes, slashes",
+      "all": "Any punctuation"
+    },
+    "symbol_select": "Select symbols/special characters:",
+    "symbol_options": {
+      "math": "+ - * / = % ^",
+      "currency": "$ € £ ¥",
+      "other": "# @ & * ~ `",
+      "all": "Any symbol"
+    },
+    "stopwords_select": "Select stopwords language:",
+    "stopwords_options": {
+      "en": "English stopwords",
+      "es": "Spanish stopwords",
+      "custom": "User-defined list"
+    },
+    "case_select": "Select token case:",
+    "case_options": {
+      "lower": "Lowercase only",
+      "upper": "Uppercase only",
+      "mixed": "Mixed case"
+    },
+    "length_select": "Select token length:",
+    "length_options": {
+      "min": "Minimum characters",
+      "max": "Maximum characters",
+      "range": "Specific range"
+    },
+    "regex_select": "Select regex token option:",
+    "regex_options": {
+      "pattern": "Enter regex pattern",
+      "flags": "Specify flags (i, m, s, etc.)"
+    },
+    "enter_stopwords": "Enter custom stopwords (comma-separated):"
+  },
+  "logs_menu": {
+    "title": "Logs Patterns (Apache / Nginx / Syslog / systemd)",
+    "apache": "Apache access/error logs",
+    "nginx": "Nginx access/error logs",
+    "syslog": "Syslog / systemd logs",
+    "timestamp": "Timestamps (ISO, RFC, Unix)",
+    "ip": "IP Addresses",
+    "http": "HTTP Methods / Status Codes",
+    "url": "Requested URLs / Endpoints",
+    "user": "Usernames / Auth info",
+    "error": "Error codes / messages",
+    "level": "Log levels (INFO, WARN, ERROR, DEBUG)",
+    "custom": "Custom log regex",
+    "apache_options": {
+      "title": "Apache Options:",
+      "access": "Access log pattern",
+      "error": "Error log pattern",
+      "combined": "Combined log format",
+      "common": "Common log format"
+    },
+    "nginx_options": {
+      "title": "Nginx Options:",
+      "access": "Access log",
+      "error": "Error log",
+      "combined": "Combined format"
+    },
+    "syslog_options": {
+      "title": "Syslog Options:",
+      "auth": "Authentication logs",
+      "daemon": "Daemon/service logs",
+      "kernel": "Kernel messages",
+      "systemd": "systemd logs"
+    },
+    "timestamp_options": {
+      "title": "Timestamp Options:",
+      "iso": "ISO 8601 (YYYY-MM-DDTHH:MM:SS)",
+      "rfc": "RFC 2822 / 3339",
+      "unix": "Unix timestamp (seconds)",
+      "custom": "Custom format"
+    },
+    "ip_options": {
+      "ipv4": "IPv4",
+      "ipv6": "IPv6",
+      "both": "Any IP"
+    },
+    "http_options": {
+      "method": "GET, POST, PUT, DELETE, etc.",
+      "status": "1xx, 2xx, 3xx, 4xx, 5xx"
+    },
+    "url_options": {
+      "path": "Path only",
+      "query": "Path + query string",
+      "full": "Full URL with scheme"
+    },
+    "user_options": {
+      "local": "Local username",
+      "remote": "Remote username / auth",
+      "all": "Any user token"
+    },
+    "error_options": {
+      "http": "HTTP error codes (4xx, 5xx)",
+      "sys": "System error codes",
+      "custom": "Custom error patterns"
+    },
+    "level_options": {
+      "standard": "Standard levels",
+      "custom": "Custom levels"
+    }
+  },
+  "aws_menu": {
+    "title": "AWS Logs Patterns (CloudWatch / ALB / ELB)",
+    "cloudwatch": "CloudWatch logs",
+    "alb": "ALB access logs",
+    "elb": "ELB logs (Classic)",
+    "timestamp": "Timestamps (ISO, Unix)",
+    "ip": "Client / Target IPs",
+    "request": "Request IDs",
+    "http": "HTTP Methods / Status Codes",
+    "url": "Requested URLs / Endpoints",
+    "useragent": "User-Agent strings",
+    "error": "Error messages / codes",
+    "alert": "CloudWatch alarms / patterns",
+    "custom": "Custom AWS log regex",
+    "cloudwatch_options": {
+      "title": "CloudWatch Options:",
+      "events": "Event messages",
+      "metrics": "Metrics logs",
+      "filter": "Filter patterns"
+    },
+    "alb_options": {
+      "title": "ALB Options:",
+      "access": "Standard ALB access log",
+      "error": "ALB error log"
+    },
+    "elb_options": {
+      "title": "ELB Options:",
+      "access": "ELB access log",
+      "error": "ELB error log"
+    },
+    "timestamp_options": {
+      "iso": "ISO 8601",
+      "unix": "Unix timestamp",
+      "custom": "Custom format"
+    },
+    "ip_options": {
+      "client": "Client IP",
+      "target": "Target IP",
+      "all": "Any IP"
+    },
+    "request_options": {
+      "reqid": "AWS Request ID",
+      "trace": "Trace ID",
+      "all": "Any ID"
+    },
+    "http_options": {
+      "method": "HTTP Methods",
+      "status": "Status codes"
+    },
+    "url_options": {
+      "path": "Path only",
+      "query": "Path + Query",
+      "full": "Full URL"
+    },
+    "useragent_options": {
+      "browser": "Browser",
+      "cli": "CLI/curl",
+      "sdk": "AWS SDK",
+      "custom": "Custom"
+    },
+    "error_options": {
+      "http": "HTTP errors",
+      "aws": "AWS errors",
+      "custom": "Custom"
+    },
+    "alert_options": {
+      "metric": "Metric alarms",
+      "state": "Alarm state",
+      "custom": "Custom"
+    }
+  },
+  "docker_menu": {
+    "title": "Docker Log Patterns",
+    "status": "Container Status / State",
+    "cpu": "CPU Usage",
+    "memory": "Memory Usage",
+    "network": "Network Traffic (Port/IP)",
+    "error": "Error Messages / Exit Codes",
+    "stdout": "Standard Output (Catch-all)",
+    "event": "Docker Events (Start/Stop)",
+    "custom": "Custom Docker regex",
+    "status_options": {
+      "all": "All statuses",
+      "running": "Running",
+      "exited": "Exited",
+      "restarting": "Restarting"
+    },
+    "cpu_options": {
+      "title": "CPU Options",
+      "percent": "Percentage",
+      "core": "Core ID",
+      "range": "Usage range"
+    },
+    "memory_options": {
+      "title": "Memory Options",
+      "bytes": "Bytes",
+      "kb": "KB",
+      "mb": "MB",
+      "gb": "GB",
+      "range": "Usage range"
+    },
+    "network_options": {
+      "title": "Network Options",
+      "port": "Port",
+      "ip": "IP address",
+      "proto": "Protocol"
+    },
+    "error_options": {
+      "title": "Error Options",
+      "exit": "Exit codes",
+      "msg": "Error messages",
+      "custom": "Custom"
+    },
+    "event_options": {
+      "title": "Event Options",
+      "start": "Start",
+      "stop": "Stop",
+      "kill": "Kill",
+      "restart": "Restart",
+      "all": "All events"
+    }
+  },
+  "k8s_menu": {
+    "title": "Kubernetes Log Patterns",
+    "pod": "Pod Details",
+    "container": "Container Details",
+    "namespace": "Namespace Details",
+    "timestamp": "Timestamps (ISO, RFC, Nano)",
+    "level": "Log Levels (k8s style)",
+    "status": "Pod/Container Status",
+    "event": "K8s Events (Lifecycle, Scheduler)",
+    "node": "Node Details",
+    "resource": "Resources (CPU/Memory limits)",
+    "error": "K8s Errors (OOM, CrashLoop)",
+    "label": "Labels / Selectors",
+    "custom": "Custom K8s regex",
+    "pod_options": {
+      "title": "Pod Options",
+      "name": "Pod name",
+      "uid": "Pod UID",
+      "replica": "Replica set",
+      "all": "All pod info"
+    },
+    "container_options": {
+      "title": "Container Options",
+      "name": "Container name",
+      "init": "Init container",
+      "sidecar": "Sidecar",
+      "all": "All container info"
+    },
+    "namespace_options": {
+      "title": "Namespace Options",
+      "default": "Default namespace",
+      "system": "kube-system",
+      "custom": "Custom namespace",
+      "all": "Any namespace"
+    },
+    "timestamp_options": {
+      "title": "Timestamp Options",
+      "iso": "ISO 8601",
+      "rfc": "RFC 3339",
+      "unix": "Unix epoch",
+      "nano": "Nanoseconds"
+    },
+    "level_options": {
+      "title": "Level Options",
+      "standard": "Standard levels",
+      "k8s": "K8s specific",
+      "custom": "Custom levels"
+    },
+    "status_options": {
+      "title": "Status Options",
+      "pod": "Pod status",
+      "container": "Container status",
+      "phase": "Lifecycle phase"
+    },
+    "event_options": {
+      "title": "Event Options",
+      "lifecycle": "Lifecycle events",
+      "scheduler": "Scheduler events",
+      "image": "Image events",
+      "all": "All events"
+    },
+    "node_options": {
+      "title": "Node Options",
+      "name": "Node name",
+      "ip": "Node IP",
+      "hostname": "Hostname",
+      "all": "Any node info"
+    },
+    "resource_options": {
+      "title": "Resource Options",
+      "cpu": "CPU (m/cores)",
+      "memory": "Memory (Mi/Gi)",
+      "limits": "Resource limits",
+      "requests": "Resource requests"
+    },
+    "error_options": {
+      "title": "Error Options",
+      "crash": "CrashLoopBackOff",
+      "oom": "OOMKilled",
+      "image": "ImagePullBackOff",
+      "network": "Network errors",
+      "all": "All errors"
+    },
+    "label_options": {
+      "title": "Label Options",
+      "key": "Label key",
+      "value": "Label value",
+      "selector": "Full selector"
+    }
+  },
+  "db_menu": {
+    "title": "Database / SQL Patterns",
+    "query": "SQL Query Types",
+    "table": "Table Names",
+    "column": "Column Names",
+    "where": "WHERE Clauses",
+    "join": "JOIN Clauses",
+    "value": "SQL Values / Literals",
+    "txn": "Transactions (Commit/Rollback)",
+    "perf": "Performance (Execution time)",
+    "error": "SQL Errors / Constraints",
+    "func": "SQL Functions",
+    "ddl": "DDL (Create/Alter/Drop)",
+    "comment": "SQL Comments",
+    "custom": "Custom SQL regex",
+    "query_options": {
+      "title": "Query Options",
+      "select": "SELECT",
+      "insert": "INSERT",
+      "update": "UPDATE",
+      "delete": "DELETE",
+      "ddl": "DDL queries",
+      "all": "Any query"
+    },
+    "table_options": {
+      "title": "Table Options",
+      "simple": "Simple name",
+      "schema": "Schema.Table",
+      "alias": "Table alias",
+      "quoted": "Quoted names"
+    },
+    "column_options": {
+      "title": "Column Options",
+      "select": "In SELECT",
+      "where": "In WHERE",
+      "alias": "Column alias",
+      "agg": "Aggregated columns"
+    },
+    "where_options": {
+      "title": "WHERE Options",
+      "basic": "Basic equality",
+      "logical": "AND/OR logic",
+      "range": "BETWEEN/Ranges",
+      "set": "IN lists",
+      "null": "IS NULL",
+      "like": "LIKE patterns"
+    },
+    "join_options": {
+      "title": "JOIN Options",
+      "inner": "INNER JOIN",
+      "left": "LEFT JOIN",
+      "right": "RIGHT JOIN",
+      "full": "FULL JOIN",
+      "cross": "CROSS JOIN",
+      "condition": "ON condition"
+    },
+    "value_options": {
+      "title": "Value Options",
+      "string": "Strings",
+      "number": "Numbers",
+      "null": "NULL",
+      "bool": "Booleans",
+      "date": "Dates/Times"
+    },
+    "txn_options": {
+      "title": "Transaction Options",
+      "begin": "BEGIN",
+      "commit": "COMMIT",
+      "rollback": "ROLLBACK",
+      "savepoint": "SAVEPOINT"
+    },
+    "perf_options": {
+      "title": "Performance Options",
+      "time": "Execution time",
+      "slow": "Slow queries",
+      "rows": "Rows affected",
+      "cost": "Query cost"
+    },
+    "error_options": {
+      "title": "Error Options",
+      "syntax": "Syntax errors",
+      "constraint": "Constraints (FK/Unique)",
+      "connection": "Conn errors",
+      "timeout": "Timeouts",
+      "all": "Any error"
+    },
+    "func_options": {
+      "title": "Function Options",
+      "agg": "Aggregates (SUM/AVG)",
+      "string": "String funcs",
+      "date": "Date funcs",
+      "window": "Window funcs"
+    },
+    "ddl_options": {
+      "title": "DDL Options",
+      "create": "CREATE",
+      "alter": "ALTER",
+      "drop": "DROP",
+      "index": "CREATE INDEX",
+      "constraint": "ADD CONSTRAINT"
+    },
+    "comment_options": {
+      "title": "Comment Options",
+      "inline": "-- Inline",
+      "block": "/* Block */"
+    }
+  },
+  "ssh_menu": {
+    "title": "SSH Log Patterns",
+    "timestamp": "Timestamps (Syslog/ISO)",
+    "ip": "Source IPs",
+    "user": "Users (Valid/Invalid)",
+    "auth": "Auth Status",
+    "status": "Connection Status",
+    "method": "Auth Methods (Password/Key)",
+    "session": "Session Details",
+    "port": "SSH Ports",
+    "attack": "Attack Patterns (Brute force)",
+    "geo": "Geo / Range IP",
+    "pid": "Process IDs",
+    "custom": "Custom SSH regex",
+    "timestamp_options": {
+      "title": "Timestamp Options",
+      "syslog": "Syslog format",
+      "iso": "ISO 8601",
+      "year": "With year",
+      "all": "Any format"
+    },
+    "ip_options": {
+      "title": "IP Options",
+      "ipv4": "Standard IPv4",
+      "private": "Private IPs",
+      "public": "Public IPs",
+      "all": "Any IP"
+    },
+    "user_options": {
+      "title": "User Options",
+      "valid": "Valid user",
+      "invalid": "Invalid user",
+      "root": "Root access",
+      "system": "System user",
+      "all": "Any user"
+    },
+    "auth_options": {
+      "title": "Auth Options",
+      "success": "Accepted",
+      "fail": "Failed",
+      "invalid": "Invalid attempt",
+      "all": "All attempts"
+    },
+    "status_options": {
+      "title": "Status Options",
+      "opened": "Connection opened",
+      "closed": "Connection closed",
+      "failed": "Failed connection",
+      "reset": "Connection reset",
+      "all": "All statuses"
+    },
+    "method_options": {
+      "title": "Method Options",
+      "password": "Password",
+      "key": "Public Key",
+      "keyboard": "Keyboard-interactive",
+      "gssapi": "GSSAPI",
+      "all": "All methods"
+    },
+    "session_options": {
+      "title": "Session Options",
+      "start": "Session start",
+      "end": "Session end",
+      "duration": "Session duration",
+      "tty": "TTY allocation"
+    },
+    "port_options": {
+      "title": "Port Options",
+      "default": "Default port (22)",
+      "custom": "Custom port",
+      "range": "Port ranges"
+    },
+    "attack_options": {
+      "title": "Attack Options",
+      "bruteforce": "Brute force attempts",
+      "scan": "Port scanning",
+      "invalid": "Invalid user scan",
+      "rate": "High rate attempts"
+    },
+    "geo_options": {
+      "title": "Geo Options",
+      "internal": "Internal network",
+      "external": "External network",
+      "range": "Specific IP range"
+    },
+    "pid_options": {
+      "title": "PID Options",
+      "simple": "Simple (123)",
+      "bracket": "Bracketed [123]",
+      "all": "Any PID format"
+    }
+  },
+  "err_menu": {
+    "title": "Error Logs / Stack Traces",
+    "code": "Error Codes (HTTP, System)",
+    "python": "Python Exceptions",
+    "java": "Java Exceptions",
+    "node": "Node.js / JS Errors",
+    "go": "Go Panics / Traces",
+    "rust": "Rust Panics / Traces",
+    "trace": "Generic Stack Traces",
+    "file": "File Paths in Errors",
+    "line": "Line Numbers",
+    "panic": "Fatal Panics / Segfaults",
+    "multi": "Multi-line Stacks",
+    "custom": "Custom error regex",
+    "code_options": {
+      "title": "Code Options",
+      "http": "HTTP (4xx, 5xx)",
+      "system": "Errno codes",
+      "app": "App codes (ERR_*)",
+      "numeric": "Numeric codes"
+    },
+    "python_options": {
+      "title": "Python Options",
+      "exception": "Exception name",
+      "traceback": "Traceback header",
+      "fileline": "File line logic",
+      "module": "Module name",
+      "all": "Full traceback"
+    },
+    "java_options": {
+      "title": "Java Options",
+      "exception": "Exception name",
+      "trace": "at ... trace lines",
+      "caused": "Caused by...",
+      "class": "Class name"
+    },
+    "node_options": {
+      "title": "Node.js Options",
+      "error": "Error type",
+      "trace": "at ... trace lines",
+      "module": "File/Module",
+      "async": "Async trace"
+    },
+    "go_options": {
+      "title": "Go Options",
+      "panic": "panic: ...",
+      "trace": "goroutine trace",
+      "goroutine": "Goroutine header",
+      "file": "File/Line"
+    },
+    "rust_options": {
+      "title": "Rust Options",
+      "panic": "thread panicked",
+      "trace": "stack backtrace",
+      "thread": "Thread name",
+      "file": "Source reference"
+    },
+    "trace_options": {
+      "title": "Trace Options",
+      "java": "Java style",
+      "node": "Node style",
+      "python": "Python style",
+      "generic": "Universal style"
+    },
+    "file_options": {
+      "title": "File Options",
+      "linux": "Linux paths",
+      "windows": "Windows paths",
+      "source": "Source code files",
+      "all": "Any path"
+    },
+    "line_options": {
+      "title": "Line Options",
+      "simple": "Simple (123)",
+      "fileline": "file:123",
+      "range": "Ranges (10-20)"
+    },
+    "panic_options": {
+      "title": "Panic Options",
+      "fatal": "FATAL",
+      "abort": "ABORT",
+      "segfault": "Segmentation fault",
+      "oom": "Out of memory"
+    },
+    "multi_options": {
+      "title": "Multi-line Options",
+      "python": "Python multiline",
+      "java": "Java multiline",
+      "node": "Node multiline",
+      "all": "Generic multiline"
+    }
+  },
+  "time_menu": {
+    "title": "Timestamps & Time Patterns",
+    "iso": "ISO 8601 Formats",
+    "unix": "Unix Timestamps (Epoch)",
+    "rfc": "RFC Formats (2822, 3339)",
+    "date": "Date-only Formats",
+    "time": "Time-only Formats",
+    "datetime": "Combined Date-Time",
+    "tz": "Timezones / Offsets",
+    "relative": "Relative Time (ago, log)",
+    "range": "Time Ranges / Intervals",
+    "precision": "Fractional Seconds (ms, nano)",
+    "log": "Log-specific Timestamps",
+    "custom": "Custom time regex",
+    "iso_options": {
+      "title": "ISO Options",
+      "basic": "Basic (20260317)",
+      "datetime": "Full (YYYY-MM-DDTHH:MM:SS)",
+      "zulu": "Zulu (Z)",
+      "offset": "With Offset (+HH:MM)",
+      "compact": "Compact",
+      "week": "ISO Week"
+    },
+    "unix_options": {
+      "title": "Unix Options",
+      "seconds": "Seconds (10 digits)",
+      "milliseconds": "Millis (13 digits)",
+      "microseconds": "Micros (16 digits)",
+      "range": "Epoch ranges"
+    },
+    "rfc_options": {
+      "title": "RFC Options",
+      "rfc2822": "RFC 2822 (Email style)",
+      "rfc3339": "RFC 3339 (Modern)",
+      "weekday": "Include weekday",
+      "full": "Full RFC"
+    },
+    "date_options": {
+      "title": "Date Options",
+      "iso": "ISO (YYYY-MM-DD)",
+      "eu": "EU (DD/MM/YYYY)",
+      "us": "US (MM/DD/YYYY)",
+      "text": "Textual (17 Mar 2026)",
+      "short": "Short (YY-MM-DD)"
+    },
+    "time_options": {
+      "title": "Time Options",
+      "24h": "24-hour format",
+      "12h": "12-hour (AM/PM)",
+      "seconds": "With seconds",
+      "ms": "With millis"
+    },
+    "datetime_options": {
+      "title": "Datetime Options",
+      "iso": "ISO Style",
+      "space": "Space separated",
+      "slash": "Slash style",
+      "log": "Log style"
+    },
+    "tz_options": {
+      "title": "Timezone Options",
+      "utc": "UTC/GMT",
+      "offset": "+/- Offset",
+      "abbr": "Abbr (EST, CET)",
+      "full": "Full Name"
+    },
+    "relative_options": {
+      "title": "Relative Options",
+      "ago": "X ago",
+      "in": "In X",
+      "log": "Log relative",
+      "human": "Human readable"
+    },
+    "range_options": {
+      "title": "Range Options",
+      "dash": "Start - End",
+      "to": "Start to End",
+      "iso": "ISO duration"
+    },
+    "precision_options": {
+      "title": "Precision Options",
+      "ms": "Millis (.123)",
+      "micro": "Micros (.123456)",
+      "nano": "Nanos (.123456789)",
+      "variable": "Variable digits"
+    },
+    "log_options": {
+      "title": "Log Options",
+      "apache": "Apache [17/Mar/2026...]",
+      "nginx": "Nginx",
+      "syslog": "Syslog (Mar 17...)",
+      "k8s": "K8s Style",
+      "all": "Any log style"
+    }
+  },
+  "date_menu_full": {
+    "title": "Complete Date Patterns",
+    "standard": "Standard Formats",
+    "text": "Textual Month Names",
+    "compact": "Compact Dates (YYYYMMDD)",
+    "partial": "Partial Dates (Year, Q1)",
+    "range": "Date Ranges",
+    "validate": "Strict Date Validation",
+    "sep": "Custom Separators",
+    "locale": "Locale Specific",
+    "ordinal": "Ordinal Dates (1st, 2nd)",
+    "week": "Week-based Dates",
+    "log": "Log-specific Dates",
+    "custom": "Custom date regex",
+    "standard_options": {
+      "title": "Standard Options",
+      "iso": "ISO 8601",
+      "eu": "European",
+      "us": "American",
+      "short": "Short form",
+      "mixed": "Allow multiple"
+    },
+    "text_options": {
+      "title": "Textual Options",
+      "full": "Full month (January)",
+      "short": "Short month (Jan)",
+      "weekday": "With weekday",
+      "comma": "With comma",
+      "all": "Any textual"
+    },
+    "compact_options": {
+      "title": "Compact Options",
+      "yyyymmdd": "YYYYMMDD",
+      "yymmdd": "YYMMDD",
+      "digits": "Arbitrary digits"
+    },
+    "partial_options": {
+      "title": "Partial Options",
+      "month_year": "Month/Year",
+      "year": "Year only",
+      "day_month": "Day/Month",
+      "quarter": "Quarters (Q1-Q4)"
+    },
+    "range_options": {
+      "title": "Range Options",
+      "dash": "Start - End",
+      "to": "Start to End",
+      "mixed": "Mixed formats"
+    },
+    "validate_options": {
+      "title": "Validation Options",
+      "basic": "Basic digits",
+      "month": "Valid months (1-12)",
+      "day": "Valid days (1-31)",
+      "full": "Strict YYYY-MM-DD"
+    },
+    "sep_options": {
+      "title": "Separator Options",
+      "slash": "/",
+      "dash": "-",
+      "dot": ".",
+      "space": "Space",
+      "any": "Any [/-. ]"
+    },
+    "locale_options": {
+      "title": "Locale Options",
+      "eu": "EU style",
+      "us": "US style",
+      "iso": "ISO style",
+      "mixed": "All styles"
+    },
+    "ordinal_options": {
+      "title": "Ordinal Options",
+      "day": "Day ordinal (1st)",
+      "text": "Text ordinal",
+      "full": "Full ordinal"
+    },
+    "week_options": {
+      "title": "Week Options",
+      "iso": "ISO Week (2026-W11)",
+      "day": "Day of week",
+      "range": "Week range"
+    },
+    "log_options": {
+      "title": "Log Options",
+      "apache": "Apache",
+      "nginx": "Nginx",
+      "syslog": "Syslog",
+      "all": "Any log date"
+    }
+  },
+  "netflow_menu": {
+    "title": "Network Flow / Traffic Patterns",
+    "ip": "Source / Destination IPs",
+    "port": "Source / Destination Ports",
+    "proto": "Protocols (TCP/UDP/ICMP)",
+    "flow": "Flow Tuples (5-tuple)",
+    "bytes": "Traffic Volume (Bytes/Packets)",
+    "time": "Flow Timestamps / Duration",
+    "flags": "TCP Flags (SYN/ACK)",
+    "direction": "Traffic Direction",
+    "cidr": "CIDR / Subnets",
+    "dns": "DNS Traffic Patterns",
+    "http": "HTTP Traffic (Flow level)",
+    "anomaly": "Anomaly Detection",
+    "custom": "Custom netflow regex",
+    "ip_options": {
+      "title": "IP Options",
+      "src": "Source IP",
+      "dst": "Dest IP",
+      "pair": "IP pair",
+      "private": "Internal IPs",
+      "public": "Public IPs",
+      "all": "Any IP"
+    },
+    "port_options": {
+      "title": "Port Options",
+      "src": "Source port",
+      "dst": "Dest port",
+      "wellknown": "Well-known ports",
+      "range": "Port range",
+      "pair": "Port pair"
+    },
+    "proto_options": {
+      "title": "Protocol Options",
+      "tcp": "TCP",
+      "udp": "UDP",
+      "icmp": "ICMP",
+      "app": "Application proto",
+      "all": "Any proto"
+    },
+    "flow_options": {
+      "title": "Flow Options",
+      "basic": "Simple tuple",
+      "full": "Full 5-tuple",
+      "log": "Log entry style"
+    },
+    "bytes_options": {
+      "title": "Volume Options",
+      "bytes": "Bytes counts",
+      "packets": "Packet counts",
+      "rate": "Traffic rate",
+      "human": "Human readable (MB/GB)"
+    },
+    "time_options": {
+      "title": "Time Options",
+      "start": "Flow start",
+      "end": "Flow end",
+      "duration": "Duration",
+      "unix": "Unix timestamp"
+    },
+    "flags_options": {
+      "title": "TCP Flags",
+      "syn": "SYN only",
+      "ack": "ACK only",
+      "fin": "FIN/RST",
+      "combo": "Multiple flags"
+    },
+    "direction_options": {
+      "title": "Direction Options",
+      "in": "Inbound",
+      "out": "Outbound",
+      "internal": "Internal",
+      "external": "External"
+    },
+    "cidr_options": {
+      "title": "CIDR Options",
+      "ipv4": "IPv4 CIDR",
+      "range": "Subnet range",
+      "private": "Private subnet",
+      "all": "Any CIDR"
+    },
+    "dns_options": {
+      "title": "DNS Options",
+      "query": "Query name",
+      "response": "Response code",
+      "domain": "Full domain",
+      "record": "Record type"
+    },
+    "http_options": {
+      "title": "HTTP Options",
+      "method": "HTTP Method",
+      "status": "Status code",
+      "path": "Request path",
+      "agent": "User agent"
+    },
+    "anomaly_options": {
+      "title": "Anomaly Options",
+      "scan": "Port scanning",
+      "flood": "Flood detection",
+      "dns": "DNS tunneling",
+      "exfil": "Data exfiltration",
+      "burst": "Traffic burst"
+    }
+  },
+  "edit_menu": {
+    "title": "Interactive Regex Editor",
+    "load": "Load Saved Pattern",
+    "inline": "Inline manual edit",
+    "replace": "Find and Replace",
+    "flags": "Toggle Flags (i, g, m, etc.)",
+    "group": "Wrap in Group",
+    "quant": "Modify Quantifier",
+    "anchor": "Add / Remove Anchors",
+    "escape": "Escape / Unescape",
+    "optimize": "Auto-optimize Pattern",
+    "test": "Test after editing",
+    "history": "Edit history / undo",
+    "custom": "Advanced manual editing",
+    "anchor_options": {
+      "title": "Anchor Options",
+      "start": "Add Start (^)",
+      "end": "Add End ($)",
+      "both": "Add Both",
+      "remove": "Remove All"
+    },
+    "group_options": {
+      "title": "Grouping Options",
+      "capture": "Capture group ()",
+      "noncapture": "Non-capture (?:)",
+      "named": "Named group (?P<name>)",
+      "optional": "Optional group (...)?"
+    },
+    "quant_options": {
+      "title": "Quantifier Options",
+      "exact": "Exact {n}",
+      "range": "Range {n,m}",
+      "greedy": "Greedy (+, *)",
+      "lazy": "Lazy (+?, *?)",
+      "optional": "Optional (?)"
+    },
+    "escape_options": {
+      "title": "Escape Options",
+      "escape": "Escape special chars",
+      "unescape": "Unescape chars"
+    },
+    "history_options": {
+      "title": "History Options",
+      "undo": "Undo last change",
+      "redo": "Redo change",
+      "list": "Show full history"
+    },
+    "prompt": {
+      "find": "Find string",
+      "replace": "Replace with",
+      "group_name": "Group name",
+      "target": "Target element",
+      "custom": "Edit regex"
+    }
+  },
+  "hist_menu": {
+    "title": "History / Saved / Frequent Patterns",
+    "recent": "Recently used patterns",
+    "freq": "Most frequently used",
+    "fav": "Favorites",
+    "search": "Search patterns",
+    "collections": "Pattern collections",
+    "stats": "Usage statistics",
+    "export": "Export patterns",
+    "cleanup": "Clean history",
+    "stats_labels": {
+      "total": "Total saved:",
+      "favorites": "Favorites:",
+      "pinned": "Pinned:",
+      "collections": "Collections:"
+    },
+    "prompts": {
+      "search": "Search term",
+      "filename": "Export filename",
+      "confirm_delete": "Confirm history clear?"
+    }
+  },
+  "custom_menu": {
+    "title": "Custom Regex / Manual Input",
+    "new": "Create new regex from scratch",
+    "load": "Load existing custom pattern",
+    "edit": "Edit manually",
+    "test": "Test against text/file",
+    "explain": "Explain regex components",
+    "validate": "Validate syntax",
+    "save": "Save custom pattern",
+    "wizard_options": {
+      "title": "New Regex Mode",
+      "wizard": "Step-by-step Wizard",
+      "blank": "Blank input",
+      "template": "From common templates"
+    },
+    "explain_options": {
+      "title": "Regex Explanation"
+    },
+    "prompts": {
+      "enter_regex": "Enter your regex",
+      "valid_regex": "Regex is valid!",
+      "invalid_regex": "Invalid regex: {error}",
+      "wizard_type": "What do you want to match? (email, phone, etc.)"
+    }
+  },
+  "merge_menu": {
+    "title": "Merge / Combine Multiple Regex Patterns",
+    "select": "Select patterns to merge",
+    "method": "Choose merge method",
+    "grouping": "Wrap patterns in groups",
+    "preview": "Show merged regex",
+    "test": "Test merged pattern",
+    "save": "Save merged pattern",
+    "methods": {
+      "or": "OR ( | )",
+      "concat": "Concatenate",
+      "optional": "Optional OR",
+      "named_group": "Named groups"
+    },
+    "prompts": {
+      "select_patterns": "Indices to merge (comma separated)",
+      "preview_title": "Merged Pattern Preview",
+      "merge_name": "Name for merged pattern"
+    }
+  },
+  "perf_menu": {
+    "title": "Performance / Optimized Regex Engine",
+    "analyze": "Analyze regex performance",
+    "optimize": "Auto-optimize pattern",
+    "benchmark": "Benchmark regex speed",
+    "safe": "Check ReDoS safety",
+    "simplify": "Simplify pattern structure",
+    "anchor": "Improve anchoring",
+    "save": "Save optimized version",
+    "analyze_options": {
+      "title": "Performance Report"
+    },
+    "results": {
+      "risk_level": "Risk Level: {level}",
+      "risks": "Detected Risks:",
+      "benchmark_result": "Time: {time}ms over {iters} iterations",
+      "redos_alert": "HIGH REDOS RISK DETECTED!"
+    },
+    "prompts": {
+      "select_optimization": "Optimization level (basic/aggressive)",
+      "enter_text_bench": "Text for benchmarking"
+    }
+  },
+  "secure_menu": {
+    "title": "Security-sensitive Patterns / PII / SSRF",
+    "pii": "Personal Identifiable Information (PII) (Names, Phones, SSN...)",
+    "secrets": "API keys / tokens / passwords (AWS, JWT, RSA...)",
+    "ssrf": "SSRF / URL validation (Block internal IPs/Localhost)",
+    "pci": "Credit card & payment data (Visa, Amex, routing...)",
+    "gov": "Government IDs (SSN, DNI, Passport)",
+    "health": "Health / medical data (Records, Insurance)",
+    "emails": "Email Leak Detection (Corporate leaks)",
+    "dns": "DNS Leak Detection (Tunneling patterns)",
+    "logs": "Log Masking Flow (Obfuscate sensitive fields)",
+    "audit": "Security Audit Flow (Scan codebases for secrets)",
+    "pii_options": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "dob": "Date of Birth",
+      "id": "ID Number",
+      "creditcard": "Credit Card"
+    },
+    "secrets_options": {
+      "aws": "AWS Keys",
+      "jwt": "JWT Tokens",
+      "privatekey": "Private Keys",
+      "oauth": "OAuth Tokens",
+      "passwords": "Passwords in code"
+    },
+    "ssrf_options": {
+      "internal": "Internal IPs",
+      "reserved": "Reserved IPs",
+      "url": "Internal URLs",
+      "ipv4": "Local IPv4"
+    },
+    "health_options": {
+      "medrec": "Medical Records",
+      "insurance": "Insurance IDs"
+    },
+    "gov_options": {
+      "title": "Gov ID Options",
+      "ssn": "SSN (US)",
+      "passport": "Passport (Global)",
+      "dni": "DNI/NIE (ES)",
+      "q": "Back"
+    },
+    "emails_options": {
+      "title": "Email Options",
+      "leak": "Leak detection",
+      "all": "All emails"
+    },
+    "dns_options": {
+      "title": "DNS Options",
+      "leak": "Leak detection",
+      "all": "All DNS"
+    },
+    "audit_options": {
+      "title": "Security Audit",
+      "mask": "PII Masking",
+      "scan": "Secret Scanning"
+    }
+  },
+  "help_menu": {
+    "title": "Help / Resources",
+    "quit": "Quit application",
+    "version": "Show current version",
+    "help_context": "Contextual Help",
+    "help_global": "Show global help",
+    "tutorial": "Interactive tutorial",
+    "shortcuts": "Keyboard shortcuts",
+    "changelog": "Show recent updates",
+    "changelog_info": "v1.0.0: Added Security, Perf, and Extended Log support.",
+    "feedback_info": "Email feedback to support@pyregex.io",
+    "config": "Show / edit configuration file",
+    "confirm_quit_unsaved": "You have unsaved changes. Quit anyway? (y/n): ",
+    "tutorial_steps": [
+      "Welcome to PyRegex! Build your first pattern by typing 'create'.",
+      "Choose a category like 'logs' or 'netflow'.",
+      "Customize with sub-options and save your result.",
+      "Use 'perf' to make sure your regex is fast and safe."
+    ],
+    "shortcut_list": [
+      "Ctrl+C: Cancel/Exit",
+      "Ctrl+D: Finish input",
+      "Tab: Auto-complete",
+      "Up/Down: Command history"
+    ]
+  },
+  "playground": {
+    "empty_regex": "Type a regex above...",
+    "no_matches": "⚠️ No matches",
+    "matches_count": "✅ {count} match(es)",
+    "no_groups": "No capture groups",
+    "use_parens": "Use (...) to create groups",
+    "explain_prompt": "Type a regex to see explanation",
+    "explain_header": "📖 EXPLANATION:",
+    "debug_prompt": "Regex + text required for debug",
+    "replace_header": "🔄 REPLACEMENT:",
+    "replace_pattern": "Replacement pattern: {pattern}",
+    "replace_empty": "(empty)",
+    "replace_count": "Substitutions: {count}",
+    "export_prompt": "Type a regex to export",
+    "optimize_prompt": "Type a regex to optimize",
+    "warnings": "⚠️ WARNINGS:",
+    "suggestions": "💡 SUGGESTIONS:",
+    "footer_hints": "Tab switches panels | F1-F7 for views"
+  }
+}

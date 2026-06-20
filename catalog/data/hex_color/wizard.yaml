@@ -1,0 +1,23 @@
+version: '2.0'
+metadata:
+  title: Hex Color
+  description: Validates a 3- or 6-digit hex color.
+  tags:
+  - data
+  - validation
+  priority: 55
+wizard:
+  steps: []
+logic:
+  base_pattern: '^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$'
+corpus:
+  matches:
+  - value: '#fff'
+    label: Shorthand
+  - value: '#1a2b3c'
+    label: Full
+  non_matches:
+  - value: '#12'
+    reason: Wrong length
+  - value: '123456'
+    reason: Missing hash

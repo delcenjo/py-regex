@@ -1,0 +1,26 @@
+version: "2.0"
+metadata:
+  title: "Nombre Amigable"        # Se muestra en el menú
+  description: "Qué hace..."      # Se muestra en la descripción
+  tags: ["tag1", "tag2"]           # Para búsquedas
+  priority: 100                    # Orden en la lista
+wizard:
+  steps:                           # Pasos de configuración (opcional)
+    - id: "my_option"
+      question: "¿Pregunta?"
+      type: "select"               # menu o text
+      options: ["Si", "No"]
+      default: "Si"
+logic:
+  base_pattern: '^.*$'             # Patrón por defecto
+  variants:                        # Patrones alternativos según opciones
+    - id: "special_case"
+      condition: "my_option == 'Si'"
+      pattern: '^[a-z]+$'
+corpus:
+  matches:                         # Ejemplos que DEBEN coincidir
+    - value: "ejemplo1"
+      label: "descripción"
+  non_matches:                     # Ejemplos que NO deben coincidir
+    - value: "fallo1"
+      reason: "por qué falla"

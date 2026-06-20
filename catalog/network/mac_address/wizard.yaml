@@ -1,0 +1,23 @@
+version: '2.0'
+metadata:
+  title: MAC Address
+  description: Validates a 48-bit MAC address.
+  tags:
+  - network
+  - validation
+  priority: 65
+wizard:
+  steps: []
+logic:
+  base_pattern: '^(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$'
+corpus:
+  matches:
+  - value: '00:1A:2B:3C:4D:5E'
+    label: Colon separated
+  - value: '00-1a-2b-3c-4d-5e'
+    label: Hyphen separated
+  non_matches:
+  - value: '00:1A:2B:3C:4D'
+    reason: Too short
+  - value: 'ZZ:1A:2B:3C:4D:5E'
+    reason: Invalid hex
