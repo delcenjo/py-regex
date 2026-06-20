@@ -17,8 +17,6 @@ class SecurityService:
         """Identify potential secrets (API keys, Tokens) using entropy and patterns."""
         findings = []
 
-        # 1. Pattern-based detection (Generic Secrets)
-        # We look for long alphanumeric strings that look like keys
         key_patterns = {
             "Generic API Key": r"[a-zA-Z0-9]{32,64}",
             "Bearer Token": r"Bearer\s+[a-zA-Z0-9\-\._~+/]+=*",
@@ -56,7 +54,6 @@ class SecurityService:
             r"fe80::",  # IPv6 link-local
         ]
 
-        # Extract host
         host_match = re.search(r"://([^:/]+)", url)
         if not host_match:
             return {"risk": "UNKNOWN", "reason": "Could not parse host from URL"}

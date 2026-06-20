@@ -1,4 +1,3 @@
-# src/pyregex/domain/explain/parser/recursive_descent.py
 from __future__ import annotations
 from typing import List, Optional
 
@@ -42,7 +41,7 @@ class RecursiveDescentParser:
     def _peek(self, offset: int = 0) -> Token:
         idx = self.pos + offset
         if idx >= self.length:
-            return self.tokens[-1]  # Return EOF usually
+            return self.tokens[-1]
         return self.tokens[idx]
 
     def _consume(self, expected_type: Optional[TokenType] = None) -> Token:
@@ -177,7 +176,7 @@ class RecursiveDescentParser:
             t = self._consume()
             if t.type == TokenType.LITERAL:
                 if self._peek().type == TokenType.CLASS_RANGE:
-                    self._consume()  # Consume '-'
+                    self._consume()
                     end_t = self._consume(TokenType.LITERAL)
                     items.append(RangeNode(t.value, end_t.value))
                 else:
@@ -216,7 +215,7 @@ class RecursiveDescentParser:
             greedy = False
             val = val[:-1]
 
-        min_v, max_v = 1, 1  # Defaults
+        min_v, max_v = 1, 1
 
         if val == "*":
             min_v, max_v = 0, None

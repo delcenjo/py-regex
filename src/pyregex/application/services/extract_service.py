@@ -23,7 +23,6 @@ class ExtractService:
         """Extracts data and returns it in the requested format."""
         matches = list(self.engine.finditer(text))
 
-        # 1. Transform matches to raw data
         results = []
         for m in matches:
             res = {
@@ -34,11 +33,9 @@ class ExtractService:
             }
             results.append(res)
 
-        # 2. Apply aggregations
         if unique or include_count or group_by:
             results = self._aggregate(results, unique, include_count, group_by)
 
-        # 3. Format output
         if output_format == "json":
             return self._to_json(results)
         elif output_format == "csv":
@@ -57,13 +54,11 @@ class ExtractService:
         aggregated: Dict[str, Dict[str, Any]] = {}
 
         for res in results:
-            # Determine the key for aggregation
             if group_by:
-                # If grouping by a specific named group
                 if isinstance(res["groups"], dict) and group_by in res["groups"]:
                     key = str(res["groups"][group_by])
                 else:
-                    key = res["match"]  # Fallback to full match
+                    key = res["match"]
             else:
                 key = res["match"]
 
@@ -82,11 +77,9 @@ class ExtractService:
         if unique:
             return final_results
 
-        # If not unique but we wanted counts, we usually want the unique set with counts
         if include_count:
             return final_results
 
-        # If neither unique nor count, but group_by was used, it's essentially unique by that key
         if group_by:
             return final_results
 
@@ -100,7 +93,6 @@ class ExtractService:
             return ""
 
         output = io.StringIO()
-        # Find all keys including nested groups if they are dicts
         fieldnames = ["match", "start", "end"]
         if "count" in results[0]:
             fieldnames.append("count")

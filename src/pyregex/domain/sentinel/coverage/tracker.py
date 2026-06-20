@@ -40,12 +40,9 @@ class CoverageTracker:
         """
         matched_substr = text[span[0] : span[1]]
 
-        # Quick heuristic coverage (checking which sub-patterns fire on the matched text)
         for pattern in self._total_branches:
             if pattern not in self._covered_branches:
                 try:
-                    # Very loose heuristic — if the branch regex can be found in the text
-                    # it was 'potentially' covered. A full regex engine trace is needed for 100% accuracy.
                     if re.search(pattern, matched_substr):
                         self._covered_branches.add(pattern)
                 except re.error:
@@ -54,7 +51,6 @@ class CoverageTracker:
         for pattern in self._total_quantifiers:
             if pattern not in self._covered_quantifiers:
                 try:
-                    # Quantifiers: if a quantified chunk is found multiple times
                     if len(re.findall(pattern, matched_substr)) > 0:
                         self._covered_quantifiers.add(pattern)
                 except re.error:

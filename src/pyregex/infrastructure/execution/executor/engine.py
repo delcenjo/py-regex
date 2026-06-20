@@ -23,8 +23,6 @@ class ExecutionEngine:
     def __init__(self, pattern: RegistryPattern):
         self.pattern = pattern
 
-        # Determine internal flags (like ignores, multiline) from metadata if we store it
-        # For now, default compile
         try:
             self.compiled_regex = re.compile(pattern.pattern)
         except re.error as e:
@@ -52,7 +50,7 @@ class ExecutionEngine:
     def _build_result(
         self, source: str, line_num: int, chunk: str, match: re.Match
     ) -> MatchResult:
-        """Constructs the pro-tier dataclass."""
+        """Constructs a MatchResult from a regex match."""
         groups = {
             i: match.group(i)
             for i in range(1, len(match.groups()) + 1)

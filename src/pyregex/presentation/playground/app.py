@@ -152,8 +152,6 @@ class PlaygroundApp:
             return self.app.layout.has_focus(control)
         return False
 
-    # ── Event handlers ────────────────────────────────────────────
-
     def _on_regex_changed(self, buffer: Buffer) -> None:
         """Called when regex text changes — recompute everything."""
         raw_pattern = buffer.text
@@ -274,7 +272,6 @@ class PlaygroundApp:
             parts.append(("class:stats_dim", "○ 0 match "))
         parts.append(("class:stats_sep", "│ "))
 
-        # Complexity
         cx = state.complexity
         level_colors = {
             "low": "stats_good",
@@ -288,15 +285,12 @@ class PlaygroundApp:
         parts.append((cx_style, f"{bar} {cx.level} "))
         parts.append(("class:stats_sep", "│ "))
 
-        # Flags
         parts.append(("class:stats", f"Flags: {self.flag_manager.format_toolbar()} "))
         parts.append(("class:stats_sep", "│ "))
 
-        # Mode
         parts.append(("class:stats_mode", f"[{self._detail_mode}] "))
         parts.append(("class:stats_sep", "│ "))
 
-        # Keybinding hints
         msg = "Ctrl+Q salir │ Ctrl+J/K paneles │ Ctrl+E expandir │ Tab autocompletar"
         parts.append(("class:stats_dim", f" {msg} "))
 
@@ -310,7 +304,6 @@ class PlaygroundApp:
             ("class:header_sep", " │ "),
             ("class:header_flags", f" {self.flag_manager.format_toolbar()} "),
         ]
-        # Show alias expansion info if present
         raw = self._regex_buffer.text
         if self._alias_resolver.has_aliases(raw):
             expanded_display = self._alias_resolver.get_expanded_display(raw)
@@ -324,8 +317,6 @@ class PlaygroundApp:
                 ("class:header_title", " PyRegex Playground "),
             ]
         )
-
-    # ── Detail renderers ──────────────────────────────────────────
 
     def _render_groups(self) -> list[tuple[str, str]]:
         lines: list[tuple[str, str]] = []
@@ -351,7 +342,6 @@ class PlaygroundApp:
                 n_str = str(n)
                 lines.append(("class:explain_text", f"  {n_str}\n"))
 
-            # Complexity badge
             badge = self.explain_bridge.get_complexity_badge(state.regex_text)
             lines.append(("", f"\n  Complejidad: {badge}\n"))
         return lines
@@ -417,8 +407,6 @@ class PlaygroundApp:
                 lines.append(("class:optimize_text", f"{line}\n"))
         return lines
 
-    # ── Layout ────────────────────────────────────────────────────
-
     def _build_layout(self):
         regex_area = Frame(
             Window(content=BufferControl(buffer=self._regex_buffer), height=1),
@@ -476,7 +464,6 @@ class PlaygroundApp:
             ]
         )
 
-        # Wrap in FloatContainer with CompletionsMenu to render autocompletions
         return FloatContainer(
             content=root_container,
             floats=[
@@ -487,8 +474,6 @@ class PlaygroundApp:
                 )
             ]
         )
-
-    # ── Keybindings ───────────────────────────────────────────────
 
     def _build_matches_kb(self) -> KeyBindings:
         kb = KeyBindings()
@@ -565,7 +550,6 @@ class PlaygroundApp:
         def _(event):
             event.app.exit()
 
-        # Flag toggles
         @kb.add("c-i")
         def _(event):
             self.flag_manager.toggle(re.IGNORECASE)
@@ -578,7 +562,6 @@ class PlaygroundApp:
             self.engine.state.flags = self.flag_manager.flags
             self._on_regex_changed(self._regex_buffer)
 
-        # Panel modes: F1-F7
         @kb.add("f1")
         def _(event):
             self._detail_mode = "cheatsheet"
@@ -621,7 +604,6 @@ class PlaygroundApp:
             self._update_detail()
             self._update_stats()
 
-        # Undo/redo
         @kb.add("c-z")
         def _(event):
             if self.engine.undo():
@@ -634,7 +616,6 @@ class PlaygroundApp:
                 self._regex_buffer.text = self.engine.state.regex_text
                 self._input_buffer.text = self.engine.state.input_text
 
-        # Load next/prev sample
         @kb.add("c-n")
         def _(event):
             if SAMPLES:
@@ -651,7 +632,6 @@ class PlaygroundApp:
                 self._regex_buffer.text = s.regex
                 self._input_buffer.text = s.test_data
 
-        # ── Completion Menu Navigation (Priority) ────────────────
         @kb.add("tab", filter=has_completions)
         def _(event):
             event.current_buffer.complete_next()
@@ -662,15 +642,12 @@ class PlaygroundApp:
 
         @kb.add("enter", filter=has_completions)
         def _(event):
-            # Accept completion and close menu
             event.current_buffer.complete_state = None
 
         @kb.add("enter", filter=~has_completions & Condition(lambda: self.app.layout.current_buffer == self._input_buffer))
         def _(event):
-            # Standard newline in multiline input
             event.current_buffer.insert_text("\n")
 
-        # ── Panel navigation (All panels) ──
         @kb.add("c-j")
         def _(event):
             event.app.layout.focus_next()
@@ -681,11 +658,9 @@ class PlaygroundApp:
 
         # Users can also switch panels using the mouse (mouse_support=True).
 
-        # Alias expand/collapse toggle
         @kb.add("c-e")
         def _(event):
             raw = self._regex_buffer.text
-            # Expand: replace @aliases and + compositions with real regex
             if self._alias_resolver.has_aliases(raw):
                 expanded = self._alias_resolver.expand(raw)
                 if expanded != raw:
@@ -693,8 +668,6 @@ class PlaygroundApp:
                     self._expanded_view = True
 
         return kb
-
-    # ── Style ─────────────────────────────────────────────────────
 
     def _build_style(self):
         return Style.from_dict(
@@ -748,8 +721,6 @@ class PlaygroundApp:
                 "cheatsheet": "#a0a0a0",
             }
         )
-
-    # ── Public API ────────────────────────────────────────────────
 
     def run(self) -> None:
         """Launch the playground."""

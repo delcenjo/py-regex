@@ -52,7 +52,6 @@ class ExplainBridge:
         if not result.get("success"):
             return ComplexityInfo()
 
-        # Use ReDoS engine data if available
         redos = result.get("redos", {})
         if redos and redos.get("complexity"):
             notation = redos["complexity"]
@@ -72,7 +71,6 @@ class ExplainBridge:
 
             warns = result.get("warnings", [])
             sugs = result.get("suggestions", [])
-            # Add ReDoS vulnerabilities to warnings
             for v in redos.get("vulnerabilities", []):
                 warns.append(f"ReDoS: {v.get('description', '')}")
 

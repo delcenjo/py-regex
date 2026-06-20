@@ -19,30 +19,20 @@ class ExplainController:
         self.formatter = ExplainFormatter()
 
     def explain(self, pattern: str, mode: str = "detailed") -> str:
-        # 1. Parse -> AST
         try:
             parser = RegexParser(pattern)
             ast_root = parser.parse()
         except Exception as e:
             return f"Error parsing regex: {e}"
 
-        # 2. Semantic Analysis
         metrics = self.analyzer.analyze(ast_root)
-
-        # 3. Macro Pattern Recognition
         tags = self.recognizer.recognize(ast_root)
-
-        # 4. Lint Warnings
         warnings = self.linter.lint(ast_root)
-
-        # 5. Simplify AST
         simplified_ast = self.simplifier.simplify(ast_root)
 
-        # 6. Translate to Human
         translator = HumanTranslator(mode)
         translation = translator.translate(simplified_ast)
 
-        # 7. Format Output
         return self.formatter.format_output(
             mode=mode,
             pattern=pattern,

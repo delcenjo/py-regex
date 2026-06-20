@@ -24,23 +24,18 @@ class StepRenderer:
         """Render a step and collect user input. Returns the raw input string."""
         context = context or {}
 
-        # 1. Compact Header
         title = step.title
-        # Try to translate if it's a known key
         if "." not in title and not title.isupper(): # Basic check
              translated = i18n.t(f"assistant.wizards.{title.lower().replace(' ', '_')}")
              if translated != f"assistant.wizards.{title.lower().replace(' ', '_')}":
                  title = translated
-        
-        # Simple, bold title with a decorative separator
+
         print(f"\n  {ansi.bold(title)}")
         print(f"  {ansi.dim('─' * 40)}")
 
-        # Display help text if present
         if step.help_text:
             print(f"  {ansi.dim(step.help_text)}")
 
-        # Dispatch to type-specific renderer
         if step.step_type == StepType.MENU:
             return self._render_menu(step)
         elif step.step_type == StepType.TEXT:
@@ -61,8 +56,6 @@ class StepRenderer:
     def _render_menu(self, step: WizardStep) -> str:
         """Render a menu selection step."""
         lines = []
-        
-        # 1. Variants
         for choice in step.choices:
             icon = choice.icon + " " if choice.icon else ""
             disabled = f" ({i18n.t('assistant.wizards.disabled')})" if choice.disabled else ""
@@ -71,7 +64,6 @@ class StepRenderer:
             
             lines.append(f"  {ansi.info(key)} {icon}{choice.label}{ansi.dim(disabled + desc)}")
 
-        # 2. Back Option
         back_label = i18n.t("assistant.wizards.back")
         back_key = f"[{ansi.FG_MAGENTA}b{ansi.RESET}]" if ansi.SUPPORTS_COLOR else "[b]"
         
@@ -80,8 +72,6 @@ class StepRenderer:
 
         keys = [c.key for c in step.choices if not c.disabled] + ["b"]
         completer = WordCompleter(keys, ignore_case=True)
-        
-        # 3. Prompt (Alone, with a manual newline before)
         print("")
         raw = (
             prompt("> ", completer=completer)

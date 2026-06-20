@@ -75,7 +75,6 @@ class MatchHighlighter:
         pos = 0
 
         for i, match in enumerate(matches):
-            # Text before this match
             if match.start > pos:
                 fragments.append(
                     TextFragment(
@@ -85,14 +84,12 @@ class MatchHighlighter:
                     )
                 )
 
-            # The match itself
             style_idx = i % len(self.MATCH_STYLES)
 
             if show_groups and match.group_spans:
                 # Break match into group sub-fragments
                 match_pos = match.start
                 for g_idx, (gs, ge) in enumerate(match.group_spans):
-                    # Text before this group (within the match)
                     if gs > match_pos:
                         fragments.append(
                             TextFragment(
@@ -104,7 +101,6 @@ class MatchHighlighter:
                                 style=self.MATCH_STYLES[style_idx],
                             )
                         )
-                    # The group itself
                     group_style_idx = g_idx % len(self.GROUP_STYLES)
                     fragments.append(
                         TextFragment(
@@ -119,7 +115,6 @@ class MatchHighlighter:
                     )
                     match_pos = ge
 
-                # Remaining text in match after last group
                 if match_pos < match.end:
                     fragments.append(
                         TextFragment(
@@ -132,7 +127,6 @@ class MatchHighlighter:
                         )
                     )
             else:
-                # Entire match as one fragment
                 fragments.append(
                     TextFragment(
                         text=text[match.start : match.end],
@@ -146,7 +140,6 @@ class MatchHighlighter:
 
             pos = match.end
 
-        # Remaining text after last match
         if pos < len(text):
             fragments.append(
                 TextFragment(

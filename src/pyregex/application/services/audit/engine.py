@@ -46,12 +46,10 @@ def _audit_file_worker(
     """Top-level worker function for multiprocessing (must be picklable)."""
     from pyregex.infrastructure.registry import PatternRegistry
 
-    # Reconstruct a local registry for the worker
     reg = PatternRegistry()
     reg.entities = registry_data.get("entities", {})
     reg.tags = registry_data.get("tags", {})
 
-    # Simple manual compilation as we don't want to rely on the engine instance here
     flags = re.IGNORECASE if ignore_case else 0
     compiled = []
     for r in rules:
@@ -239,7 +237,6 @@ class AuditEngine:
                     for name, regex in compiled_patterns:
                         for match in regex.finditer(line):
                             val = match.group()
-                            # Second-pass validation for specific types
                             is_suspicious = False
                             if (
                                 "CREDIT_CARD" in name
@@ -247,7 +244,6 @@ class AuditEngine:
                                 or "NIF" in name
                                 or "DNI" in name
                             ):
-                                # Actually, easier to just call the check directly
                                 from pyregex.application.services.validate.regexes import (
                                     luhn_check,
                                     iban_check,
@@ -279,7 +275,6 @@ class AuditEngine:
 
             if isinstance(e, ExecutionTimeoutError):
                 raise
-            # Silently skip missing/corrupted files during bulk scan
             pass
         return results
 
@@ -293,7 +288,6 @@ class AuditEngine:
                     for name, regex in compiled_patterns:
                         for match in regex.finditer(line):
                             val = match.group()
-                            # Second-pass validation for specific types
                             is_suspicious = False
                             if (
                                 "CREDIT_CARD" in name
@@ -347,7 +341,6 @@ class AuditEngine:
 
         for r in results:
             t = ansi.warning(f"[{r['type']}]")
-            # Show verified status if checksum was checked
             verified_label = (
                 f" {ansi.success('(Verified)')}" if r.get("verified") else ""
             )

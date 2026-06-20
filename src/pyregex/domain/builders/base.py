@@ -12,9 +12,6 @@ from dataclasses import dataclass, field
 from typing import Any, Pattern
 
 
-# ── Metadata ──────────────────────────────────────────────────────
-
-
 @dataclass
 class BuilderMetadata:
     """Metadata for a regex builder to support UI, documentation, and discovery."""
@@ -24,9 +21,6 @@ class BuilderMetadata:
     description: str
     examples: list[str] = field(default_factory=list)
     non_examples: list[str] = field(default_factory=list)
-
-
-# ── Validation & Safety Reports ───────────────────────────────────
 
 
 @dataclass
@@ -87,9 +81,6 @@ class SafetyReport:
         return f"{icon} [{self.builder_name}] {self.complexity} (score={self.score})"
 
 
-# ── Abstract Base Class ───────────────────────────────────────────
-
-
 class RegexBuilder(ABC):
     """Abstract base class for all regex builders.
 
@@ -126,8 +117,6 @@ class RegexBuilder(ABC):
     def explain_params(self) -> dict[str, str]:
         """Returns a dictionary explaining the parameters (legacy support)."""
         return {}
-
-    # ── New Renaissance Methods ───────────────────────────────────
 
     def validate(self) -> ValidationReport:
         """Auto-validate the generated pattern against metadata examples.

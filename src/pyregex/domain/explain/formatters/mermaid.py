@@ -52,14 +52,12 @@ class MermaidFormatter:
             return my_id, my_id
 
         if isinstance(node, QuantifierNode):
-            # Represent loop
             lines.append(
                 f'    {my_id}{{ "Loop [{node.min}, {node.max if node.max else "∞"}]" }}'
             )
             child_start, child_end = self._build_node(node.child, lines)
             lines.append(f"    {my_id} --> {child_start}")
             lines.append(f"    {child_end} --> {my_id}")
-            # We exit from the true path of the Loop decision node
             exit_id = self._get_id()
             lines.append(f"    {exit_id}[ ]")  # Invisible stub to continue
             lines.append(f"    {my_id} -- Next --> {exit_id}")
@@ -80,7 +78,6 @@ class MermaidFormatter:
             return my_id, join_id
 
         if isinstance(node, GroupNode):
-            # Draw subgraph
             _type = "Group"
             if getattr(node, "type", "") == "lookahead":
                 _type = "Lookahead"

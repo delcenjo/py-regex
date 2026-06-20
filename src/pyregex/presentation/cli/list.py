@@ -55,7 +55,6 @@ class ListCommand(BaseCommand):
     def execute(self, args: argparse.Namespace, cli: PyRegexCLI) -> int:
         ansi.print_banner("Registry Discovery")
 
-        # Build Discovery Query
         qb = QueryBuilder()
         qb.with_keyword(getattr(args, "search", None))
         qb.with_tag(getattr(args, "tag", None))
@@ -72,7 +71,6 @@ class ListCommand(BaseCommand):
 
         qb.paginate(page=getattr(args, "page", 1), limit=getattr(args, "limit", 50))
 
-        # Execute Subsystem
         query = qb.build()
         output = cli.registry_system.list(query)
         print(output)

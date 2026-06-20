@@ -67,7 +67,6 @@ class RegexMergeService:
         keys = sorted([k for k in trie.keys() if k != ""])
 
         # Group keys by their sub-trie to find commonalities
-        # This is a simplification; a full optimizer would be more complex
         for char in keys:
             sub_regex = self._trie_to_regex(trie[char])
             if sub_regex:
@@ -126,7 +125,6 @@ class RegexMergeService:
         optimized = "|".join(unique_parts)
 
         # Advanced: check for nested ORs that can be flattened
-        # (Simplified: just a proof of concept for 'robustness')
         optimized = re.sub(r"\|\(:(.*?)\)\|", r"|\1|", optimized)
 
         return optimized

@@ -113,19 +113,16 @@ class EventBus:
 
         payload = EventPayload(event=event, source=source, data=data)
 
-        # Log
         self._event_log.append(payload)
         if len(self._event_log) > self._max_log:
             self._event_log = self._event_log[-self._max_log :]
 
-        # Notify specific handlers
         for handler in self._handlers.get(event, []):
             try:
                 handler(payload)
             except Exception:
                 pass
 
-        # Notify global handlers
         for handler in self._global_handlers:
             try:
                 handler(payload)

@@ -28,7 +28,6 @@ class ASTSimplifier(ASTVisitor):
         return node
 
     def visit_char_class(self, node: CharClassNode) -> Any:
-        # Simplification logic: e.g. [0-9] -> \d
         if not node.negated:
             if node.chars == "0-9":
                 return SpecialCharNode(r"\d")
@@ -53,10 +52,9 @@ class ASTSimplifier(ASTVisitor):
             new_children.append(new_child)
         node.children = new_children
 
-        # Simplification: if non-capture group has exactly one child and no special flags
+        # Unwrap a non-capturing group with a single atomic child (safe to elide).
         if not node.is_capture and node.name is None and len(node.children) == 1:
             child = node.children[0]
-            # Unwrap group if it's safe (e.g. literal wrap)
             if isinstance(
                 child, (LiteralNode, SpecialCharNode, CharClassNode, DotNode)
             ):

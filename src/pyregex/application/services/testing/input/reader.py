@@ -42,6 +42,5 @@ class StreamReader(InputReader):
         self.stream = stream or sys.stdin
 
     def read_lines(self) -> Iterator[str]:
-        # Non-blocking or line-buffered read
         for line in self.stream:
             yield line.rstrip("\n")

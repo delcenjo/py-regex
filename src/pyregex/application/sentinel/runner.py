@@ -59,9 +59,6 @@ class TestSuiteRunner:
         for ftype in self.suite.fuzz_types:
             synthetic_inputs = self.fuzzer.generate(ftype, amount_per_type)
             for inp in synthetic_inputs:
-                # Fuzzed strings are assumed to FAIL (we are testing for false positives)
-                # unless specified otherwise by the domain.
-                # For safety, standard fuzzer inputs should NOT match tightly constrained regexes.
                 new_cases.append(
                     TestCase(
                         input_text=inp,
@@ -71,7 +68,6 @@ class TestSuiteRunner:
                     )
                 )
 
-        # Also always inject some 'garbage' noise
         garbage_inputs = self.fuzzer.generate("garbage", 10)
         for inp in garbage_inputs:
             new_cases.append(
@@ -104,7 +100,6 @@ class TestSuiteRunner:
 
         for case in all_cases:
             if error_msg:
-                # Compilation failed, so all tests ERROR immediately
                 results.append(
                     TestResult(
                         case=case,
@@ -132,7 +127,6 @@ class TestSuiteRunner:
                 failure_reason = "Expected NO match, but found a match."
             elif did_match:
                 assert match is not None
-                # Assertions on groups if specified
                 actual_groups = match.groupdict()
                 if case.expected_groups:
                     for key, expected_val in case.expected_groups.items():
@@ -142,7 +136,6 @@ class TestSuiteRunner:
                             failure_reason = f"Group '{key}' mismatch. Expected '{expected_val}', got '{actual_val}'"
                             break
 
-                # Coverage tracking via heuristic
                 if coverage_tracker and status == TestStatus.PASS:
                     coverage_tracker.process_match(case.input_text, match.span())
 

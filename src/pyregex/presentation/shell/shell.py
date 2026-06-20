@@ -45,13 +45,11 @@ class PyRegexShell:
                     os.system("clear" if os.name == "posix" else "cls")
                     continue
 
-                # Parse and run via the main CLI instance
                 try:
                     args = shlex.split(text)
                     self.cli.run(args)
                 except SystemExit:
-                    # Caught from PyRegexParser (e.g. --help or error)
-                    # We just continue to the next prompt
+                    # e.g. --help or argument error; continue to next prompt
                     pass
                 except Exception as e:
                     print(ansi.error(f"Execution failed: {e}"))

@@ -72,10 +72,6 @@ class Scanner:
             if self._peek() == "?":
                 self.pos += 1
                 return Token(TokenType.QUANTIFIER, char + "?", start, self.pos)
-            # `?` following `)`, `]`, `literal` or another modifier is generally lazy or just quantifier
-            # But wait, `?` alone is a quantifier. We tracked LAZY_MODIFIER if it follows another quantifier.
-            # However, for simplicity, we map `a*?` as `TokenType.QUANTIFIER '*'` and `TokenType.LAZY_MODIFIER '?'`.
-            # Actually, treating `*?` as a single QUANTIFIER token or two tokens is a choice.
             return Token(TokenType.QUANTIFIER, char, start, self.pos)
 
         if char == "{":
@@ -145,7 +141,6 @@ class Scanner:
             temp_pos += 1
 
         if temp_pos < self.length and self.pattern[temp_pos] == "}":
-            # Fast simple check if it looks like a quantifier e.g., '1,2' or '2,'
             clean = content.replace(",", "").strip()
             if clean.isdigit() or content == ",":
                 self.pos = temp_pos + 1
@@ -183,11 +178,9 @@ class Scanner:
                     # Named group (?<name> or (?P<name>
                     pass
             elif next_c == "P":
-                # (?P<name>
                 if self._peek(2) == "<":
                     self.pos += 2
                     val += "P<"
-                    # Consume name
                     while self.pos < self.length and self.pattern[self.pos] != ">":
                         val += self.pattern[self.pos]
                         self.pos += 1

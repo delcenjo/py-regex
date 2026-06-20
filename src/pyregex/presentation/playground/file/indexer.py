@@ -57,7 +57,6 @@ class FileIndexer:
         path = Path(file_path).resolve()
         cache_key = self._cache_key(path)
 
-        # Check memory cache first
         if cache_key in self._cache:
             return IndexInfo(
                 file_path=str(path),
@@ -67,7 +66,6 @@ class FileIndexer:
                 cache_hit=True,
             )
 
-        # Check disk cache
         if self._enable_cache:
             cached = self._load_disk_cache(path, cache_key)
             if cached is not None:
@@ -80,14 +78,12 @@ class FileIndexer:
                     cache_hit=True,
                 )
 
-        # Build fresh index
         t0 = time.perf_counter()
         offsets = self._scan_offsets(path)
         elapsed_ms = (time.perf_counter() - t0) * 1000
 
         self._cache[cache_key] = offsets
 
-        # Save to disk cache
         if self._enable_cache:
             self._save_disk_cache(path, cache_key, offsets)
 
@@ -124,8 +120,6 @@ class FileIndexer:
             for f in self._CACHE_DIR.glob("*.json"):
                 f.unlink()
 
-    # ── Internal ─────────────────────────────────────────────────
-
     def _scan_offsets(self, path: Path) -> list[int]:
         """Scan file and build byte offset list."""
         offsets = [0]
@@ -136,7 +130,6 @@ class FileIndexer:
                     break
                 offsets.append(offsets[-1] + len(line))
 
-        # Remove trailing offset if it's past EOF
         file_size = path.stat().st_size
         if offsets and offsets[-1] >= file_size:
             offsets.pop()
@@ -158,7 +151,6 @@ class FileIndexer:
 
         try:
             data = json.loads(cache_file.read_text())
-            # Validate against current file
             if data.get("size") == path.stat().st_size:
                 return data["offsets"]
         except Exception:

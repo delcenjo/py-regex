@@ -85,9 +85,7 @@ class RegexEditorService:
     @staticmethod
     def sanitize(pattern: str) -> str:
         """Remove redundant whitespace and empty groups."""
-        # 1. Remove empty groups ()
         pattern = pattern.replace("()", "")
-        # 2. Simplify nested redundant non-capturing groups (?:(?:a)) -> (?:a)
         pattern = re.sub(r"\(\?:\(\?:\s*(.*?)\s*\)\)", r"(?:\1)", pattern)
         return pattern
 

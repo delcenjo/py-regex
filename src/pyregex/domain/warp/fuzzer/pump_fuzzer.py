@@ -33,7 +33,6 @@ class PumpFuzzer:
 
         if report.is_vulnerable and report.evil_input:
             evil = report.evil_input
-            # Basic evil input parsing if possible: Base + Pump + Suffix
             if "X" in evil:
                 parts = evil.split("X")
                 pump = parts[0]
@@ -43,10 +42,9 @@ class PumpFuzzer:
                 suffix = "!"
 
         payloads = []
-        current_len = 5  # Starting payload length
+        current_len = 5
 
         for _ in range(stages):
-            # E.g. (a+)+  -> 'aaaaa' + 'X' (mismatch suffix to force backtracking)
             payloads.append((pump * current_len) + suffix)
             current_len = int(current_len * multiplier)
 

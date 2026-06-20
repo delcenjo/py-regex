@@ -23,7 +23,6 @@ class GenericBuilder(RegexBuilder):
 
     @property
     def metadata(self) -> BuilderMetadata:
-        # Map CatalogEntry subtypes to lists for BuilderMetadata
         all_examples = []
         all_non_examples = []
         

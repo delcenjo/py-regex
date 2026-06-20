@@ -24,7 +24,6 @@ class RegexEngine:
     ) -> RegexEngine:
         """Creates an engine instance from a regex builder and optional configuration."""
         compiled = builder.build(config)
-        # Combine builder flags (if any) with provided flags
         return cls(compiled, flags)
 
     def match(self, text: str) -> Match[str] | None:
@@ -52,7 +51,6 @@ class RegexEngine:
         return self.pattern.split(text, maxsplit)
 
     def get_pattern_string(self) -> str:
-        """Returns the raw pattern string."""
         return self.pattern.pattern
 
 

@@ -11,13 +11,10 @@ class TestingHighlighter:
         line = result.context or result.value
         start, end = result.span
 
-        # Colorized Line
-        # (Simplified: highlight only the first match occurrence in the context for this specific result)
         colored_line = (
             f"{line[:start]}{ansi.FG_GREEN}{line[start:end]}{ansi.RESET}{line[end:]}"
         )
 
-        # Pointer Markers
         padding = " " * start
         markers = "^" * (end - start)
         pointer_line = f"{padding}{ansi.FG_CYAN}{markers}{ansi.RESET}"

@@ -31,7 +31,6 @@ class ProjectContext:
                     self.config = yaml.safe_load(f) or {}
                 self._apply_config()
             except Exception:
-                # Silently fail (or log) for dev tool
                 pass
 
     def _apply_config(self):

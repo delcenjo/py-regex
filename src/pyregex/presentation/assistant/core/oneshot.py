@@ -10,11 +10,6 @@ from typing import Any
 from pyregex.domain.catalog.registry import catalog_registry
 from pyregex.utils import ansi
 
-# Trigger module registration
-
-
-# Shortcut → (module_name, wizard_name) mapping
-# AHA: We now derive these dynamically from the CatalogRegistry.
 def get_shortcut_map() -> dict[str, str]:
     """Returns a map of entry names to entries for quick lookup."""
     return {name: name for name in catalog_registry.list_entries()}
@@ -28,14 +23,11 @@ def run_wizard_oneshot(shortcut: str, cli: Any = None) -> int:
     """Run a single wizard by shortcut name, then exit (AHA Architecture)."""
     shortcut = shortcut.lower().strip()
 
-    # 1. Direct Entry Discovery
     entry = catalog_registry.get_entry(shortcut)
-    
-    # 2. Category Discovery (if shortcut is a category, show menu)
+
     if not entry and shortcut in catalog_registry.list_categories():
         return _show_category_menu(shortcut, cli)
 
-    # 3. Legacy Alias Mapping (optional, could be moved to catalog)
     aliases = {"ipv4": "ip", "ipv6": "ip", "dom": "domain", "usr": "username", "md": "markdown_heading"}
     if not entry and shortcut in aliases:
         entry = catalog_registry.get_entry(aliases[shortcut])

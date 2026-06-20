@@ -81,7 +81,6 @@ class UtilsFlows:
             if args and getattr(args, "subtype", None):
                 break
 
-        # Return a simple GenericBuilder for the custom pattern
         entry = {"id": "custom", "pattern": current_pattern, "name": "Custom"}
         return GenericBuilder(entry) if current_pattern else None, tags
 

@@ -25,16 +25,15 @@ class StatusToolbar:
         self.theme = theme or get_theme()
 
     def get_toolbar(self) -> HTML:
-        """Return formatted toolbar text for prompt_toolkit with expert styling."""
+        """Return formatted toolbar text for prompt_toolkit."""
         state = self.fsm.state.name
         breadcrumbs = self.session.breadcrumb_str
         patterns = self.session.pattern_count
         commands = self.session.history_count
-        
-        # Expert palette (Hex)
+
         accent = self.theme.accent
         dim = self.theme.dim
-        
+
         parts = [
             f"<ansiblue><b>[ {state} ]</b></ansiblue>",
             f"<ansigreen>LOC:</ansigreen> <ansiwhite>{breadcrumbs or '~'}</ansiwhite>",
@@ -42,7 +41,6 @@ class StatusToolbar:
             f"<ansimagenta>CMD:</ansimagenta> <ansiwhite>{commands}</ansiwhite>",
         ]
 
-        # Shortcuts hint based on state (Expert style: minimalist labels)
         if state == "IDLE":
             hint = "help | personal | web | security | devops"
         elif state == "BROWSING":

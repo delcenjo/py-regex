@@ -50,7 +50,6 @@ class RunCommand(BaseCommand):
         output_format = args.format
         apply_global = getattr(args, "apply_global", False)
 
-        # 1. Resolve target input
         target_input = text
         is_file = False
 
@@ -74,7 +73,6 @@ class RunCommand(BaseCommand):
                 )
                 return 1
 
-        # 2. Execute via the execution system
         try:
             results = cli.execution_system.execute(
                 pattern_name=target_name,
@@ -84,11 +82,9 @@ class RunCommand(BaseCommand):
                 apply_global=apply_global,
             )
 
-            # 3. Handle Output
             if output_format == "ansi":
                 print(results)
             else:
-                # For JSON/CSV, we might want to print directly or handle via a formatter
                 print(results)
 
             return 0

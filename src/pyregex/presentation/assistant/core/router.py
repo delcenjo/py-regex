@@ -48,7 +48,6 @@ class Router:
         """
         text = input_text.strip().lower()
 
-        # 1. Built-in commands
         builtins = {
             "help": RouteResult(RouteType.BUILTIN, command="help"),
             "exit": RouteResult(RouteType.EXIT),
@@ -66,13 +65,12 @@ class Router:
         if text in builtins:
             return builtins[text]
 
-        # 2. Direct aliases (manual overrides and abbreviations)
+        # 2. Direct aliases
         if text in self._aliases:
             module_name, wizard_name = self._aliases[text]
             return RouteResult(RouteType.WIZARD, module=module_name, wizard=wizard_name)
 
-        # 3. Dynamic Resolution — check every module for a wizard matching this name
-        # If the input is in the discovery index, we route it directly
+        # 3. Catalog discovery index
         from pyregex.domain.catalog.registry import catalog_registry
         if text in catalog_registry._discovery_map:
             # We determine the category from the categories map
@@ -80,9 +78,8 @@ class Router:
                 if text in entries:
                     return RouteResult(RouteType.WIZARD, module=cat, wizard=text)
                     
-        # 3.5 Fallback for manual module wizards (that are not in the catalog)
+        # 3.5 Fallback for manual (non-catalog) module wizards
         for info in self._registry.list_all():
-            # Skip catalog modules here as we already checked the index
             if hasattr(self._registry.get(info.name), "wizard_count"):
                 continue
             try:
@@ -131,7 +128,6 @@ class Router:
         Automatically registers every wizard as a direct command,
         plus maintains common abbreviations.
         """
-        # 1. Dynamic Registration — ONLY for manual modules (not catalog)
         for info in self._registry.list_all():
             try:
                 module = self._registry.get(info.name)
@@ -141,14 +137,12 @@ class Router:
                     
                 wizards = module.get_wizards()
                 for wiz_name in wizards:
-                    # e.g. "email_wizard" -> "email"
                     alias = wiz_name.replace("_wizard", "")
                     self.register_alias(alias, info.name, wiz_name)
             except Exception:
                 continue
 
-        # 2. Hand-crafted abbreviations and special cases
-        # These override or supplement the generic aliases
+        # Hand-crafted abbreviations and special cases
         special_cases = {
             # Personal
             "cc": ("personal", "credit_card_wizard"),
@@ -187,12 +181,10 @@ class Router:
         for alias, (mod, wiz) in special_cases.items():
             self.register_alias(alias, mod, wiz)
 
-        # 3. Category shortcuts
+        # Category shortcuts
         for cat in ModuleCategory:
             self.register_shortcut(cat.value, cat.value)
 
-
-# ── Route Result ─────────────────────────────────────────────────────
 
 from enum import Enum, auto
 

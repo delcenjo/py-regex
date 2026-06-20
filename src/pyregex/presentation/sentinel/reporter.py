@@ -30,7 +30,6 @@ class SentinelReporter:
 
     def report_suite(self, result: SuiteResult):
         """Prints the detailed results of a single TestSuite."""
-        # Header
         if result.success:
             panel_style = "green"
             status_text = "[bold green]PASS[/bold green]"
@@ -42,7 +41,6 @@ class SentinelReporter:
             f"{status_text} {result.suite_name} [dim]({result.total_tests} tests)[/dim]"
         )
 
-        # Details Table for Failures
         if not result.success:
             self.console.print(f"\n[bold]{title}[/bold]")
             fail_table = Table(box=box.MINIMAL, expand=True, show_header=True)
@@ -99,7 +97,6 @@ class SentinelReporter:
         cov_table.add_column("Score", justify="right")
         cov_table.add_column("Missed Nodes", style="dim red")
 
-        # Format percentages safely
         b_pct = cov.branch_coverage_percent
         q_pct = cov.quantifier_coverage_percent
 

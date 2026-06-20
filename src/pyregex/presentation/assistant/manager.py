@@ -26,7 +26,6 @@ try:
 except ImportError:
     pass
 
-# Display info for all 12 categories
 _CATEGORY_DISPLAY = {
     "personal": "Datos Personales",
     "web": "Web & Red",
@@ -62,7 +61,6 @@ class AssistantManager:
         ansi.print_banner(i18n.t("assistant.menu_title"))
 
         while True:
-            # Main Category Menu — Dynamic with all categories
             print(f"\n{ansi.bold(i18n.t('assistant.select_type'))}")
             categories = list(_CATEGORY_DISPLAY.keys())
             for i, cat in enumerate(categories, 1):
@@ -86,15 +84,6 @@ class AssistantManager:
             if not self._handle_category(category, args):
                 continue
 
-            # If we were in single-command mode (via args), we might want to exit after one flow.
-            # But usually the assistant is'interactive. cmd_create in cli.py returns 0 after one flow if it finishes.
-            # However, the loop in cli.py (line 725) is 'while True'.
-            # But line 946 says 'return 0' inside the loop? Wait.
-
-            # Re-checking cli.py:
-            # 946:             return 0
-            # That 'return 0' is INSIDE the while True loop (line 725) at the same indentation level as the choice dispatch.
-            # So it exits after ONE pattern is generated and handled.
             return 0
 
     def dispatch(self, args: argparse.Namespace) -> int:
@@ -104,13 +93,11 @@ class AssistantManager:
 
         target = sub if sub else cmd
 
-        # 1. Action & Utility Commands
         if cmd == "utils" or cmd in ["edit", "hist", "custom", "merge", "perf", "c", "w", "token", "time", "date"]:
             if target == "hist":
                 self.actions.handle_hist_flow(args)
                 return 0
             
-            # Map legacy shortcuts directly to Hybrid Engine Dynamic Wizards
             shortcut_map = {
                 "c": ("systems", "color"),
                 "w": ("security", "password"),
@@ -144,11 +131,9 @@ class AssistantManager:
                     getattr(handler, method_map[target])(args)
             return 0
 
-        # 2. Dynamic Discovery (Hybrid Engine)
-        # Check both direct name and category-qualified name
+        # Dynamic Discovery: check direct name and category-qualified name
         entry = catalog_registry.get_entry(target)
         if not entry and sub:
-            # Try combining category and subtype (e.g. personal.email)
             entry = catalog_registry.get_entry(f"{cmd}.{sub}")
         
         if entry:
@@ -156,7 +141,6 @@ class AssistantManager:
             wizard.execute()
             return 0
 
-        # 3. Handle specific legacy aliases (forward to dynamic)
         legacy_aliases = {"ipv4": "ip", "domain": "dom"}
         if target in legacy_aliases:
             return self.dispatch(argparse.Namespace(command=cmd, subtype=legacy_aliases[target]))
@@ -168,7 +152,6 @@ class AssistantManager:
         self, category: str, args: argparse.Namespace | None = None
     ) -> bool:
         """Handles sub-menu and dispatching for a specific category using the Hybrid Engine."""
-        # 1. Action & Utility Categories (Hardcoded interactive menus for non-regex utilities)
         if category == "utils":
             items = ["edit", "hist", "custom", "merge", "perf", "c", "w", "token", "time", "date"]
             cat_label = _CATEGORY_DISPLAY.get(category, category)
@@ -190,7 +173,6 @@ class AssistantManager:
                 self.actions.handle_hist_flow(args)
                 return True
 
-            # Specialized routing for shortcuts within the utils menu
             shortcut_map = {
                 "c": ("systems", "color"),
                 "w": ("security", "password"),
@@ -221,7 +203,6 @@ class AssistantManager:
                 self.actions.handle_merge_flow(args)
             return True
 
-        # 2. Dynamic Discovery (Hybrid Engine)
         items = catalog_registry.list_entries(category)
         if not items:
             print(ansi.error(f"No entries configured for category: {category}"))
@@ -253,10 +234,7 @@ class AssistantManager:
             print(ansi.error(f"Unknown command: {choice}"))
             return False
 
-        # Create the dynamic wizard from the catalog entry
         wizard = DynamicWizard(entry, self.cli)
-        
-        # Execute the wizard (it handles its own runner and finalization)
         wizard.execute()
         
         return True

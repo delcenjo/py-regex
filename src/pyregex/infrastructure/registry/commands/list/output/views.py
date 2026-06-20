@@ -15,7 +15,6 @@ class SimpleView(BaseView):
 
         out = []
         for p in items:
-            # simple format: name -> description
             desc = p.metadata.description if p.metadata.description else ""
             out.append(f"{ansi.label(p.name.ljust(15))} {ansi.dim(desc)}")
         return "\n".join(out)

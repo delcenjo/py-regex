@@ -37,7 +37,6 @@ class StateMachine:
         self._on_enter_callbacks: dict[SessionState, list[Callable]] = {}
         self._on_exit_callbacks: dict[SessionState, list[Callable]] = {}
 
-        # Setup default transitions
         self._setup_defaults()
 
     @property
@@ -83,22 +82,17 @@ class StateMachine:
                 if t.guard and not t.guard(ctx):
                     continue
 
-                # Exit callbacks
                 for cb in self._on_exit_callbacks.get(self._state, []):
                     cb(ctx)
 
-                # Record history
                 self._state_history.append(self._state)
 
-                # Transition
                 old_state = self._state
                 self._state = t.to_state
 
-                # Run transition action
                 if t.action:
                     t.action(ctx)
 
-                # Enter callbacks
                 for cb in self._on_enter_callbacks.get(self._state, []):
                     cb(ctx)
 
@@ -125,56 +119,48 @@ class StateMachine:
     def _setup_defaults(self) -> None:
         """Define the standard flow transitions."""
         transitions = [
-            # IDLE → BROWSING (user launched assistant)
             Transition(
                 SessionState.IDLE,
                 SessionState.BROWSING,
                 "start",
                 description="User launches the assistant",
             ),
-            # BROWSING → IN_MODULE (user selects a category/module)
             Transition(
                 SessionState.BROWSING,
                 SessionState.IN_MODULE,
                 "select_module",
                 description="User selects a module or category",
             ),
-            # IN_MODULE → IN_WIZARD (user selects a wizard)
             Transition(
                 SessionState.IN_MODULE,
                 SessionState.IN_WIZARD,
                 "start_wizard",
                 description="User starts a wizard",
             ),
-            # BROWSING → IN_WIZARD (direct shortcut to wizard)
             Transition(
                 SessionState.BROWSING,
                 SessionState.IN_WIZARD,
                 "start_wizard",
                 description="User uses a direct shortcut",
             ),
-            # IN_WIZARD → PREVIEWING (wizard completes, show preview)
             Transition(
                 SessionState.IN_WIZARD,
                 SessionState.PREVIEWING,
                 "preview",
                 description="Wizard generates pattern, show preview",
             ),
-            # PREVIEWING → FINALIZING (user proceeds to actions)
             Transition(
                 SessionState.PREVIEWING,
                 SessionState.FINALIZING,
                 "finalize",
                 description="User moves to save/test/edit actions",
             ),
-            # FINALIZING → BROWSING (user finishes or starts new)
             Transition(
                 SessionState.FINALIZING,
                 SessionState.BROWSING,
                 "done",
                 description="Action complete, return to browsing",
             ),
-            # Back transitions
             Transition(
                 SessionState.IN_MODULE,
                 SessionState.BROWSING,
@@ -199,7 +185,6 @@ class StateMachine:
                 "back",
                 description="Back from finalize to preview",
             ),
-            # Cancel (always goes to browsing)
             Transition(
                 SessionState.IN_WIZARD,
                 SessionState.BROWSING,
@@ -218,15 +203,12 @@ class StateMachine:
                 "cancel",
                 description="Cancel from finalize",
             ),
-            # Help (from any state)
             Transition(SessionState.BROWSING, SessionState.HELP, "help"),
             Transition(SessionState.IN_MODULE, SessionState.HELP, "help"),
             Transition(SessionState.IN_WIZARD, SessionState.HELP, "help"),
-            # Return from help
             Transition(SessionState.HELP, SessionState.BROWSING, "back"),
             Transition(SessionState.HELP, SessionState.IN_MODULE, "back"),
             Transition(SessionState.HELP, SessionState.IN_WIZARD, "back"),
-            # Error recovery
             Transition(
                 SessionState.ERROR,
                 SessionState.BROWSING,
@@ -239,7 +221,6 @@ class StateMachine:
                 "reset",
                 description="Full reset from error",
             ),
-            # Catalog Browsing
             Transition(
                 SessionState.IDLE,
                 SessionState.BROWSING_CATALOG,

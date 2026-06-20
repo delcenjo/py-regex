@@ -55,8 +55,6 @@ class NFABuilder:
         frag.end.is_accept = True
         return frag.start, frag.end, self.alloc.count
 
-    # ── Dispatcher ────────────────────────────────────────────────
-
     def _visit(self, node: AstNode) -> NFAFragment:
         if isinstance(node, RootNode):
             return self._visit_root(node)
@@ -83,15 +81,12 @@ class NFABuilder:
         # Fallback for unknown nodes
         return frag_epsilon(self.alloc)
 
-    # ── Visitors ──────────────────────────────────────────────────
-
     def _visit_root(self, node: RootNode) -> NFAFragment:
         if not node.children:
             return frag_epsilon(self.alloc)
         return self._concat_children(node.children)
 
     def _visit_literal(self, node: LiteralNode) -> NFAFragment:
-        # Each character in the literal gets its own state
         if not node.value:
             return frag_epsilon(self.alloc)
 
@@ -158,8 +153,6 @@ class NFABuilder:
             max_n=node.max,
             greedy=node.greedy,
         )
-
-    # ── Helpers ───────────────────────────────────────────────────
 
     def _concat_children(self, children: list[AstNode]) -> NFAFragment:
         result: NFAFragment | None = None

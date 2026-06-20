@@ -70,7 +70,6 @@ class GroupExtractor:
                         name = n
                         break
 
-                # Get span for this group
                 start = end = 0
                 if g_idx < len(match.group_spans):
                     start, end = match.group_spans[g_idx]

@@ -27,7 +27,6 @@ class WarpReporter:
 
     def report_profile(self, profile: BenchProfile):
         """Prints the profile ticks in a table and then the final summary."""
-        # 1. Ticks table
         table = Table(show_header=True, header_style="bold cyan", expand=True)
         table.add_column("Iteration", justify="right", width=10)
         table.add_column("Payload Length", justify="right")
@@ -50,7 +49,6 @@ class WarpReporter:
         self.console.print(table)
         self.console.print()
 
-        # 2. Final Math Summary Panel
         is_danger = profile.base_complexity in (
             ComplexityCurve.QUADRATIC,
             ComplexityCurve.CUBIC,

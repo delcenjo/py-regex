@@ -18,14 +18,11 @@ class ValidationMiddleware:
     def process(
         self, request: PipelineRequest, next_handler: Callable
     ) -> PipelineResponse:
-        # Strip whitespace from command
         request.command = request.command.strip()
 
-        # Reject empty commands
         if not request.command:
             return PipelineResponse(success=False, error="Empty command")
 
-        # Sanitize args
         request.args = [a.strip() for a in request.args if a.strip()]
 
         return next_handler(request)

@@ -31,11 +31,9 @@ class AdvancedExplainer:
             mermaid_str = MermaidFormatter(ast).format()
             narrative = NarrativeTranslator(ast).translate()
 
-            # ReDoS Analysis (deterministic)
             try:
                 redos_report = ReDoSAnalyzer().analyze(pattern)
                 redos_data = redos_report.to_dict()
-                # Upgrade complexity with ReDoS engine result
                 if redos_report.complexity.notation != "O(N)":
                     comp_score = redos_report.complexity.notation
             except Exception as e:

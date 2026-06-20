@@ -23,7 +23,7 @@ class CatalogEntry:
     description: str
     subtypes: Dict[str, Any]
     wizard: Dict[str, Any] = field(default_factory=dict)
-    logic_handler: Optional[str] = None  # NEW: Path to a Python class for complex logic
+    logic_handler: Optional[str] = None  # Path to a Python class for complex logic
     tags: List[str] = field(default_factory=list)
     source_file: str = ""
     config_schema: Dict[str, Any] = field(default_factory=dict)
@@ -90,9 +90,6 @@ class CatalogRegistry:
                         node[entry.name] = {"__entries__": []}
                 elif entry.is_file() and entry.name.endswith((".yaml", ".yml")):
                     path = Path(entry.path)
-                    # For v2.0, we can use the folder name as entry name without peeking
-                    # if we assume standard naming. But to be safe and support legacy,
-                    # we peek. However, we only peek if it looks like a candidate.
                     self._peek_entries(path, category, node)
         except Exception as e:
             logger.warning("Directory scanning failed %s: %s", dir_path, e)
@@ -105,7 +102,6 @@ class CatalogRegistry:
             # OPTIMIZATION: Instead of safe_load, we can use simple string matching 
             # for the first few lines to detect v2.0 and name.
             with open(path, "r", encoding="utf-8") as f:
-                # Read only first few lines to detect version/type
                 head = f.read(512)
             
             if "version: \"2.0\"" in head or "metadata:" in head:
@@ -120,10 +116,10 @@ class CatalogRegistry:
             # Fallback to full parse for legacy files or unknown
             with open(path, "r", encoding="utf-8") as f:
                 data = yaml.safe_load(f)
-            
+
             if not data:
                 return
-            
+
             if "entries" in data:
                 for item in data["entries"]:
                     name = item.get("name")
@@ -155,7 +151,6 @@ class CatalogRegistry:
             return
 
         try:
-            # Re-discover category for this path
             rel_path = path.relative_to(self.catalog_dir)
             category = rel_path.parts[0] if rel_path.parts else path.parent.name
             
@@ -198,8 +193,7 @@ class CatalogRegistry:
         logic = data.get("logic", {})
         corpus = data.get("corpus", {})
         
-        # Compatibility mapping: v2.0 'logic' and 'corpus' into 'subtypes'
-        # This allows GenericBuilder to work with minimal changes.
+        # Map v2.0 'logic' and 'corpus' into 'subtypes' for compatibility.
         examples = [m["value"] for m in corpus.get("matches", []) if "value" in m]
         non_examples = [m["value"] for m in corpus.get("non_matches", []) if "value" in m]
         
@@ -273,14 +267,11 @@ class CatalogRegistry:
         self._expanded_paths.clear()
         self._tree = {}
         
-        # Fast string-based prefix to avoiding pathlib overhead
         catalog_path_str = str(self.catalog_dir)
         sep = os.sep
 
-        # 2. Perform deep walk
         # root/category/sub/sub/leaf/index.yaml
         for root, dirs, files in os.walk(catalog_path_str):
-            # We look for files ending in .yaml/.yml
             yaml_files = [f for f in files if f.endswith((".yaml", ".yml"))]
             if not yaml_files:
                 continue
@@ -298,7 +289,6 @@ class CatalogRegistry:
             entry_name = os.path.basename(root)
             category = parts[0] if parts else entry_name
             
-            # Map it
             primary_yaml = Path(root) / yaml_files[0]
             self._discovery_map[entry_name] = primary_yaml
             self._add_to_categories(entry_name, category)

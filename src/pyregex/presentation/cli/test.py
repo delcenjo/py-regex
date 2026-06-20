@@ -51,7 +51,6 @@ class TestCommand(BaseCommand):
         return parser
 
     def execute(self, args: argparse.Namespace, cli: PyRegexCLI) -> int:
-        # 1. Run Sentinel Test Suite Engine
         if args.path and os.path.exists(args.path):
             from pyregex.application.sentinel.discovery import TestDiscoverer
             from pyregex.application.sentinel.runner import TestSuiteRunner
@@ -81,7 +80,6 @@ class TestCommand(BaseCommand):
             reporter.report_summary(results)
             return 0 if all(r.success for r in results) else 1
 
-        # 2. Run Legacy Quick Command
         if not args.pattern:
             print(
                 ansi.error(

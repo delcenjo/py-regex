@@ -14,23 +14,18 @@ class InferenceEngine:
         if not examples:
             return {"pattern": "", "confidence": 0.0}
 
-        # Clean examples
         examples = [ex.strip() for ex in examples if ex.strip()]
         if not examples:
             return {"pattern": "", "confidence": 0.0}
 
-        # Step 1: Tokenize examples into type-groups
         token_sequences = [self._tokenize(ex) for ex in examples]
 
-        # Step 2: Align and merge sequences
         base_seq = token_sequences[0]
         for other_seq in token_sequences[1:]:
             base_seq = self._merge(base_seq, other_seq, strict)
 
-        # Step 3: Calculate confidence
         confidence = self._calculate_confidence(examples, base_seq)
 
-        # Step 4: Convert merged tokens to regex string
         return {
             "pattern": self._to_regex(base_seq),
             "confidence": round(confidence, 2),
@@ -44,18 +39,14 @@ class InferenceEngine:
         if not examples or not final_seq:
             return 0.0
 
-        # Base confidence
         score = 0.5
 
-        # Example count bonus (up to 0.3)
         score += min(0.3, (len(examples) / 10) * 0.1)
 
-        # Structure penalty
         is_any = any(t.get("type") == "any" for t in final_seq)
         if is_any:
             score -= 0.3
 
-        # Specificity bonus: fixed parts increase confidence
         fixed_parts = sum(1 for t in final_seq if t.get("value") is not None)
         if len(final_seq) > 0:
             score += min(0.2, (fixed_parts / len(final_seq)) * 0.2)
@@ -90,8 +81,6 @@ class InferenceEngine:
 
     def _merge(self, seq1: List[Dict], seq2: List[Dict], strict: bool) -> List[Dict]:
         """Aligns two sequences and merges their characteristics."""
-        # For simplicity in this v1, we only merge sequences of same token count
-        # and simple structure. In v2 we use Needleman-Wunsch alignment.
         if len(seq1) != len(seq2):
             # Fallback: broaden to generic match if structure varies too much
             return [{"type": "any", "value": ".*", "length": 1}]
@@ -113,7 +102,6 @@ class InferenceEngine:
                     ),
                 }
             else:
-                # Type mismatch? Generalize to word/any
                 m_token = {
                     "type": "mixed",
                     "value": None,
@@ -131,10 +119,8 @@ class InferenceEngine:
             if t["type"] == "any":
                 pattern = ".*"
             elif t["value"] is not None:
-                # Fixed literal
                 pattern = re.escape(t["value"])
             else:
-                # Character class
                 mapping = {
                     "digit": r"\d",
                     "upper": r"[A-Z]",
@@ -145,7 +131,6 @@ class InferenceEngine:
                 }
                 char_class = mapping.get(t["type"], ".")
 
-                # Quantifier
                 if t["length"] != -1:
                     pattern = f"{char_class}{{{t['length']}}}"
                 else:

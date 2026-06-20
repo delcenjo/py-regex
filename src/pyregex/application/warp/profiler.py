@@ -43,13 +43,11 @@ class WarpEngine:
         profile = BenchProfile(pattern=pattern)
 
         try:
-            # Generate poisoned payloads
             payloads = self.fuzzer.generate_payloads(pattern, stages=8, multiplier=1.5)
         except Exception:
-            # Fallback normal payloads
             payloads = ["a" * int(10 * (1.5**i)) for i in range(8)]
 
-        gc.disable()  # Disable garbage collection for accurate time tracking
+        gc.disable()  # avoids GC pauses skewing timing
 
         try:
             for text in payloads:
@@ -57,11 +55,10 @@ class WarpEngine:
                 profile.ticks.append(tick)
                 if tick.is_timeout:
                     profile.timeout_hit = True
-                    break  # Stop processing deeper payloads, it's already catastrophic
+                    break
         finally:
             gc.enable()
 
-        # Post-analysis
         if profile.ticks:
             profile.total_time_ms = sum(t.time_ms for t in profile.ticks)
             profile.max_memory_alloc_bytes = max(
@@ -69,7 +66,6 @@ class WarpEngine:
             )
             profile.max_cpu_percent = max(t.cpu_percent for t in profile.ticks)
 
-            # Mathematical curve fitting
             curve, r2 = self.math_profiler.analyze_complexity(profile.ticks)
             profile.base_complexity = curve
             profile.r_squared = r2
@@ -83,7 +79,6 @@ class WarpEngine:
             target=_regex_worker, args=(pattern, text, result_box), daemon=True
         )
 
-        # Initial stats
         start_time = time.perf_counter()
         start_mem = self._process.memory_info().rss
         self._process.cpu_percent(interval=None)  # Reset CPU tracker
@@ -91,7 +86,6 @@ class WarpEngine:
         worker.start()
         worker.join(timeout=self.timeout_seconds)
 
-        # Final stats
         elapsed_ms = (time.perf_counter() - start_time) * 1000.0
         end_mem = self._process.memory_info().rss
         mem_alloc = max(0, end_mem - start_mem)

@@ -34,12 +34,10 @@ class TestDiscoverer:
                     pass
             return suites
 
-        # Directory scanning
         for file_path in base_path.rglob("*.regex.yaml"):
             try:
                 suites.append(self.yaml_parser.parse(file_path))
             except Exception as e:
-                # Log or handle parsing error here in a future update
                 print(f"[Warn] Could not parse suite {file_path}: {e}")
 
         for file_path in base_path.rglob("*.regex.yml"):

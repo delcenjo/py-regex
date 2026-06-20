@@ -40,7 +40,6 @@ class ActionFlows:
         history = HistoryManager(initial_pattern, initial_flags)
         editor = RegexEditorService()
 
-        # Define all available choices for autocompletion
         choices: list[str] = [
             "load",
             "inline",
@@ -57,7 +56,6 @@ class ActionFlows:
             "s",
         ]
 
-        # If args provided, we might perform a single action and return, or start the loop.
         choice = self.cli._get_arg_or_prompt(args, "edit_subtype", "Edit >", choices)
 
         while True:
@@ -243,7 +241,6 @@ class ActionFlows:
                 if new_p:
                     history.add(new_p, current_f)
 
-            # If we were in CLI mode, we break after one iteration
             if args and getattr(args, "edit_subtype", None):
                 break
 

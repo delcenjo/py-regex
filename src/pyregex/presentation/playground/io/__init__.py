@@ -18,7 +18,6 @@ class SampleEntry:
     description: str
 
 
-# Pre-built samples for the playground
 SAMPLES: list[SampleEntry] = [
     SampleEntry(
         name="Email",

@@ -55,7 +55,6 @@ class DynamicHeightControl(FormattedTextControl):
         self.attr_name = attr_name
 
     def create_content(self, width, height):
-        # Dynamically update the application's perceived visible height
         setattr(self.app_instance, self.attr_name, height)
         return super().create_content(width, height)
 
@@ -83,7 +82,6 @@ class FilePlaygroundApp:
         self.config = config or PlaygroundConfig()
         self._file_path = file_path
 
-        # File engine
         self._reader = FileReader(file_path)
         self._file_info = self._reader.open()
         self._scanner = FileScanner(
@@ -92,7 +90,6 @@ class FilePlaygroundApp:
         )
         self._exporter = FileExporter(self._reader)
 
-        # State
         self._flags: int = initial_flags
         self._scan_result: Optional[ScanResult] = None
         self._scroll_offset: int = 0  # file view top line (0-based)
@@ -103,26 +100,22 @@ class FilePlaygroundApp:
         self._detail_mode: str = "matches"  # matches, groups, export
         self._export_msg: str = ""
         self._export_cycle: int = 0  # cycles through formats on F8
-        self._base_memory_mb: float = self._get_memory_mb()  # baseline
+        self._base_memory_mb: float = self._get_memory_mb()
 
-        # Pro UX State
         self._wrap_lines: bool = False
         self._h_scroll: int = 0
         self._selected_line: int = 0
         self._focus_mode: bool = False
         self._expanded_view: bool = False
 
-        # Alias system
         self._registry = registry or RegistryController()
         self._alias_resolver = AliasResolver(self._registry)
         self._alias_completer = AliasCompleter(self._alias_resolver)
 
-        # Async state
         self._scan_task: Optional[asyncio.Task] = None
         self._is_scanning: bool = False
         self._executor = ThreadPoolExecutor(max_workers=1)
 
-        # UI controls
         self._header_content = FormattedTextControl(text=" ")
         self._file_content = DynamicHeightControl(text=" ", app_instance=self, attr_name="_visible_lines",
             focusable=True,
@@ -135,7 +128,6 @@ class FilePlaygroundApp:
         self._stats_content = FormattedTextControl(text="")
         self._focus_content = FormattedTextControl(text="")
 
-        # Regex buffer
         self._regex_buffer = Buffer(
             on_text_changed=self._on_regex_changed,
             multiline=False,
@@ -143,7 +135,6 @@ class FilePlaygroundApp:
             complete_while_typing=True,
         )
 
-        # Build stable controls for layout
         self._regex_control = BufferControl(
             buffer=self._regex_buffer,
             focus_on_click=True,
@@ -157,7 +148,6 @@ class FilePlaygroundApp:
             wrap_lines=True,
         )
 
-        # Build app
         self._kb = self._build_keybindings()
         self._layout = self._build_layout()
         self._style = self._build_style()
@@ -169,22 +159,15 @@ class FilePlaygroundApp:
             mouse_support=True,
         )
 
-        # Set initial regex
         if initial_regex:
             self._regex_buffer.text = initial_regex
 
-        # Initial render
         self._update_header()
         self._update_file_view()
         self._update_stats()
 
-    # ── Event Handlers ────────────────────────────────────────────
-
     def _on_regex_changed(self, buffer: Buffer) -> None:
-        """Triggered when the regex buffer text changes.
-        
-        Cancels any pending scan and schedules a new one with debouncing.
-        """
+        """Cancel any pending scan and schedule a new one with debouncing."""
         if self._scan_task:
             self._scan_task.cancel()
         
@@ -194,15 +177,12 @@ class FilePlaygroundApp:
         )
 
     async def _debounced_scan(self, raw_pattern: str) -> None:
-        """Wait for debounce period and run multi-phase scan."""
+        """Wait for debounce period and run scan."""
         try:
-            # Phase 1: Debounce (wait for user to stop typing)
             await asyncio.sleep(0.200)
-            
-            # Phase 2: Instant Visible Feedback
-            # We expand aliases and trigger a render of the visible window immediately
+
             pattern = self._alias_resolver.expand(raw_pattern) if raw_pattern else ""
-            
+
             if not pattern:
                 self._scan_result = None
                 self._matched_line_set = set()
@@ -210,17 +190,12 @@ class FilePlaygroundApp:
                 self._update_all()
                 return
 
-            # Trigger a render of what is currently on screen
-            # Note: _update_file_view will use the regex from the buffer directly for instant colors
             self._update_all()
-            
-            # Phase 3: Background Deep Scan
+
             self._is_scanning = True
-            self._update_stats()  # show scanning indicator ()
-            
+            self._update_stats()
             try:
                 loop = asyncio.get_event_loop()
-                # Run the intensive scan in a background thread
                 result = await loop.run_in_executor(
                     self._executor, 
                     self._scanner.scan, 
@@ -228,7 +203,6 @@ class FilePlaygroundApp:
                     self._flags
                 )
                 
-                # Check if we were cancelled while scanning
                 self._scan_result = result
                 self._matched_line_set = result.matched_lines
                 self._match_scroll = 0
@@ -239,10 +213,9 @@ class FilePlaygroundApp:
                 self._matched_line_set = set()
             finally:
                 self._is_scanning = False
-                self._update_all() # Final update with all matches and stats
+                self._update_all()
 
         except asyncio.CancelledError:
-            # Task was cancelled by a newer one
             pass
 
     def _update_all(self) -> None:
@@ -255,13 +228,9 @@ class FilePlaygroundApp:
     @staticmethod
     def _sanitize(text: str) -> str:
         """Remove ANSI escape sequences and control characters that break the TUI."""
-        # Remove ANSI escape sequences (e.g., \x1b[31m, \x1b[H)
         text = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', text)
-        # Remove unprintable control chars (keep tabs \x09 and newlines \x0A)
         text = re.sub(r'[\x00-\x08\x0b-\x1f\x7f-\x9f]', '', text)
         return text
-
-    # ── File View Panel ───────────────────────────────────────────
 
     def _update_file_view(self) -> None:
         """Render the scrollable file content with highlighted matches."""
@@ -278,7 +247,6 @@ class FilePlaygroundApp:
             self._reader.total_lines,
         )
 
-        # Get compiled pattern for highlighting
         compiled = None
         if self._regex_buffer.text.strip():
             try:
@@ -290,7 +258,6 @@ class FilePlaygroundApp:
             text = self._sanitize(raw_text)
             is_match = line_no in self._matched_line_set
             
-            # Instant Highlighting: If not in the set yet (scan in progress), check locally
             if not is_match and compiled:
                 try:
                     if compiled.search(text):
@@ -301,7 +268,6 @@ class FilePlaygroundApp:
             
             line_fragments: list[tuple[str, str]] = []
 
-            # Line content with match highlighting
             if is_match and compiled:
                 self._append_highlighted_line(line_fragments, text, compiled)
             else:
@@ -312,18 +278,15 @@ class FilePlaygroundApp:
                 display = text[:1000] if len(text) > 1000 else text
                 line_fragments.append((style, display))
 
-            # Horizontal scroll slicing (only if truncate mode)
             if self._h_scroll > 0 and not self._wrap_lines:
                 line_fragments = self._slice_fragments(line_fragments, self._h_scroll)
 
-            # Line number prefix
             ln_style = "class:ln_match" if is_match else "class:ln"
             if is_selected:
                 ln_style = "class:cursor_line_number"
             lines.append((ln_style, f" {line_no:6d} "))
             lines.append(("class:ln_sep", "│ "))
 
-            # Text content
             for style, frag_text in line_fragments:
                 if is_selected:
                     lines.append(("class:cursor_line", frag_text))
@@ -332,7 +295,6 @@ class FilePlaygroundApp:
                     
             lines.append(("", "\n"))
 
-        # Scroll indicator
         total_lines = self._reader.total_lines
         if end < total_lines or not self._reader.is_index_complete:
             remaining_str = f"{total_lines - end:,} líneas más" if self._reader.is_index_complete else "Calculando líneas..."
@@ -367,29 +329,20 @@ class FilePlaygroundApp:
         colors = ["class:hl1", "class:hl2", "class:hl3", "class:hl4"]
 
         for m in compiled.finditer(display):
-            # Text before match
             if m.start() > last_end:
                 lines.append(("class:file_text", display[last_end : m.start()]))
-            # Highlighted match
             style = colors[color_idx % len(colors)]
             lines.append((style, display[m.start() : m.end()]))
             color_idx += 1
             last_end = m.end()
 
-        # Text after last match
         if last_end < len(display):
             lines.append(("class:file_text", display[last_end:]))
-        # REMOVED TRAILING NEWLINE TO ALLOW CENTRALIZED HANDLING
-
-    # ── Match List Panel ──────────────────────────────────────────
-
     def _update_matches(self) -> None:
         """Render the match list panel."""
         lines: list[tuple[str, str]] = []
 
-        # Export message (Show at the TOP always, 1st thing)
         if self._export_msg:
-            # If it's an error it starts with 
             style = "class:error" if "" in self._export_msg else "class:success"
             lines.append((style, f"  {self._export_msg}\n"))
             lines.append(("class:dim", "  " + "─"*50 + "\n"))
@@ -407,7 +360,6 @@ class FilePlaygroundApp:
                 ("class:dim", f"en {sr.line_match_count:,}/{sr.total_lines:,} líneas\n\n")
             )
 
-            # Show matches from scroll offset (generate enough to fill screen)
             visible = sr.matches[self._match_scroll : self._match_scroll + 100]
             for i, m in enumerate(visible):
                 idx = self._match_scroll + i + 1
@@ -422,7 +374,6 @@ class FilePlaygroundApp:
                 lines.append(("class:match_text", f'"{txt}"'))
                 lines.append(("class:dim", f"  [{m.start}:{m.end}]\n"))
 
-                # Groups
                 if m.groups:
                     for gi, gv in enumerate(m.groups):
                         if gv is not None:
@@ -436,8 +387,6 @@ class FilePlaygroundApp:
                 lines.append(("class:dim", f"\n  ... +{remaining:,} más\n"))
 
         self._matches_content.text = FormattedText(lines)
-
-    # ── Focus Line Panel ──────────────────────────────────────────
 
     def _update_focus_view(self) -> None:
         """Render the full raw text of the selected line."""
@@ -456,7 +405,6 @@ class FilePlaygroundApp:
         lines: list[tuple[str, str]] = []
         lines.append(("class:focus_header", f" Línea Completa {line_no:,} ".center(50, "─") + "\n\n"))
         
-        # Highlight it using current regex
         compiled = None
         if self._regex_buffer.text.strip():
             try:
@@ -466,15 +414,12 @@ class FilePlaygroundApp:
                 
         fragments: list[tuple[str, str]] = []
         if compiled:
-            # Reuses the same highlighted logic but without length clipping
             self._append_highlighted_line(fragments, text, compiled)
         else:
             fragments.append(("class:file_text", text))
             
         lines.extend(fragments)
         self._focus_content.text = FormattedText(lines)
-
-    # ── Header ────────────────────────────────────────────────────
 
     def _update_header(self) -> None:
         fi = self._file_info
@@ -489,18 +434,15 @@ class FilePlaygroundApp:
             ("class:header_sep", " │ "),
         ]
         
-        # Dynamic lines indicator
         if self._reader.is_index_complete:
             parts.append(("class:header_lines", f" {self._reader.total_lines:,} líneas "))
         else:
             parts.append(("class:header_lines", f" ~{self._reader.total_lines:,}+ (Calculando...) "))
-        # Active flags
         flag_str = self._format_flags()
         if flag_str:
             parts.append(("class:header_sep", " │ "))
             parts.append(("class:header_flags", f" {flag_str} "))
 
-        # Show alias expansion info
         raw = self._regex_buffer.text
         if self._alias_resolver.has_aliases(raw):
             expanded_display = self._alias_resolver.get_expanded_display(raw)
@@ -508,8 +450,6 @@ class FilePlaygroundApp:
             parts.append(("class:header_alias", f" {expanded_display} "))
 
         self._header_content.text = FormattedText(parts)
-
-    # ── Stats Bar ─────────────────────────────────────────────────
 
     def _update_stats(self) -> None:
         scan_time_ms = self._scan_result.scan_time_ms if self._scan_result else 0.0
@@ -538,12 +478,9 @@ class FilePlaygroundApp:
             return False
         return self.app.layout.has_focus(item)
 
-    # ── Layout ────────────────────────────────────────────────────
-
     def _build_layout(self):
         header = Window(content=self._header_content, height=1, style="class:header_bar")
 
-        # Use stable Frame objects
         regex_area = Frame(
             Window(content=self._regex_control, height=1),
             title="REGEX",
@@ -566,7 +503,6 @@ class FilePlaygroundApp:
 
         stats_bar = Window(content=self._stats_content, height=1, style="class:stats_bar")
 
-        # Focus area is only visible when _focus_mode is True
         focus_container = ConditionalContainer(
             content=Frame(
                 Window(content=self._focus_content, wrap_lines=True),
@@ -598,7 +534,6 @@ class FilePlaygroundApp:
             ]
         )
 
-    # ── Keybindings ───────────────────────────────────────────────
     def _build_keybindings(self):
         kb = KeyBindings()
 
@@ -609,7 +544,6 @@ class FilePlaygroundApp:
             self._reader.close()
             event.app.exit()
 
-        # ── Panel Navigation ──
         @kb.add("c-j")
         def _(event):
             # cycle: Regex -> File -> Matches
@@ -622,7 +556,7 @@ class FilePlaygroundApp:
 
         @kb.add("c-k")
         def _(event):
-            # reverse cycle
+            # reverse cycle: Matches -> File -> Regex
             if self._has_focus(self._regex_buffer):
                 event.app.layout.focus(self._matches_window)
             elif self._has_focus(self._matches_window):
@@ -630,7 +564,6 @@ class FilePlaygroundApp:
             else:
                 event.app.layout.focus(self._regex_buffer)
 
-        # ── ARCHIVO Panel Scrolling (Strict Filter) ──
         file_focused = Condition(lambda: self._has_focus(self._file_window))
 
         @kb.add("down", filter=file_focused & ~has_completions)
@@ -684,13 +617,11 @@ class FilePlaygroundApp:
 
         @kb.add("end", filter=file_focused & ~has_completions)
         def _(event):
-            # Jumping to end gracefully defaults to latest known index if still building
             max_line = max(0, self._reader.total_lines - 1)
             self._selected_line = max_line
             self._scroll_offset = max(0, self._reader.total_lines - self._visible_lines)
             self._update_all()
 
-        # ── MATCHES Panel Scrolling (Strict Filter) ──
         matches_focused = Condition(lambda: self._has_focus(self._matches_window))
 
         @kb.add("down", filter=matches_focused & ~has_completions)
@@ -729,7 +660,6 @@ class FilePlaygroundApp:
                 self._match_scroll = max(0, self._scan_result.match_count - 1)
                 self._update_matches()
 
-        # ── Flag toggles ──
         @kb.add("c-i")
         def _(event):
             self._flags ^= re.IGNORECASE
@@ -745,7 +675,6 @@ class FilePlaygroundApp:
             self._flags ^= re.DOTALL
             self._on_regex_changed(self._regex_buffer)
 
-        # ── Other toggles ──
         @kb.add("c-w")
         def _(event):
             self._wrap_lines = not self._wrap_lines
@@ -763,7 +692,6 @@ class FilePlaygroundApp:
             if self._scan_result:
                 self._run_export_menu()
 
-        # Alias expand
         @kb.add("c-e")
         def _(event):
             raw = self._regex_buffer.text
@@ -771,7 +699,6 @@ class FilePlaygroundApp:
                 self._regex_buffer.text = self._alias_resolver.expand(raw)
                 self._on_regex_changed(self._regex_buffer)
 
-        # Completion Menu
         @kb.add("tab", filter=has_completions)
         def _(event):
             event.current_buffer.complete_next()
@@ -782,12 +709,9 @@ class FilePlaygroundApp:
 
         @kb.add("enter", filter=has_completions)
         def _(event):
-            # Accept completion and close menu
             event.current_buffer.complete_state = None
 
         return kb
-
-    # ── Export Menu ────────────────────────────────────────────────
 
     def _run_export_menu(self) -> None:
         """Cycle through export formats: JSON → CSV → TXT → Clipboard."""
@@ -799,14 +723,12 @@ class FilePlaygroundApp:
         fmt = formats[self._export_cycle % len(formats)]
         self._export_cycle += 1
 
-        # Build output path based on global config
         export_dir = self.config.file_export_dir or "~/pyregex_exports"
         src_dir = Path(export_dir).expanduser().resolve()
         
         try:
             os.makedirs(src_dir, exist_ok=True)
         except OSError:
-            # Fallback to current working directory if not writable
             src_dir = Path.cwd()
 
         base = Path(self._file_path).stem
@@ -842,8 +764,6 @@ class FilePlaygroundApp:
 
         self._update_matches()
 
-    # ── Helpers ────────────────────────────────────────────────────
-
     def _format_flags(self) -> str:
         parts = []
         if self._flags & re.IGNORECASE:
@@ -856,35 +776,28 @@ class FilePlaygroundApp:
 
     @staticmethod
     def _get_memory_mb() -> float:
-        """Get current process memory usage in MB (RSS).
+        """Return current process RSS in MB.
 
-        Uses /proc/self/status on Linux (most accurate),
-        falls back to resource module (macOS/Linux),
-        and safely returns 0.0 on Windows (where resource is unavailable)
-        unless psutil is present.
+        Reads /proc/self/status on Linux; falls back to the resource module
+        on other Unix systems; returns 0.0 if neither is available.
         """
-        # Linux: read from /proc (most accurate, no dependencies)
         try:
             with open("/proc/self/status", "r") as f:
                 for line in f:
                     if line.startswith("VmRSS:"):
-                        # VmRSS is in kB
                         kb = int(line.split()[1])
                         return kb / 1024.0
         except (FileNotFoundError, ValueError, IndexError):
             pass
 
-        # Fallback: resource module (Unix only)
         try:
             import resource
             usage = resource.getrusage(resource.RUSAGE_SELF)
-            # ru_maxrss is in KB on Linux, bytes on macOS
             import sys
             if sys.platform == "darwin":
                 return usage.ru_maxrss / (1024 * 1024)
             return usage.ru_maxrss / 1024
         except (ImportError, Exception):
-            # This cleanly handles Windows where 'resource' does not exist
             return 0.0
 
     @staticmethod
@@ -895,11 +808,8 @@ class FilePlaygroundApp:
             size = size / 1024  # type: ignore
         return f"{size:.1f}TB"
 
-    # ── Style ─────────────────────────────────────────────────────
-
     def _build_style(self):
         return Style.from_dict({
-            # Header
             "header_bar": "bg:#1a1a2e #e0e0e0",
             "header_title": "bg:#1a1a2e #00d4ff bold",
             "header_sep": "bg:#1a1a2e #444",
@@ -908,15 +818,12 @@ class FilePlaygroundApp:
             "header_enc": "bg:#1a1a2e #cc5de8",
             "header_lines": "bg:#1a1a2e #4d96ff",
             "header_flags": "bg:#1a1a2e #ff922b",
-            # Frames
             "frame_regex": "bg:#16213e",
             "frame_file": "bg:#0f1923",
             "frame_matches": "bg:#1a1a2e",
             "frame_focused": "bg:#1a1a2e #00d4ff bold",
-            # File content
             "ln": "#555",
             "ln_match": "#ffd93d bold",
-            # Content
             "file_text": "#c0c0c0",
             "file_match_line": "#e0e0e0",
             "file_text_focused": "bg:#0a1a2a #ffffff",
@@ -925,19 +832,16 @@ class FilePlaygroundApp:
             "match2_focused": "bg:#0a1a2a #ffd93d bold",
             "match3_focused": "bg:#0a1a2a #6bcb77 bold",
             "match4_focused": "bg:#0a1a2a #4d96ff bold",
-            # Highlighting
             "hl1": "#1a1a2e bg:#ff6b6b bold",
             "hl2": "#1a1a2e bg:#ffd93d bold",
             "hl3": "#1a1a2e bg:#6bcb77 bold",
             "hl4": "#1a1a2e bg:#4d96ff bold",
-            # Matches
             "match1": "#ff6b6b bold",
             "match2": "#ffd93d bold",
             "match3": "#6bcb77 bold",
             "match4": "#4d96ff bold",
             "match_text": "#fff",
             "group_val": "#cc5de8",
-            # Stats
             "stats_bar": "bg:#0a0a1a #a0a0a0",
             "stats_icon": "bg:#0a0a1a #ffd93d",
             "stats": "bg:#0a0a1a #e0e0e0",
@@ -946,14 +850,11 @@ class FilePlaygroundApp:
             "stats_warn": "bg:#0a0a1a #ffd93d bold",
             "stats_bad": "bg:#0a0a1a #ff6b6b bold",
             "stats_dim": "bg:#0a0a1a #666",
-            # General
             "success": "#6bcb77 bold",
             "warning": "#ffd93d",
             "dim": "#666",
             "error": "#ff6b6b bold",
         })
-
-    # ── Public API ────────────────────────────────────────────────
 
     def run(self) -> None:
         """Launch the file playground."""

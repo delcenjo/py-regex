@@ -103,7 +103,6 @@ class PlaygroundState:
     """
 
     def __init__(self):
-        # ── Editable state ──
         self._regex_text: str = ""
         self._input_text: str = "Enter test text here..."
         self._replace_text: str = ""
@@ -120,10 +119,8 @@ class PlaygroundState:
         self._replace_info: ReplaceInfo = ReplaceInfo()
         self._debug_steps: list[str] = []
 
-        # ── Observers ──
         self._observers: dict[str, list[Callable]] = {}
 
-        # ── Panel visibility ──
         self._visible_panels: set[PanelFocus] = {
             PanelFocus.REGEX,
             PanelFocus.INPUT,
@@ -131,7 +128,6 @@ class PlaygroundState:
             PanelFocus.STATS,
         }
 
-        # ── Flags ──
         self._flag_labels = {
             re.IGNORECASE: ("i", "Case-insensitive"),
             re.MULTILINE: ("m", "Multi-line (^ $ match line boundaries)"),
@@ -140,8 +136,6 @@ class PlaygroundState:
             re.ASCII: ("a", "ASCII-only matching"),
             re.UNICODE: ("u", "Unicode matching"),
         }
-
-    # ── Property accessors with change notification ──
 
     @property
     def regex_text(self) -> str:
@@ -273,8 +267,6 @@ class PlaygroundState:
     def flag_labels(self) -> dict:
         return self._flag_labels
 
-    # ── Flag toggling ──
-
     def toggle_flag(self, flag: int) -> None:
         """Toggle a regex flag on/off."""
         self.flags = self._flags ^ flag
@@ -290,8 +282,6 @@ class PlaygroundState:
                 chars.append(char)
         return f"(?{''.join(chars)})" if chars else ""
 
-    # ── Panel visibility ──
-
     def toggle_panel(self, panel: PanelFocus) -> None:
         if panel in self._visible_panels:
             self._visible_panels.discard(panel)
@@ -301,8 +291,6 @@ class PlaygroundState:
 
     def is_panel_visible(self, panel: PanelFocus) -> bool:
         return panel in self._visible_panels
-
-    # ── Observer pattern ──
 
     def subscribe(self, property_name: str, callback: Callable) -> None:
         """Subscribe to changes on a specific property."""
@@ -333,8 +321,6 @@ class PlaygroundState:
             except Exception:
                 pass
 
-    # ── Snapshot for undo/redo ──
-
     def snapshot(self) -> dict[str, Any]:
         return {
             "regex_text": self._regex_text,
@@ -351,8 +337,6 @@ class PlaygroundState:
         self._notify("regex_text")
         self._notify("input_text")
         self._notify("flags")
-
-    # ── Stats summary ──
 
     def get_summary(self) -> dict[str, Any]:
         return {

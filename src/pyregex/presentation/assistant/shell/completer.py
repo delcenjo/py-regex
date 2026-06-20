@@ -70,9 +70,7 @@ class NebulaCompleter(Completer):
         if "create".startswith(text) and state in (SessionState.IDLE, SessionState.BROWSING):
             yield Completion("create", start_position=-len(text), display_meta="Explorar catálogo")
 
-        # 1. Main Prompt Completions (IDLE/BROWSING)
         if state in (SessionState.IDLE, SessionState.BROWSING):
-            # Categories & Modules
             for cat_enum in self._registry.list_categories():
                 cat_name = cat_enum.value
                 if cat_name.startswith(text):
@@ -83,7 +81,6 @@ class NebulaCompleter(Completer):
             # NOTE: Global discovery of 28,000+ wizards is disabled at root 
             # to maintain performance. Use 'create' or browse modules of interest.
 
-        # 1.5 Catalog Browsing Completions
         elif state == SessionState.BROWSING_CATALOG:
             from pyregex.domain.catalog.registry import catalog_registry
             path = self._session.catalog_path
@@ -97,7 +94,6 @@ class NebulaCompleter(Completer):
                 if entry.startswith(text):
                     yield Completion(entry, start_position=-len(text), display_meta="Wizard")
 
-        # 2. In-module Prompt Completions
         elif state == SessionState.IN_MODULE:
             current_module = self._session.current_module
             if current_module and current_module in self._registry:
@@ -118,7 +114,7 @@ class NebulaCompleter(Completer):
                 except Exception:
                     pass
 
-        # 3. Fuzzy search fallback (only for 2+ chars)
+        # Fuzzy search fallback
         if len(text) >= 2 and state not in (SessionState.IN_WIZARD,):
             for info in self._registry.search(text):
                 if info.name != text:

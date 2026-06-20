@@ -110,7 +110,6 @@ class MaskEngine:
         total_count = 0
 
         if dry_run:
-            # Dry-run: just count matches line by line, no writes
             try:
                 with open(path, "r", encoding="utf-8", errors="ignore") as f:
                     for line in f:
@@ -124,7 +123,6 @@ class MaskEngine:
             return total_count
 
         if inplace or output_path:
-            # Streaming write: read line by line, write to temp/output, then swap if in-place
             import tempfile
 
             out_path = Path(output_path) if output_path else None
@@ -132,7 +130,6 @@ class MaskEngine:
                 out_path.parent.mkdir(parents=True, exist_ok=True)
 
             try:
-                # Write to temp file first (safe for in-place)
                 dest = out_path or Path(
                     tempfile.mktemp(suffix=path.suffix, dir=path.parent)
                 )
@@ -149,7 +146,6 @@ class MaskEngine:
                         total_count += count
                         bytes_processed += len(line.encode("utf-8"))
 
-                        # Progress reporting for large files
                         if is_large and bytes_processed % (1024 * 1024) < len(
                             line.encode("utf-8")
                         ):
@@ -167,7 +163,6 @@ class MaskEngine:
                     )
                     sys.stderr.flush()
 
-                # If in-place and we wrote to a temp file, swap
                 if inplace and not output_path:
                     import shutil
 
@@ -183,7 +178,6 @@ class MaskEngine:
             except Exception:
                 return 0
         else:
-            # Stdout streaming: write masked lines directly to stdout
             try:
                 with open(path, "r", encoding="utf-8", errors="ignore") as f:
                     for line in f:
@@ -257,7 +251,6 @@ class MaskEngine:
                         progress_callback(res.filepath)
             return total_masked, files_modified
 
-        # Pre-compile patterns once for the entire directory scan
         self._compile_patterns(rules, ignore_case)
 
         for filepath in self.audit_engine._iter_files(root):

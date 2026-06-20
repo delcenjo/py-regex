@@ -21,25 +21,18 @@ class AliasCompleter(Completer):
     def get_completions(self, document: Document, complete_event):
         text_before = document.text_before_cursor
 
-        # Find the last @ token being typed
         at_pos = text_before.rfind("@")
         if at_pos == -1:
             return
 
-        # Extract the partial alias name after @
         partial = text_before[at_pos + 1:]
 
-        # Don't complete if there's a space in the partial (user moved on)
         if " " in partial:
             return
 
-        # Get all matching aliases
         for name, (pattern, description) in self._resolver.aliases.items():
             if partial == "" or name.lower().startswith(partial.lower()):
-                # How many chars to "eat" (replace) — the @partial
                 start_position = -(len(partial) + 1)  # +1 for the @ itself
-
-                # Build display
                 meta_text = f"{description}" if description else f"Regex: {pattern[:30]}..."
 
                 yield Completion(

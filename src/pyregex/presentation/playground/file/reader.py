@@ -43,11 +43,9 @@ class FileReader:
         reader.close()
     """
 
-    # Chunk size for encoding detection
     _DETECT_CHUNK = 8192
-    # Max file size for full-memory read (everything else uses mmap)
     _MMAP_THRESHOLD = 10 * 1024 * 1024  # 10MB
-    # Sparse indexing step: store byte offset every N lines to save RAM an provide O(1) bounded memory
+    # Store one byte offset every N lines to bound index RAM usage.
     _SPARSE_STEP = 10000
 
     def __init__(self, file_path: str | Path):
@@ -59,7 +57,6 @@ class FileReader:
         self._encoding: str = "utf-8"
         self._is_open: bool = False
         
-        # O(1) Memory Sparse Index
         self._sparse_index: list[int] = [0]
         self._known_lines: int = 1
         self._index_complete = threading.Event()
@@ -116,10 +113,7 @@ class FileReader:
                 is_binary=False,
             )
 
-        # Detect encoding
         self._encoding = self._detect_encoding()
-
-        # Check for binary
         is_binary = self._check_binary()
         if is_binary:
             raise ValueError(
@@ -127,22 +121,16 @@ class FileReader:
                 "(playground only supports text files)"
             )
 
-        # Open file
         if self._size <= self._MMAP_THRESHOLD:
-            # Small file: read into memory
             self._data = self._path.read_bytes()
         else:
-            # Large file: memory-map it
             self._fd = os.open(str(self._path), os.O_RDONLY)
             self._mm = mmap.mmap(self._fd, 0, access=mmap.ACCESS_READ)
 
-        # Start background sparse indexer
         self._index_complete.clear()
         self._sparse_index = [0]
         self._known_lines = 1
         self._is_open = True
-        
-        # O(1) File Reader Background Indexing Thread
         self._indexer_thread = threading.Thread(target=self._build_sparse_index_bg, daemon=True)
         self._indexer_thread.start()
 
@@ -176,8 +164,6 @@ class FileReader:
 
     def __exit__(self, *args) -> None:
         self.close()
-
-    # ── Line Access (Sparse O(1) Memory Seeking) ──────────────────────
 
     def get_line(self, line_no: int) -> str:
         """Get a single line by 1-based line number."""
@@ -213,7 +199,6 @@ class FileReader:
         if data is None:
             return
 
-        # 1. Fast forward to nearest sparse chunk before start_line
         chunk_idx = (start_line - 1) // self._SPARSE_STEP
         if chunk_idx >= len(self._sparse_index):
             chunk_idx = len(self._sparse_index) - 1
@@ -221,7 +206,6 @@ class FileReader:
         pos = self._sparse_index[chunk_idx]
         current_line = chunk_idx * self._SPARSE_STEP + 1
         
-        # Seek exact location to start_line
         while current_line < start_line and pos < self._size:
             nl = data.find(b"\n", pos)
             if nl == -1:
@@ -229,14 +213,12 @@ class FileReader:
             pos = nl + 1
             current_line += 1
             
-        # 2. Yield requested lines sequentially
         while pos < self._size and self._is_open:
             if end_line is not None and current_line > end_line:
                 break
                 
             nl = data.find(b"\n", pos)
             if nl == -1:
-                # Last line without trailing newline
                 raw = self._read_bytes(pos, self._size)
                 yield current_line, raw.decode(self._encoding, errors="replace").rstrip("\n").rstrip("\r")
                 break
@@ -247,8 +229,6 @@ class FileReader:
             pos = nl + 1
             current_line += 1
 
-    # ── Internal Methods ─────────────────────────────────────────
-
     def _read_bytes(self, start: int, end: int) -> bytes:
         """Read a byte range from the backing store."""
         if self._data is not None:
@@ -258,7 +238,7 @@ class FileReader:
         return b""
 
     def _build_sparse_index_bg(self) -> None:
-        """Background thread logic: Build sparse index with bounded O(1) RAM."""
+        """Background thread: build sparse line-offset index."""
         data = self._data if self._data is not None else self._mm
         if data is None:
             self._index_complete.set()
@@ -277,7 +257,6 @@ class FileReader:
             line_count += 1
             pos = nl + 1
             
-            # Sparse append (O(1) Memory logic)
             if line_count % step == 0:
                 self._sparse_index.append(pos)
                 
@@ -297,7 +276,6 @@ class FileReader:
         except Exception:
             return "utf-8"
 
-        # BOM detection
         if chunk.startswith(b"\xef\xbb\xbf"):
             return "utf-8-sig"
         if chunk.startswith(b"\xff\xfe"):
@@ -305,14 +283,13 @@ class FileReader:
         if chunk.startswith(b"\xfe\xff"):
             return "utf-16-be"
 
-        # Try UTF-8 first
         try:
             chunk.decode("utf-8")
             return "utf-8"
         except UnicodeDecodeError:
             pass
 
-        # Try Latin-1 (always succeeds but may not be correct)
+        # latin-1 always succeeds; treat as last resort
         return "latin-1"
 
     def _check_binary(self) -> bool:
@@ -323,15 +300,11 @@ class FileReader:
         except Exception:
             return False
 
-        # If chunk contains null bytes, it's likely binary
         if b"\x00" in chunk:
             return True
 
-        # Check ratio of non-text bytes
         non_text = sum(1 for b in chunk if b < 8 or (14 <= b < 32 and b != 27))
         return non_text / max(len(chunk), 1) > 0.10
-
-    # ── String Representation ────────────────────────────────────
 
     def __repr__(self) -> str:
         state = "open" if self._is_open else "closed"

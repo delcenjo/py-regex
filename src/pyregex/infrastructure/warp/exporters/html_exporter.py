@@ -11,20 +11,17 @@ from pyregex.domain.warp.models import BenchProfile
 
 
 class HtmlExporter:
-    """Exports a BenchProfile into a beautiful interactive HTML dossier."""
+    """Exports a BenchProfile to a standalone Chart.js HTML report."""
 
     def export(self, profile: BenchProfile, filepath: str) -> None:
-        """Render the profile data into a Chart.js HTML string and write it."""
-
-        # Prepare data points
+        """Write profile data to an HTML file at filepath."""
         time_data = [{"x": t.input_length, "y": t.time_ms} for t in profile.ticks]
         mem_data = [
             {"x": t.input_length, "y": t.memory_alloc_bytes / 1024.0}
             for t in profile.ticks
         ]  # KB
 
-        # Color coding depending on complexity
-        color = "rgba(75, 192, 192, 1)"  # Green-ish (Safe)
+        color = "rgba(75, 192, 192, 1)"  # safe (green)
         bg_color = "rgba(75, 192, 192, 0.2)"
 
         if (
@@ -32,7 +29,7 @@ class HtmlExporter:
             or "QUADRATIC" in profile.base_complexity.value
             or "CUBIC" in profile.base_complexity.value
         ):
-            color = "rgba(255, 99, 132, 1)"  # Red (Danger)
+            color = "rgba(255, 99, 132, 1)"  # danger (red)
             bg_color = "rgba(255, 99, 132, 0.2)"
 
         html_template = f"""<!DOCTYPE html>

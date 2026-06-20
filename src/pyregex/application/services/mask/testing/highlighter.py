@@ -14,8 +14,7 @@ class Highlighter:
         if not matches:
             return text
 
-        # Sort matches by start position descending to replace from end
-        # Also sort by length descending to handle nested matches (take longest)
+        # Sort by start descending; prefer longer matches when positions overlap.
         sorted_matches = sorted(
             matches, key=lambda m: (m.start, -(m.end - m.start)), reverse=True
         )
@@ -24,21 +23,14 @@ class Highlighter:
         last_start = len(text) + 1
 
         for m in sorted_matches:
-            # Avoid overlapping: if this match ends after the last match's start, skip it
             if m.end > last_start:
                 continue
 
             if m.start < 0 or m.end > len(text):
                 continue
 
-            # Use original text to slice, then reconstruct
-            # Since we iterate backwards, we don't need to worry about index shifts in 'text'
             match_text = text[m.start : m.end]
             highlighted = ansi.highlight(match_text, color_index=m.pattern_index)
-
-            # We must be careful while replacing: we are working backwards on 'result'
-            # but using 'text' as reference for content.
-            # Actually, working on 'result' is fine if we only touch the parts before 'last_start'
             result = result[: m.start] + highlighted + result[m.end :]
             last_start = m.start
 

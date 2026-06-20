@@ -17,7 +17,6 @@ from pyregex.domain.explain.redos.models import (
 class ComplexityCalculator:
     """Calculates Big-O complexity from detected vulnerabilities."""
 
-    # Each vulnerability type maps to a base complexity
     TYPE_COMPLEXITY = {
         VulnType.NESTED_QUANTIFIER: "O(2^N)",
         VulnType.ADJACENT_OVERLAP: "O(N²)",
@@ -27,7 +26,6 @@ class ComplexityCalculator:
         VulnType.MULTIPLE_WILDCARDS: "O(N²)",
     }
 
-    # Complexity ordering for "max" comparison
     COMPLEXITY_ORDER = ["O(N)", "O(N²)", "O(N³)", "O(2^N)"]
 
     def calculate(
@@ -51,13 +49,12 @@ class ComplexityCalculator:
                 anchor_protected=anchor_protected,
             )
 
-        # Determine worst complexity from vulnerability types
         worst = "O(N)"
         for v in vulnerabilities:
             vuln_cx = self.TYPE_COMPLEXITY.get(v.type, "O(N)")
             worst = self._max_complexity(worst, vuln_cx)
 
-        # Multiple adjacent overlaps stack: 2 = O(N²), 3+ = O(N³)
+        # 2 adjacent overlaps = O(N²), 3+ = O(N³)
         overlap_count = sum(
             1
             for v in vulnerabilities
@@ -66,17 +63,14 @@ class ComplexityCalculator:
         if overlap_count >= 3 and worst == "O(N²)":
             worst = "O(N³)"
 
-        # Incorporate NFA simulator result (take the worse)
         worst = self._max_complexity(worst, nfa_complexity)
 
-        # Calculate numeric score (0-100)
         score = self._notation_to_score(worst)
 
-        # Anchor protection can reduce by ~20%
+        # Anchor protection reduces score by ~20%
         if anchor_protected and worst != "O(2^N)":
             score = max(10, int(score * 0.8))
 
-        # Generate explanation
         explanation = self._explain(worst, vulnerabilities, anchor_protected)
 
         return ComplexityResult(

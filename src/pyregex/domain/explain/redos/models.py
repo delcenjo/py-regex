@@ -10,9 +10,6 @@ from enum import Enum
 from typing import Optional
 
 
-# ── CharSet (256-bit bitset for O(1) intersection) ────────────────
-
-
 class CharSet:
     """Bitset over 256 ASCII codepoints for fast character set operations.
 
@@ -24,8 +21,6 @@ class CharSet:
 
     def __init__(self, bits: int = 0):
         self._bits = bits
-
-    # ── Factories ──
 
     @classmethod
     def from_char(cls, c: str) -> CharSet:
@@ -81,8 +76,6 @@ class CharSet:
     def whitespace(cls) -> CharSet:
         """[ \\t\\n\\r\\f\\v]"""
         return cls.from_chars(" \t\n\r\f\v")
-
-    # ── Operations ──
 
     def __contains__(self, c: str) -> bool:
         return bool(self._bits & (1 << ord(c)))
@@ -145,9 +138,6 @@ class CharSet:
         return f"CharSet({n} chars)"
 
 
-# ── NFA States & Transitions ─────────────────────────────────────
-
-
 class TransitionType(Enum):
     CHAR = "char"  # Transition on a CharSet
     EPSILON = "epsilon"  # Free transition
@@ -201,9 +191,6 @@ class NFAFragment:
 
     start: NFAState
     end: NFAState
-
-
-# ── Vulnerability & Report ────────────────────────────────────────
 
 
 class VulnType(Enum):

@@ -54,7 +54,6 @@ class WarningLinter(ASTVisitor):
                     )
                     break
 
-        # Check child safely
         prev_greedy = self._in_greedy_quantifier
         if node.greedy and node.max_cnt is None:
             self._in_greedy_quantifier = True

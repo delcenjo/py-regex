@@ -30,7 +30,6 @@ class ExplainFormatter:
             lines.append("")
 
         if mode == "simple":
-            # Just show tags or a very brief summary
             lines.append(f"{ansi.bold('Breakdown:')}")
             lines.append(translation)
 

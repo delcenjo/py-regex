@@ -22,7 +22,6 @@ def atomic_write(path: Path, content: str, encoding: str = "utf-8") -> None:
             f.flush()
             os.fsync(f.fileno())
 
-        # Atomic rename
         os.replace(temp_path, path)
     except Exception:
         # Cleanup temp file on failure

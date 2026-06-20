@@ -164,7 +164,6 @@ class FileScanner:
         actual_end = end_line or self._reader.total_lines
 
         for line_no, line_text in self._reader.iter_lines(start_line, end_line=None if end_line is None else actual_end):
-            # Progress callback
             if on_progress and (line_no % self._progress_interval == 0):
                 elapsed = (time.perf_counter() - t0) * 1000
                 on_progress(
@@ -176,17 +175,13 @@ class FileScanner:
                     )
                 )
 
-            # Match with timeout protection
             line_matches = self._match_line(compiled, line_text, line_no)
             if line_matches is None:
                 timed_out += 1
                 continue
 
             if line_matches:
-                # 1. Update global count
                 total_matches += len(line_matches)
-                
-                # 2. Collect detailed objects only up to limit
                 if len(matches) < self._max_matches:
                     remaining = self._max_matches - len(matches)
                     to_add = line_matches[:remaining]
@@ -195,7 +190,6 @@ class FileScanner:
 
         elapsed_ms = (time.perf_counter() - t0) * 1000
 
-        # Final progress
         if on_progress:
             on_progress(
                 ScanProgress(
@@ -266,8 +260,6 @@ class FileScanner:
             if compiled.search(line_text):
                 result.append((line_no, line_text))
         return result
-
-    # ── Internal ─────────────────────────────────────────────────
 
     def _match_line(
         self, compiled: re.Pattern, line: str, line_no: int

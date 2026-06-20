@@ -1,4 +1,3 @@
-# src/pyregex/presentation/cli/explain.py
 from __future__ import annotations
 import argparse
 from typing import TYPE_CHECKING, Any
@@ -49,12 +48,10 @@ class ExplainCommand(BaseCommand):
 
         print(f"\n{ansi.bold('PATRÓN REGEX:')} {ansi.regex_display(args.pattern)}\n")
 
-        # 1. Natural Language Representation
         print(f"{ansi.FG_CYAN}--- TRADUCCIÓN SEMÁNTICA ---{ansi.RESET}")
         for n in result["narrative"]:
             print(f" {ansi.success('')} {n}")
 
-        # 2. Advanced Output (Tree + Metrics)
         if args.verbose:
             print(f"\n{ansi.FG_CYAN}--- ANÁLISIS DE COMPLEJIDAD ---{ansi.RESET}")
 
@@ -73,7 +70,6 @@ class ExplainCommand(BaseCommand):
             )
             print(result["tree"])
 
-        # 3. Mermaid Graph
         if args.mermaid:
             print(f"\n{ansi.FG_CYAN}--- GRÁFICO DE ESTADOS (MERMAID) ---{ansi.RESET}")
             print(result["mermaid"])

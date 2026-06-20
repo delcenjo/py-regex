@@ -13,14 +13,9 @@ class Deleter:
     def execute(self, pattern: RegistryPattern):
         """Permanently removes the pattern from the core registry and memory."""
 
-        # 1. Erase from Backend Storage
         self.backend.delete(pattern.name)
 
-        # 2. Re-hydrate/Clean Memory Index
-        # To be safe, memory indexer might need a purge. The indexer currently accepts 'add'
-        # but we can re-hydrate entirely from backend, or carefully remove keys.
-        # For 100% consistency, wiping the index and reloading backend is safest at scale < 50,000.
-
+        # Rebuild the in-memory index from the remaining backend entries.
         self.indexer.name_index.clear()
         self.indexer.tag_index.clear()
         self.indexer.category_index.clear()

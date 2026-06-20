@@ -23,19 +23,15 @@ class QuickPipeline:
     def run(self, raw_input: str) -> QuickState:
         state = QuickState(raw_input)
 
-        # 1. Parsing
         state.normalized_input = self.normalizer.normalize(state.raw_input)
         state.tokens = self.tokenizer.tokenize(state.normalized_input)
 
-        # 2. Resolution
         state.intents = self.intent_detector.detect(state.tokens)
 
-        # 3. Ranking
         scored_intents = self.scorer.score(state.intents)
         best_intent = self.selector.select(scored_intents)
 
         if best_intent:
-            # 4. Building
             state.selected_builder = self.entity_mapper.resolve_builder(best_intent)
             state.confidence_score = best_intent.get("score", 0.0)
 

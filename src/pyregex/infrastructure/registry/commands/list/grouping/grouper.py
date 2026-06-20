@@ -27,11 +27,9 @@ class Grouper:
 
         elif group_by == "tag":
             for p in patterns:
-                # If no tags, bucket into untagged
                 if not p.metadata.tags:
                     grouped.setdefault("untagged", []).append(p)
                 else:
-                    # A pattern might appear in multiple tag buckets
                     for tag in p.metadata.tags:
                         grouped.setdefault(tag, []).append(p)
 

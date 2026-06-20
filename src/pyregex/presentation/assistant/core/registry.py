@@ -14,8 +14,6 @@ from pyregex.presentation.assistant.core.events import EventBus
 from pyregex.presentation.assistant.core.errors import ModuleError, ModuleNotFoundError
 
 
-# ── Decorator for module registration ────────────────────────────────
-
 _REGISTERED_MODULE_CLASSES: list[type] = []
 
 
@@ -23,9 +21,6 @@ def register_module(cls: type) -> type:
     """Decorator that marks a class for auto-discovery by the ModuleRegistry."""
     _REGISTERED_MODULE_CLASSES.append(cls)
     return cls
-
-
-# ── Module Registry ──────────────────────────────────────────────────
 
 
 class ModuleRegistry:
@@ -54,7 +49,6 @@ class ModuleRegistry:
         self._modules[info.name] = module
         self._module_info[info.name] = info
 
-        # Index by category
         cat = info.category
         if cat not in self._by_category:
             self._by_category[cat] = []

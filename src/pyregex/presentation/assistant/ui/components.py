@@ -15,14 +15,12 @@ class Table:
         self.theme = get_theme(theme)
 
     def render(self) -> str:
-        # Calculate precise visible widths
         widths = [
             max(ansi.visible_len(h), max((ansi.visible_len(str(r[i])) for r in self.rows), default=0))
             for i, h in enumerate(self.headers)
         ]
         lines = []
         
-        # Border characters (Expert: Vectorial Connection)
         TL, TR, BL, BR = "┌", "┐", "└", "┘"
         H, V = "─", "│"
         LT, RT, TT, BT, CT = "├", "┤", "┬", "┴", "┼"
@@ -30,15 +28,12 @@ class Table:
         if self.title:
             lines.append(f"\n  {ansi.fg_hex(self.theme.accent, f'◆ {self.title.upper()}')}")
 
-        # Horizontal Lines with pixel-perfect segments
         top_h = "  " + TL + TT.join(H * (w + 2) for w in widths) + TR
         mid_h = "  " + LT + CT.join(H * (w + 2) for w in widths) + RT
         bot_h = "  " + BL + BT.join(H * (w + 2) for w in widths) + BR
 
-        # Header Row
         header_cells = []
         for h, w in zip(self.headers, widths):
-            # Calculate manual centering with ANSI awareness
             text = ansi.bold(h)
             v_len = ansi.visible_len(text)
             pad = w - v_len
@@ -52,7 +47,6 @@ class Table:
         lines.append(header_row)
         lines.append(ansi.fg_hex(self.theme.dim, mid_h))
 
-        # Data Rows
         for row in self.rows:
             formatted_cells = []
             for i, cell in enumerate(row):
@@ -100,7 +94,6 @@ class Panel:
         for line in self.content.split("\n"):
             clean_line = line.strip()
             v_len = ansi.visible_len(clean_line)
-            # Simple wrap if too long
             if v_len > self.width - 4:
                 clean_line = clean_line[: self.width - 7] + "..."
                 v_len = self.width - 4
@@ -125,7 +118,6 @@ class ProgressBar:
     def render(self) -> str:
         ratio = self.current / max(self.total, 1)
         filled = int(ratio * self.width)
-        # Smooth characters for expert feel
         bar = "█" * filled + ansi.fg_hex(self.theme.dim, " " * (self.width - filled))
         pct = int(ratio * 100)
         return f"  {ansi.fg_hex(self.theme.accent, '▕')}{bar}{ansi.fg_hex(self.theme.accent, '▏')} {ansi.bold(f'{pct}%')} {ansi.dim(self.label)}"

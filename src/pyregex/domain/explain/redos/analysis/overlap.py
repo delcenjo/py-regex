@@ -85,18 +85,15 @@ class OverlapAnalyzer:
             curr = children[i]
             nxt = children[i + 1]
 
-            # Case: quantifier followed by element that overlaps
             if isinstance(curr, QuantifierNode):
                 cs_quant = self._extract_charset(curr.child)
                 cs_next = self._extract_charset(nxt)
 
                 if cs_quant and cs_next and cs_quant.intersects(cs_next):
-                    # Quantifier + suffix overlap
                     is_infinite = curr.max is None
                     overlap = cs_quant & cs_next
 
                     if isinstance(nxt, QuantifierNode) and is_infinite:
-                        # Two adjacent infinite quantifiers with overlap
                         vulns.append(
                             Vulnerability(
                                 type=VulnType.ADJACENT_OVERLAP,

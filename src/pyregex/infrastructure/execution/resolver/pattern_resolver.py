@@ -20,14 +20,12 @@ class ExecutionResolver:
         """
         all_patterns = self.registry.get_all()
 
-        # 1. Exact Match Check
         exact = next(
             (p for p in all_patterns if p.name.lower() == pattern_name.lower()), None
         )
         if exact:
             return exact
 
-        # 2. Fuzzy Suggestions
         suggestions = [
             p
             for p in all_patterns

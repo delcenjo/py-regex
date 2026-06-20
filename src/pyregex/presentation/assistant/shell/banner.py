@@ -23,7 +23,6 @@ BANNER_ART = r"""
 """
 
 
-# Tips are wrapped in lambdas to evaluate at runtime with correct language
 TIPS = [
     lambda: i18n.t("assistant.banner.help_tip", fallback="Tip: Escribe 'help' para lista completa de comandos"),
     lambda: i18n.t("assistant.banner.shortcuts_tip", fallback="Tip: Usa 'email', 'phone', 'url' para atajos directos a wizards"),
@@ -37,8 +36,7 @@ TIPS = [
 
 
 def show_banner(module_count: int = 0, wizard_count: int = 0) -> None:
-    """Display the minimalist expert splash screen."""
-    # Use expert theme colors (Sapphire Blue to Cyan)
+    """Display the splash screen."""
     primary = "#00d4ff"
     
     print(ansi.fg_hex(primary, ansi.bold(BANNER_ART)))
@@ -61,6 +59,6 @@ def show_banner(module_count: int = 0, wizard_count: int = 0) -> None:
 
 
 def show_goodbye() -> None:
-    """Display minimalist goodbye message."""
+    """Display goodbye message."""
     goodbye_msg = i18n.t("assistant.banner.goodbye", fallback="[EXIT] Assistant context saved correctly.")
     print(f"\n    {ansi.dim(goodbye_msg)}\n")

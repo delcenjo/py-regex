@@ -41,11 +41,9 @@ class RewriteEngine:
         if not vulnerabilities:
             return None
 
-        # Try strategies in order of importance
         for vuln in sorted(vulnerabilities, key=lambda v: list(VulnType).index(v.type)):
             result = self._try_rewrite(pattern, ast, vuln)
             if result:
-                # Verify the rewrite compiles
                 try:
                     re.compile(result.rewritten)
                     return result
@@ -80,7 +78,6 @@ class RewriteEngine:
             VulnType.ALTERNATION_OVERLAP,
             VulnType.QUANTIFIER_SUFFIX_OVERLAP,
         ):
-            # For these, suggest anchoring as the simplest fix
             rewritten = add_anchors(pattern)
             if rewritten != pattern:
                 return RewriteResult(
@@ -98,7 +95,6 @@ class RewriteEngine:
         result = self._find_and_flatten(ast)
         if result:
             rewritten = ast_to_regex(ast)
-            # Fallback: if AST roundtrip fails, do regex-level rewrite
             try:
                 re.compile(rewritten)
             except re.error:
@@ -111,7 +107,6 @@ class RewriteEngine:
                     strategy="nested_flatten",
                     explanation="Cuantificador anidado aplanado para eliminar backtracking exponencial",
                 )
-        # Regex-level fallback
         rewritten = self._flatten_regex(pattern)
         if rewritten and rewritten != pattern:
             return RewriteResult(
@@ -164,7 +159,6 @@ class RewriteEngine:
         """Regex-level flattening: (a+)+ → a+, (a*)+ → a*, etc."""
         import re as _re
 
-        # Pattern: (X+)+ or (X+)* or (X*)+ or (X*)*
         flattened = _re.sub(
             r"\(([^()]+)([+*])\)\s*([+*])",
             lambda m: (
@@ -179,7 +173,6 @@ class RewriteEngine:
         """Regex-level merging: \\w+\\w+ → \\w{2,}"""
         import re as _re
 
-        # Merge identical quantified expressions
         merged = _re.sub(r"(\\[dDwWsS]|\[.*?\]|\.)(\+)\1(\+)", r"\g<1>{2,}", pattern)
         merged = _re.sub(r"(\\[dDwWsS]|\[.*?\]|\.)(\*)\1(\+)", r"\g<1>+", merged)
         merged = _re.sub(r"(\\[dDwWsS]|\[.*?\]|\.)(\+)\1(\*)", r"\g<1>+", merged)

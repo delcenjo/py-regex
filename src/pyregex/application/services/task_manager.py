@@ -48,7 +48,6 @@ class TaskManager:
     def mark_complete(self, filepath: str):
         """Marks a file as finished and saves progress."""
         self.completed_files.add(filepath)
-        # Save periodically or every time? For now, every time for robustness.
         self.save()
 
     def get_pending(self) -> List[str]:

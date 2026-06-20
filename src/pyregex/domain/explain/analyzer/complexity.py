@@ -1,4 +1,3 @@
-# src/pyregex/domain/explain/analyzer/complexity.py
 from __future__ import annotations
 from typing import List, Tuple
 from pyregex.domain.explain.models.ast import (
@@ -29,8 +28,6 @@ class ComplexityAnalyzer:
 
         warnings.extend(self._find_ambiguous_alternations(self.root))
 
-        # Simple heuristic: any unanchored * or + evaluates characters repeatedly
-        # Linear O(N) is standard for most Regex.
         return "O(N)", warnings
 
     def _detect_exponential_backtracking(
@@ -66,5 +63,4 @@ class ComplexityAnalyzer:
         return False
 
     def _find_ambiguous_alternations(self, node: AstNode) -> List[str]:
-        # Find patterns like (a|a)
         return []

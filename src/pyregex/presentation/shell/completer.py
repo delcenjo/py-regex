@@ -15,14 +15,12 @@ class PyRegexCompleter(Completer):
     def get_completions(self, document, complete_event) -> Iterable[Completion]:
         text = document.text_before_cursor.lstrip()
         if not text:
-            # Show all commands if empty
             for cmd in self.cli.dispatcher.commands.keys():
                 yield Completion(cmd, start_position=0)
             return
 
         parts = text.split()
         if len(parts) <= 1 and not text.endswith(" "):
-            # Completing command name
             word = parts[0] if parts else ""
             for cmd in self.cli.dispatcher.commands.keys():
                 if cmd.startswith(word):

@@ -12,7 +12,6 @@ from pyregex.infrastructure.registry import registry
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 
-# Advanced Services
 from pyregex.core.shared.exceptions import (
     PyRegexError,
     ExecutionTimeoutError,
@@ -56,11 +55,9 @@ class PyRegexCLI:
         self.history_repo = container.history_repo
         self.catalog = container.catalog
 
-        # Galaxy Architecture: Modular Command Dispatcher (Lazy)
         self.dispatcher = CommandDispatcher()
         self._register_commands()
 
-        # Use dependencies from container
         self.registry = self.catalog
         self._current_merged_pattern: Optional[str] = None
 
@@ -70,8 +67,6 @@ class PyRegexCLI:
             from pyregex.presentation.assistant.manager import AssistantManager
             self._assistant = AssistantManager(self)
         return self._assistant
-
-    # ── Lazy Loaded Services ───────────────────────────────────────
 
     @property
     def perf_service(self):
@@ -158,11 +153,7 @@ class PyRegexCLI:
         return self._highlighter
 
     def _register_commands(self):
-        """Registers all modular commands to the dispatcher (Now Lazy-Enabled)."""
-        # Dynamic command loading via local imports in each command class 
-        # is handled by the dispatcher during dispatch time.
-        # Here we only register the metadata and the COMMAND CLASSES.
-        
+        """Registers all modular commands with the dispatcher."""
         from pyregex.presentation.cli.audit import AuditCommand
         from pyregex.presentation.cli.mask import MaskCommand
         from pyregex.presentation.cli.validate import ValidateCommand
@@ -177,9 +168,6 @@ class PyRegexCLI:
         from pyregex.presentation.cli.replace import ReplaceCommand
         from pyregex.presentation.cli.create import CreateCommand
 
-        # In a real 'Lightning' system, we could also use a map
-        # to avoid instantiating these until DISPATCH.
-        # For now, instantiating these classes is cheap enough.
         commands = [
             TestCommand(), ExplainCommand(), SaveCommand(),
             ListCommand(), DeleteCommand(), RunCommand(),
@@ -213,38 +201,28 @@ class PyRegexCLI:
         )
 
     def _setup_advanced_subparsers(self, subparsers: Any) -> None:
-        """Dynamic discovery of all catalog categories and wizards (AHA Architecture)."""
+        """Dynamically register catalog categories and their wizard subcommands."""
         from pyregex.domain.catalog.registry import catalog_registry
 
-        # 1. Discover all categories in the catalog
         for cat_name in catalog_registry.list_categories():
-            # Get category metadata (could be in YAML in the future)
             cat_help = f"{cat_name.title()} patterns and wizards"
-            
             p_cat = subparsers.add_parser(cat_name, help=cat_help)
             p_cat_s = p_cat.add_subparsers(dest="subtype", help=f"{cat_name} type")
 
-            # 2. Discover all wizards within this category
             for entry_name in catalog_registry.list_entries(cat_name):
                 entry = catalog_registry.get_entry(entry_name)
                 if not entry:
                     continue
-                
+
                 display_name = entry.wizard.get("display_name", entry_name)
                 p_wiz = p_cat_s.add_parser(entry_name, help=entry.description or display_name)
-                
-                # 3. Dynamic Arguments from config_schema (90/10 Logic)
-                # If the entry has a schema, we add the arguments to the CLI
+
                 schema = entry.wizard.get("config_schema", {})
                 for arg_name, arg_cfg in schema.items():
                     arg_help = arg_cfg.get("title", arg_name)
                     choices = [c[0] for c in arg_cfg.get("choices", [])] if "choices" in arg_cfg else None
-                    
-                    # We add them as optional flags
                     p_wiz.add_argument(f"--{arg_name}", choices=choices, help=arg_help)
 
-        # 4. Top-Level Shortcuts (Important for UX)
-        # We can also make these dynamic later, but keeping common ones for now.
         common_shortcuts = ["email", "phone", "url", "ip", "logs", "aws", "docker", "k8s"]
         for sc in common_shortcuts:
             try:
@@ -260,8 +238,6 @@ class PyRegexCLI:
     def run(self, argv: Optional[List[str]] = None) -> int:
         if argv is None:
             argv = sys.argv[1:]
-
-        # print(f"DEBUG: PyRegexCLI.run(argv={argv})") # Temporarily disabled
 
         if not argv:
             from pyregex.presentation.shell.shell import PyRegexShell
@@ -290,8 +266,6 @@ class PyRegexCLI:
             "generate",
             "learn",
         ]
-
-        # Standard CLI routing...
 
         # If the first argument is not a command or flag, treat it as a quick intent
         if argv and argv[0] not in commands and not argv[0].startswith("-"):
@@ -379,7 +353,6 @@ class PyRegexCLI:
                 app.run()
                 return 0
 
-            # Route through unified Nebula engine (AHA discovery)
             from pyregex.presentation.assistant.core.oneshot import run_wizard_oneshot
             from pyregex.domain.catalog.registry import catalog_registry
 
@@ -389,7 +362,6 @@ class PyRegexCLI:
 
             return self.cmd_quick(" ".join(argv))
 
-        # Standard argparse setup for commands
         parser = PyRegexParser(
             prog="px",
             description=i18n.t("cli.description"),
@@ -397,7 +369,6 @@ class PyRegexCLI:
             add_help=True,
         )
 
-        # Base arguments
         parser.add_argument(
             "--debug", action="store_true", help="Enable debug mode (stack traces)"
         )
@@ -405,44 +376,36 @@ class PyRegexCLI:
 
         subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
-        # Register all modular commands
         self.dispatcher.setup_parsers(subparsers)
 
         try:
             args = parser.parse_args(argv)
 
-            # Global settings
             if args.debug:
                 self.config.debug = True
             if args.lang:
                 i18n.init_translator(args.lang)
 
-            # 1. Dispatch to Modular Commands
             result = self.dispatcher.dispatch(args, self)
             if result != -1:
                 return result
 
-            # 2. Dispatch to unified Nebula engine (AHA dynamic dispatch)
             from pyregex.presentation.assistant.core.oneshot import run_wizard_oneshot
             from pyregex.domain.catalog.registry import catalog_registry
 
             cmd = args.command
-            # If it's a known category or entry, run the oneshot/wizard path
             if cmd in catalog_registry.list_categories() or catalog_registry.get_entry(cmd):
                 return run_wizard_oneshot(cmd, cli=self)
 
-            # 3. Fallback to help
             parser.print_help()
             return 1
 
         except (argparse.ArgumentError, SystemExit) as e:
-            # Caught from PyRegexParser to prevent REPL crash
             if isinstance(e, SystemExit) and e.code == 0:
-                return 0  # Help message printed successfully
+                return 0
             print(ansi.error(str(e)))
             return 1
         except PyRegexError as e:
-            # Centralized Error Mapping (Stage 4)
             if isinstance(e, PatternNotFoundError):
                 msg = "The requested pattern was not found in your library."
                 if str(e):
@@ -548,6 +511,5 @@ class PyRegexCLI:
 
     def _confirm_exit(self) -> bool:
         """Confirms exit if there are unsaved patterns."""
-        # Simple heuristic: if we are in the middle of building but haven't saved
         confirm = prompt(i18n.t("help_menu.confirm_quit_unsaved")).strip().lower()
         return confirm == "y"

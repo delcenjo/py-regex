@@ -31,10 +31,8 @@ class WizardFinalizer:
     def run(self, result: WizardResult, session: SessionContext) -> WizardResult:
         """Display post-generation menu and handle actions."""
 
-        # Show the result
         self._display_result(result)
 
-        # Action loop
         while True:
             print(f"\n{ansi.bold('¿Qué quieres hacer?')}")
             actions = [

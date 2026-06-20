@@ -35,11 +35,9 @@ class TreeFormatter:
         connector = "└── " if is_last else "├── "
         child_prefix = prefix + ("    " if is_last else "│   ")
 
-        # Represent the Node
         label = self._get_node_label(node)
         lines.append(f"{prefix}{connector}{label}")
 
-        # Recurse for children
         children = self._get_children(node)
         for i, child in enumerate(children):
             self._walk(child, child_prefix, i == len(children) - 1, lines)

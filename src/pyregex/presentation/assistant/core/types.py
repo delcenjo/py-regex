@@ -7,9 +7,6 @@ from typing import Any, Callable, Optional, Protocol, runtime_checkable
 from datetime import datetime
 
 
-# ── Enums ────────────────────────────────────────────────────────────
-
-
 class ModuleCategory(Enum):
     """Top-level module categories in the assistant."""
 
@@ -78,9 +75,6 @@ class EventType(Enum):
     ERROR_OCCURRED = auto()
     HELP_REQUESTED = auto()
     COMMAND_EXECUTED = auto()
-
-
-# ── Data Classes ─────────────────────────────────────────────────────
 
 
 @dataclass
@@ -184,9 +178,6 @@ class PipelineResponse:
     error: Optional[str] = None
     warnings: list[str] = field(default_factory=list)
     execution_time_ms: float = 0.0
-
-
-# ── Protocols ────────────────────────────────────────────────────────
 
 
 @runtime_checkable

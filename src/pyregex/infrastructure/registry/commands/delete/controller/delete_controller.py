@@ -61,15 +61,10 @@ class DeleteController:
 
         # 3. Dependency Phase
         if not force:
-            # We only raise DependencyWarning if not forced.
-            # If forced, we skip the warning and proceed.
             self.dependency_checker.check(exact)
 
         # 4. Safety/Execution Phase
-        # Perform soft delete
         self.trash_manager.move_to_trash(exact)
-
-        # Erase from prod backend/memory
         self.deleter.execute(exact)
 
         # 5. Audit Phase

@@ -55,7 +55,6 @@ class ApacheLogRegexBuilder(LogRegexBuilder):
             return r'^(?P<ip>\S+) (?P<ident>\S+) (?P<authuser>\S+) \[(?P<timestamp>.*?)\] "(?P<method>\S+) (?P<path>\S+) (?P<protocol>\S+)" (?P<status>\d{3}) (?P<size>\S+) "(?P<referer>.*?)" "(?P<useragent>.*?)"'
         elif self.subtype == "common":
             return r'^(?P<ip>\S+) (?P<ident>\S+) (?P<authuser>\S+) \[(?P<timestamp>.*?)\] "(?P<method>\S+) (?P<path>\S+) (?P<protocol>\S+)" (?P<status>\d{3}) (?P<size>\S+)'
-        # Default to access (standard)
         return r'^(?P<ip>\S+) \S+ \S+ \[(?P<timestamp>.*?)\] "(?P<method>\S+) (?P<path>\S+) (?P<protocol>\S+)" (?P<status>\d{3}) (?P<size>\S+)'
 
 
@@ -83,7 +82,6 @@ class NginxLogRegexBuilder(LogRegexBuilder):
             return r"^(?P<timestamp>\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}) \[(?P<level>\w+)\] (?P<pid>\d+)#(?P<tid>\d+): (?P<message>.*)"
         elif self.subtype == "combined":
             return r'^(?P<ip>\S+) - (?P<user>\S+) \[(?P<timestamp>.*?)\] "(?P<request>.*?)" (?P<status>\d{3}) (?P<bytes_sent>\d+) "(?P<referer>.*?)" "(?P<user_agent>.*?)"'
-        # Default to access
         return r'^(?P<ip>\S+) - (?P<user>\S+) \[(?P<timestamp>.*?)\] "(?P<request>.*?)" (?P<status>\d{3}) (?P<bytes_sent>\d+)'
 
 
@@ -115,7 +113,6 @@ class SyslogLogRegexBuilder(LogRegexBuilder):
             return r"^(\w{3}\s+\d{1,2}\s\d{2}:\d{2}:\d{2}) (\S+) (?P<daemon>[\w\-\.]+): (?P<message>.*)"
         elif self.subtype == "kernel":
             return r"^(\w{3}\s+\d{1,2}\s\d{2}:\d{2}:\d{2}) (\S+) kernel: \[(?P<time>.*?)\] (?P<message>.*)"
-        # Standard syslog
         return r"^(\w{3}\s+\d{1,2}\s\d{2}:\d{2}:\d{2}) (\S+) (\S+): (.*)$"
 
 
@@ -268,7 +265,6 @@ class ErrorLogRegexBuilder(LogRegexBuilder):
     def build_pattern(self) -> str:
         if self.subtype == "sys":
             return r"\b(?:ERR|ERROR|FAULT|CRITICAL|Status:)\s*[0-9A-F]+\b"
-        # Default to http
         return r"\b(?:4\d{2}|5\d{2})\b"
 
 
@@ -313,7 +309,6 @@ class CloudWatchLogRegexBuilder(LogRegexBuilder):
             return r"^(?P<timestamp>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z)\s+(?P<request_id>\S+)\s+(?P<message>.*)$"
         elif self.subtype == "filter":
             return r'\{(?:(?:\s*"\$.*?"\s*[:=]\s*".*?"\s*,?)+)\}'
-        # Default to events
         return r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z\s+\[\S+\]\s+(INFO|WARN|ERROR|DEBUG)\s+(.*)$"
 
 
@@ -566,7 +561,6 @@ class K8sPodRegexBuilder(LogRegexBuilder):
         return {"subtype": "name"}
 
     def build_pattern(self) -> str:
-        # Standard k8s name/id pattern
         name_part = r"[a-z0-9]([-a-z0-9]*[a-z0-9])?"
         if self.subtype == "uid":
             return r"[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}"
@@ -1185,7 +1179,6 @@ class SSHGeoRegexBuilder(LogRegexBuilder):
         return {"subtype": "private"}
 
     def build_pattern(self) -> str:
-        # Focusing on internal network pattern as requested in the example
         return r"\b(10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+)\b"
 
 

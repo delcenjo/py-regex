@@ -23,11 +23,9 @@ class ExecutionController:
         callback: Optional[Any] = None,
     ) -> List[Any]:
         """Execute a pattern against multiple targets, optionally in parallel."""
-        # Simplified for now to restore functionality
         results = []
         for target in targets:
             try:
-                # Use the unified worker logic
                 result = unified_worker(pattern, target, args)
                 results.append(result)
                 if callback:

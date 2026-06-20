@@ -18,14 +18,12 @@ class UndoManager:
         if self._is_restoring:
             return
 
-        # If we're not at the end, truncate redo history
         if self._position < len(self._history) - 1:
             self._history = self._history[: self._position + 1]
 
         self._history.append(snapshot)
         self._position = len(self._history) - 1
 
-        # Limit history size
         if len(self._history) > self._max_history:
             excess = len(self._history) - self._max_history
             self._history = self._history[excess:]

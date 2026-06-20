@@ -1,4 +1,3 @@
-# src/pyregex/domain/explain/parser/errors.py
 from __future__ import annotations
 
 

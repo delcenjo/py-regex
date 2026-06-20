@@ -21,18 +21,13 @@ class DynamicWizard(BaseWizard):
     def __init__(self, entry: CatalogEntry, cli: Any = None):
         super().__init__(cli=cli)
         self.entry = entry
-        
-        # Configure metadata
         self.name = entry.name
         self.display_name = entry.wizard.get("display_name", entry.name.replace("_", " ").title())
         self.description = entry.description
         
-        # 1. Hybrid Logic: Lazy load custom handler if specified
         self._handler = None
         if entry.logic_handler:
             self._handler = self._load_handler(entry.logic_handler)
-            
-        # 2. Internal builder to reuse logic (for 90% YAML cases)
         self._builder = GenericBuilder(entry)
 
     def _load_handler(self, handler_path: str) -> Any:
@@ -41,29 +36,22 @@ class DynamicWizard(BaseWizard):
             module_path, class_name = handler_path.rsplit(".", 1)
             module = importlib.import_module(module_path)
             handler_class = getattr(module, class_name)
-            # Instantiate with CLI for interaction
             return handler_class(cli=self.cli)
         except Exception:
-            # Fallback to standard if handler fails
             return None
 
     def define_steps(self) -> list[WizardStep]:
         """Build steps from catalog entry, delegating to handler if complex."""
-        # 10% Custom Logic: Let the handler define steps
         if self._handler is not None and hasattr(self._handler, "define_steps"):
             return self._handler.define_steps(self.entry)
 
-        # 90% Standard Logic
         steps = []
 
-        # 1. Subtype Selection (if catalog has subtypes)
         if self.entry.subtypes:
             choices = []
             for subtype_name, config in self.entry.subtypes.items():
-                # Try to translate subtype display name
                 display_name = config.get("display_name")
                 if not display_name:
-                    # Fallback to catalog name, then try i18n
                     catalog_key = f"catalog.{self.entry.name}.subtypes.{subtype_name}"
                     if i18n.has(catalog_key):
                         display_name = i18n.t(catalog_key)
@@ -73,18 +61,13 @@ class DynamicWizard(BaseWizard):
                 choices.append((subtype_name, display_name))
 
             title = i18n.t("assistant.wizards.select_variant")
-            # If after translation it's still the key, use "Select Variant"
             if title == "assistant.wizards.select_variant":
                 title = "Select Variant"
-
-            # DEBUG
-            # print(f"DEBUG: {self.entry.name} choices: {choices}")
 
             steps.append(
                 menu_step("subtype", title, choices, default=self.entry.default_subtype)
             )
-        
-        # 2. Universal Config Schema (e.g., region, separators)
+
         if self.entry.config_schema:
             steps.extend(self._parse_config_schema(self.entry.config_schema))
             

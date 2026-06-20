@@ -14,13 +14,11 @@ class RegexPerformanceService:
         risks = []
         level = "LOW"
 
-        # 1. Advanced ReDoS Detection
         redos_results = self.detect_redos_deep(pattern)
         if redos_results["is_vulnerable"]:
             risks.extend(redos_results["risks"])
             level = "HIGH"
 
-        # 2. Complexity Analysis
         complexity_score = self._calculate_complexity(pattern)
         if complexity_score > 50:
             risks.append(
@@ -29,7 +27,6 @@ class RegexPerformanceService:
             if level == "LOW":
                 level = "MED"
 
-        # 3. Anchoring Check
         if not (pattern.startswith("^") or pattern.endswith("$")):
             risks.append("Unanchored pattern: scanning large text will be O(N*M)")
             if level == "LOW":
@@ -83,20 +80,15 @@ class RegexPerformanceService:
             optimized,
         )
 
-        # 2. Atomic group simulation (Possessive Quantifiers): a+ -> a++ (if supported, here we use non-capture as hint)
         # 3. Flatten nested non-capturing groups: (?:(?:a)) -> (?:a)
         optimized = re.sub(r"\(\?:\(\?:\s*(.*?)\s*\)\)", r"(?:\1)", optimized)
 
-        # 4. Merge adjacent character classes: [a-d][e-z] -> wait, this is risky without parsing
-
-        # 5. Remove redundant quantifiers
         optimized = re.sub(r"([*+?])\1+", r"\1", optimized)
 
         return optimized
 
     def benchmark_smart(self, pattern: str, iterations: int = 500) -> Dict[str, Any]:
         """Benchmark with synthetic 'near-miss' data to trigger worst-case performance."""
-        # Find some literal or simple part to build a near-miss
         prefix = re.search(r"^[a-zA-Z0-9]+", pattern)
         near_miss_text = (prefix.group(0) if prefix else "abc") * 100 + "!!!"
 

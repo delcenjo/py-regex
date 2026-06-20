@@ -69,7 +69,6 @@ class QuantifierChainAnalyzer:
                     )
                 )
 
-            # Check if child is an alternation with overlap (quantified alternation)
             if is_infinite and isinstance(node.child, GroupNode):
                 for c in node.child.children:
                     if isinstance(c, AlternationNode):

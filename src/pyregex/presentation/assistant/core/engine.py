@@ -44,14 +44,12 @@ class AssistantEngine:
         self.cli = cli
         self.config = config or AssistantConfig()
 
-        # Core systems
         self.events = EventBus()
         self.session = SessionContext()
         self.registry = ModuleRegistry(event_bus=self.events)
         self.router = Router(registry=self.registry, event_bus=self.events)
         self.fsm = StateMachine()
 
-        # Pipeline
         self.pipeline = Pipeline(event_bus=self.events)
         self._timing = TimingMiddleware()
         self._logging = LoggingMiddleware()
@@ -60,7 +58,6 @@ class AssistantEngine:
         self.pipeline.use(self._logging)
         self.pipeline.use(ValidationMiddleware())
 
-        # Initialize
         self._setup()
 
     def _setup(self) -> None:
@@ -72,11 +69,6 @@ class AssistantEngine:
         except ImportError:
             return
         
-        # 0. Perform High-Performance Industrial Discovery (O(N) traversal, no file parsing)
-        # (Lazy loaded when explicitly requested by user)
-
-        # 1. Category Metadata Map (Common ones with icons/display)
-        # In a full system, this could also be in YAML (category.yaml)
         category_meta = {
             "personal": ("Datos Personales", "", "Personal, contacto, identidad"),
             "web": ("Web y Protocolos", "", "URLs, HTTP, APIs, protocolos"),
@@ -104,15 +96,9 @@ class AssistantEngine:
             "transport": ("Transporte", "", "Vehículos, rutas, navegación"),
         }
 
-        # 2. Discover @register_module'd classes (Manual modules)
-        # This keeps compatibility with existing custom modules while we migrate
         self.registry.discover(self.cli)
 
-        # 3. Register All Catalog Categories as Dynamic Modules
-        # This is the "AHA" Discovery phase (Stock inventory)
         for cat_name in catalog_registry.list_categories():
-            # If a manual module already registered this category, we might skip or merge.
-            # For now, we only register if it's missing.
             if cat_name not in self.registry:
                 display, icon, desc = category_meta.get(cat_name, (None, "", ""))
                 try:
@@ -121,13 +107,8 @@ class AssistantEngine:
                 except Exception:
                     continue
 
-        # 4. Setup standard aliases in the router
         self.router.setup_default_aliases()
-
-        # Boot event
         self.events.emit_simple(EventType.SESSION_START, source="engine")
-
-    # ── Public API ───────────────────────────────────────────────────
 
     def process_input(self, raw_input: str) -> PipelineResponse:
         """
@@ -146,20 +127,16 @@ class AssistantEngine:
             context={"route": route, "session": self.session},
         )
 
-        # Context-aware resolution:
-        # 1. Catalog Browsing (Folder/Entry matching)
         if self.fsm.state == SessionState.BROWSING_CATALOG:
             path = self.session.catalog_path
             subfolders, entries = self.catalog_registry.list_at_path(path)
             raw_stripped = raw_input.strip().lower()
-            
-            # Match subfolder precisely or by partial
+
             for f in subfolders:
                 if raw_stripped == f.lower():
                     self.session.push_catalog(f)
                     return self._handle_catalog_path()
             
-            # Match entry precisely
             for e in entries:
                 if raw_stripped == e.lower():
                     # Map hierarchical path to domain module (first path element)
@@ -167,7 +144,6 @@ class AssistantEngine:
                     target_module = path[0] if path else "catalog"
                     return self._handle_wizard(target_module, e)
 
-        # 2. Module Context (In-module shortcuts/numbers)
         if self.session.current_module and self.fsm.state == SessionState.IN_MODULE:
             module_name = self.session.current_module
             resolved = self._resolve_in_module_context(raw_input.strip(), module_name)
@@ -216,14 +192,11 @@ class AssistantEngine:
                 success=False, error=f"Unknown command: {request.raw_input}"
             )
 
-    # ── Handlers ─────────────────────────────────────────────────────
-
     def _handle_back(self) -> None:
         """Handle back navigation."""
         state = self.fsm.state
         if state == SessionState.BROWSING_CATALOG:
             if self.session.pop_catalog() is not None:
-                # Still in catalog, just one level up
                 return
 
         self.session.pop_nav()
@@ -235,7 +208,7 @@ class AssistantEngine:
         self.session.clear_nav()
         self.session.clear_catalog()
         self.session.transition(SessionState.BROWSING_CATALOG)
-        self.fsm.trigger("create") # Ensure FSM is in a browsing state
+        self.fsm.trigger("create")
         return self._handle_catalog_path()
 
     def _handle_catalog_path(self) -> PipelineResponse:
@@ -281,7 +254,6 @@ class AssistantEngine:
         self.session.transition(SessionState.BROWSING)
         self.fsm.trigger("select_module", {"category": category})
 
-        # Get modules in this category
         try:
             cat_enum = ModuleCategory(category)
             modules = self.registry.get_by_category(cat_enum)
@@ -377,11 +349,9 @@ class AssistantEngine:
             total = len(subfolders) + len(entries)
             if 1 <= idx <= total:
                 if idx <= len(subfolders):
-                    # Enter subfolder
                     self.session.push_catalog(subfolders[idx - 1])
                     return self._handle_catalog_path()
                 else:
-                    # Select wizard
                     entry_name = entries[idx - len(subfolders) - 1]
                     return self._handle_wizard("catalog", entry_name)
             else:
@@ -392,7 +362,6 @@ class AssistantEngine:
 
         current_module = self.session.current_module
         if current_module and state == SessionState.IN_MODULE:
-            # Resolve number to wizard in current module
             module = self.registry.get(current_module)
             wizard_names = list(module.get_wizards().keys())
             if 1 <= idx <= len(wizard_names):
@@ -416,12 +385,10 @@ class AssistantEngine:
         try:
             module = self.registry.get(module_name)
             wizards = module.get_wizards()
-            # Match by wizard display name (without _wizard suffix)
             for wiz_name in wizards:
                 display = wiz_name.replace("_wizard", "")
                 if text_lower == display or text_lower == wiz_name:
                     return self._handle_wizard(module_name, wiz_name)
-            # Match by number
             if text_lower.isdigit():
                 idx = int(text_lower)
                 wizard_list = list(wizards.keys())
@@ -430,8 +397,6 @@ class AssistantEngine:
         except Exception:
             pass
         return None
-
-    # ── Stats & Info ─────────────────────────────────────────────────
 
     def get_stats(self) -> dict:
         """Get comprehensive engine statistics."""

@@ -16,7 +16,6 @@ class OutputFormatter:
 
         output = []
         for r in results:
-            # Highlight the precise match substring inside the full string chunk
             prefix = r.full_string[: r.match_start]
             match_str = r.full_string[r.match_start : r.match_end]
             suffix = r.full_string[r.match_end :]

@@ -41,7 +41,6 @@ def unified_worker(
     from pyregex.application.services.registry import PatternRegistry
 
     try:
-        # Reconstruct local registry for the process
         reg = PatternRegistry()
         reg.entities = registry_data.get("entities", {})
         reg.tags = registry_data.get("tags", {})

@@ -14,4 +14,4 @@ def test_config_repository_default(temp_config_repo):
     """Verify default config when file doesn't exist."""
     assert temp_config_repo.exists() is False
     config = temp_config_repo.load()
-    assert config.region == "US" # Default
+    assert config.region == "US"

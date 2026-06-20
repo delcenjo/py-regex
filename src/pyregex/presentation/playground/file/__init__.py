@@ -1,8 +1,4 @@
-"""Playground — File Mode Engine.
-
-Professional file-based regex matching with streaming processing,
-live highlighting, and structured export.
-"""
+"""Playground — File Mode Engine."""
 
 from pyregex.presentation.playground.file.reader import FileReader
 from pyregex.presentation.playground.file.scanner import FileScanner, ScanMatch

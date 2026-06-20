@@ -45,9 +45,8 @@ class RegexParser:
     def _parse_alternation(self) -> Node | List[Node]:
         nodes = self._parse_sequence()
         if self._peek() == "|":
-            self._consume()  # Consume '|'
+            self._consume()
             right = self._parse_alternation()
-            # Wrap nodes in GroupNode internally or just let Alternation take sequence
             left_node = (
                 GroupNode(nodes, is_capture=False)
                 if len(nodes) > 1
@@ -94,12 +93,11 @@ class RegexParser:
         elif char == "(":
             node = self._parse_group()
         elif char in ("*", "+", "?", "{"):
-            # Not an atom, but could be a quantifier without preceding atom in bad regex. Treat as literal.
+            # Quantifier with no preceding atom — treat as literal.
             node = LiteralNode(char)
         else:
             node = LiteralNode(char)
 
-        # Parse potential quantifier for this atom
         return self._parse_quantifier(node)
 
     def _parse_char_class(self) -> CharClassNode:
@@ -126,7 +124,7 @@ class RegexParser:
         name = None
 
         if self._peek() == "?":
-            self._consume()  # Consume '?'
+            self._consume()
             modifier = self._peek()
             if modifier == ":":
                 self._consume()
@@ -164,7 +162,6 @@ class RegexParser:
         return GroupNode(children, is_capture, name)
 
     def _parse_quantifier(self, node: Node) -> Node:
-        # Check if we have a quantifier character
         char = self._peek()
         if char not in ("*", "+", "?", "{"):
             return node

@@ -60,7 +60,6 @@ class ValidateEngine:
         if custom_regex:
             pattern_str = custom_regex
         else:
-            # Try to get from registry first
             pattern_str = self.registry.get_pattern(type_name)
 
             # Fallback to hardcoded VALIDATORS for specific metadata like luhn_check
@@ -116,7 +115,6 @@ class ValidateEngine:
                             continue
 
                     if regex.match(value):
-                        # Extra checksum checks
                         is_valid = True
                         if needs_luhn and not luhn_check(value):
                             is_valid = False
@@ -211,7 +209,6 @@ class ValidateEngine:
                     if progress_callback:
                         progress_callback()
             return results
-        # Sequential processing
         from pyregex.application.services.audit.engine import AuditEngine
 
         audit = AuditEngine(registry=self.registry)

@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, List, Optional
 
-# Typing for interfaces without importing actual implementations directly 
-# to avoid circular dependencies if possible.
+# Interfaces use Any/Optional to avoid circular imports with concrete implementations.
 class PatternRepositoryPort(ABC):
     @abstractmethod
     def save(self, pattern: Any) -> None: ...

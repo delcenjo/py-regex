@@ -27,7 +27,6 @@ class IterationTick:
     memory_alloc_bytes: int
     cpu_percent: float
 
-    # Context
     is_timeout: bool = False
     is_match: bool = False
 
@@ -39,11 +38,9 @@ class BenchProfile:
     pattern: str
     ticks: list[IterationTick] = field(default_factory=list)
 
-    # Statistical derivations
     base_complexity: ComplexityCurve = ComplexityCurve.UNKNOWN
     r_squared: float = 0.0
 
-    # Overall metrics
     total_time_ms: float = 0.0
     max_memory_alloc_bytes: int = 0
     max_cpu_percent: float = 0.0

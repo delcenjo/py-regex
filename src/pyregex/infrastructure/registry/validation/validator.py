@@ -8,7 +8,6 @@ class RegistryValidator:
     def validate(self, name: str, pattern: str) -> Tuple[bool, List[str]]:
         errors = []
 
-        # Validate Name
         if not name or not name.strip():
             errors.append("Name cannot be empty.")
         elif not re.match(r"^[a-zA-Z0-9_\-]+$", name):
@@ -18,7 +17,6 @@ class RegistryValidator:
         elif len(name) > 50:
             errors.append("Name is too long (max 50 characters).")
 
-        # Validate Pattern
         if not pattern or not pattern.strip():
             errors.append("Pattern cannot be empty.")
         else:

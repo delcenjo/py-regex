@@ -57,8 +57,6 @@ class SessionContext:
         self.started_at: str = datetime.now().isoformat()
         self.last_activity: str = self.started_at
 
-    # ── State Management ─────────────────────────────────────────────
-
     @property
     def state(self) -> SessionState:
         return self._state
@@ -77,8 +75,6 @@ class SessionContext:
             self._state = SessionState.IDLE
         self._touch()
         return self._state
-
-    # ── Navigation ───────────────────────────────────────────────────
 
     @property
     def breadcrumbs(self) -> list[str]:
@@ -141,8 +137,6 @@ class SessionContext:
         self._catalog_path.clear()
         self._touch()
 
-    # ── Variables ─────────────────────────────────────────────────────
-
     def set(self, key: str, value: Any) -> None:
         """Store a session variable."""
         self._variables[key] = value
@@ -157,8 +151,6 @@ class SessionContext:
     @property
     def variables(self) -> dict[str, Any]:
         return dict(self._variables)
-
-    # ── Command History ──────────────────────────────────────────────
 
     def record_command(self, command: str, result: Optional[str] = None) -> None:
         """Record a command in session history."""
@@ -180,8 +172,6 @@ class SessionContext:
     def history_count(self) -> int:
         return len(self._command_history)
 
-    # ── Pattern Collection ───────────────────────────────────────────
-
     def add_pattern(self, result: WizardResult) -> None:
         """Add a generated pattern to the session collection."""
         self._generated_patterns.append(result)
@@ -199,12 +189,10 @@ class SessionContext:
     def last_pattern(self) -> Optional[WizardResult]:
         return self._generated_patterns[-1] if self._generated_patterns else None
 
-    # ── Undo / Redo ──────────────────────────────────────────────────
-
     def push_undo(self, snapshot: dict[str, Any]) -> None:
         """Save a state snapshot for undo."""
         self._undo_stack.append(snapshot)
-        self._redo_stack.clear()  # New action clears redo
+        self._redo_stack.clear()
 
     def undo(self) -> Optional[dict[str, Any]]:
         """Pop and return the last undo snapshot."""
@@ -230,8 +218,6 @@ class SessionContext:
     def can_redo(self) -> bool:
         return len(self._redo_stack) > 0
 
-    # ── Stats ────────────────────────────────────────────────────────
-
     def get_stats(self) -> dict[str, Any]:
         """Get session statistics."""
         return {
@@ -245,8 +231,6 @@ class SessionContext:
             "started_at": self.started_at,
             "last_activity": self.last_activity,
         }
-
-    # ── Internal ─────────────────────────────────────────────────────
 
     def _touch(self) -> None:
         """Update last activity timestamp."""

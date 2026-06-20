@@ -17,17 +17,14 @@ class Translator:
 
     def _load_messages(self) -> None:
         """Load messages from the locales directory."""
-        # Now locales is packaged under src/pyregex/locales/ 
         current_dir = Path(__file__).parent
         locales_dir = current_dir.parent / "locales"
 
-        # Fallback if not found
         if not locales_dir.exists():
             locales_dir = current_dir / "locales"
 
         lang_file = locales_dir / self.language / "messages.json"
 
-        # Default to English if language file doesn't exist
         if not lang_file.exists():
             lang_file = locales_dir / "en" / "messages.json"
 

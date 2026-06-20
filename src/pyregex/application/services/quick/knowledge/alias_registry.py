@@ -6,7 +6,6 @@ from pyregex.application.services.quick.base import QuickModule
 class AliasRegistry(QuickModule):
     """Maps synonyms and keywords to internal pattern names."""
 
-    # Internal Registry (could be loaded from JSON/YAML later)
     ALIASES = {
         "email": ["correo", "mail", "contact", "e-mail", "email"],
         "phone": ["telefono", "celular", "movil", "phone", "number", "tel"],

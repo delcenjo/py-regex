@@ -46,7 +46,6 @@ def frag_epsilon(alloc: StateAllocator) -> NFAFragment:
 
 def frag_concat(a: NFAFragment, b: NFAFragment) -> NFAFragment:
     """Concatenate two fragments: a then b."""
-    # Wire a.end → b.start via epsilon
     a.end.add_transition(b.start)
     return NFAFragment(a.start, b.end)
 
@@ -57,10 +56,10 @@ def frag_alternate(
     """Alternation: a | b."""
     s = alloc.new_state()
     e = alloc.new_state()
-    s.add_transition(a.start)  # epsilon → a
-    s.add_transition(b.start)  # epsilon → b
-    a.end.add_transition(e)  # a.end → accept
-    b.end.add_transition(e)  # b.end → accept
+    s.add_transition(a.start)
+    s.add_transition(b.start)
+    a.end.add_transition(e)
+    b.end.add_transition(e)
     return NFAFragment(s, e)
 
 
@@ -70,10 +69,8 @@ def frag_star(
     """Quantifier: child* (zero or more)."""
     s = alloc.new_state()
     e = alloc.new_state()
-    # s → child.start (enter loop)   or   s → e (skip)
     s.add_transition(child.start)
     s.add_transition(e)
-    # child.end → child.start (loop back)   or   child.end → e (exit)
     child.end.add_transition(child.start)
     child.end.add_transition(e)
     return NFAFragment(s, e)
@@ -85,11 +82,9 @@ def frag_plus(
     """Quantifier: child+ (one or more)."""
     s = alloc.new_state()
     e = alloc.new_state()
-    # Must match at least once
     s.add_transition(child.start)
-    # After matching: loop or exit
-    child.end.add_transition(child.start)  # loop
-    child.end.add_transition(e)  # exit
+    child.end.add_transition(child.start)
+    child.end.add_transition(e)
     return NFAFragment(s, e)
 
 
@@ -99,8 +94,8 @@ def frag_optional(
     """Quantifier: child? (zero or one)."""
     s = alloc.new_state()
     e = alloc.new_state()
-    s.add_transition(child.start)  # match
-    s.add_transition(e)  # skip
+    s.add_transition(child.start)
+    s.add_transition(e)
     child.end.add_transition(e)
     return NFAFragment(s, e)
 
@@ -117,7 +112,6 @@ def frag_repeat(
     *child_factory* is a callable that returns a fresh NFAFragment each time
     (needed because we can't reuse NFA states).
     """
-    # Build min mandatory copies
     if min_n == 0 and max_n is None:
         return frag_star(alloc, child_factory(), greedy)
     if min_n == 1 and max_n is None:

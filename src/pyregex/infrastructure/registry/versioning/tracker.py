@@ -12,10 +12,6 @@ class VersionTracker:
     def resolve_name_conflict(
         self, new_name: str, existing_pattern: Optional[RegistryPattern]
     ) -> str:
-        """
-        If a pattern exists, we might want to automatically save it as name_v2.
-        For now, we return the decided name.
-        """
         if not existing_pattern:
             return new_name
 

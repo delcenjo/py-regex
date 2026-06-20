@@ -67,7 +67,6 @@ class FileExporter:
         else:
             raise ValueError(f"Unknown format: {options.format}")
 
-        # Write to file if path specified
         if options.output_path:
             Path(options.output_path).write_text(output, encoding="utf-8")
 
@@ -82,8 +81,6 @@ class FileExporter:
                 seen.add(m.line_no)
                 lines.append(m.line_text)
         return "\n".join(lines)
-
-    # ── Format: JSON ─────────────────────────────────────────────
 
     def _to_json(self, result: ScanResult, options: ExportOptions) -> str:
         data = {
@@ -125,19 +122,15 @@ class FileExporter:
         indent = 2 if options.pretty else None
         return json.dumps(data, indent=indent, ensure_ascii=False)
 
-    # ── Format: CSV ──────────────────────────────────────────────
-
     def _to_csv(self, result: ScanResult, options: ExportOptions) -> str:
         output = io.StringIO()
         writer = csv.writer(output)
 
-        # Header
         if options.include_header:
             headers = ["match_text", "start", "end"]
             if options.include_line_numbers:
                 headers.insert(0, "line_no")
             if options.include_groups:
-                # Find max group count
                 max_groups = max(
                     (len(m.groups) for m in result.matches), default=0
                 )
@@ -145,7 +138,6 @@ class FileExporter:
                     headers.append(f"group_{i + 1}")
             writer.writerow(headers)
 
-        # Rows
         for m in result.matches:
             row = [m.match_text, m.start, m.end]
             if options.include_line_numbers:
@@ -157,8 +149,6 @@ class FileExporter:
             writer.writerow(row)
 
         return output.getvalue()
-
-    # ── Format: TXT (grep-style) ─────────────────────────────────
 
     def _to_txt(self, result: ScanResult, options: ExportOptions) -> str:
         lines: list[str] = []
@@ -198,8 +188,6 @@ class FileExporter:
                             lines.append(f"        G{i + 1}: {g}")
 
         return "\n".join(lines)
-
-    # ── Clipboard ────────────────────────────────────────────────
 
     @staticmethod
     def _copy_to_clipboard(text: str) -> None:

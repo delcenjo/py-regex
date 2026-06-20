@@ -8,20 +8,13 @@ class Sorter:
     @staticmethod
     def sort(patterns: List[RegistryPattern], sort_by: str) -> List[RegistryPattern]:
         if sort_by == "created":
-            # Reverse chronological (newest first)
-            # Metadata currently doesn't track exact creation time dynamically,
-            # but usually they are appended, so reversing gives roughly "newest first"
-            # If we add created_at, we can do sort(key=lambda p: p.metadata.created_at, reverse=True)
-            # For now, we will sort alphabetically descending as a proxy
-            # In real system, we should have a timestamp, but let's assume we sort reversed
-            # the list. The list is normally ordered by addition time from json backend.
+            # Patterns are appended in insertion order, so reversing approximates newest-first.
+            # Replace with sort(key=lambda p: p.metadata.created_at, reverse=True) once that field exists.
             return list(reversed(patterns))
 
         elif sort_by == "usage":
-            # Highest version counts as simplest proxy for usage if usage_stats are absent.
-            # Real usage stats can be added later as an extension.
+            # Uses version as a proxy until real usage stats are available.
             return sorted(patterns, key=lambda p: p.metadata.version, reverse=True)
 
         else:
-            # Default: Alphabetical by name
             return sorted(patterns, key=lambda p: p.name.lower())

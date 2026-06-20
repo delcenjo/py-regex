@@ -36,16 +36,8 @@ class CommandDispatcher:
         return list(self.commands.keys())
 
     def get_completion_metadata(self) -> Dict[str, Any]:
-        """
-        Returns a dictionary structure for the shell completer.
-        Format: { "cmd": ["--flag1", "--flag2"], ... }
-        """
+        """Returns a dict mapping command names to flag lists for the shell completer."""
         metadata = {}
-        # This is a simplified version. For nested commands,
-        # we'd need a more complex extraction from argparse objects.
-        # For now, we'll return the top-level commands and their basic flags.
         for name, cmd in self.commands.items():
-            # In a real 'Galaxy' system, we could introspect the parser.
-            # But for simplicity, we'll start with top-level name strings.
             metadata[name] = []
         return metadata

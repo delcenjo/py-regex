@@ -1,4 +1,3 @@
-# src/pyregex/domain/explain/analyzer/linter.py
 from __future__ import annotations
 from typing import List, Dict
 from pyregex.domain.explain.models.ast import (
@@ -29,8 +28,6 @@ class AstLinter:
                 self._walk(child)
 
         elif isinstance(node, GroupNode):
-            # Check if group only houses literals and has no repetition attached?
-            # Technically, (?:abc) is just abc if not repeated or alternated.
             if (
                 node.type == "non_capture"
                 and len(node.children) == 1
@@ -46,7 +43,6 @@ class AstLinter:
                 self._walk(child)
 
         elif isinstance(node, AlternationNode):
-            # Check for (a|a)
             if isinstance(node.left, LiteralNode) and isinstance(
                 node.right, LiteralNode
             ):

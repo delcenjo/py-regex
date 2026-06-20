@@ -53,8 +53,6 @@ class AliasResolver:
         Supports 'God-Level' composition: @alias1 + @alias2 + @alias3
         which expands to (?:pattern1)(?:pattern2)(?:pattern3).
         """
-        # Phase 1: Detect and expand recursive + compositions
-        # We search specifically for @alias + @alias sequences
         composition_re = re.compile(r"(@[a-zA-Z_][a-zA-Z0-9_-]*(?:\s*\+\s*@[a-zA-Z_][a-zA-Z0-9_-]*)+)")
 
         def _expand_composition(match: re.Match) -> str:
@@ -73,7 +71,6 @@ class AliasResolver:
 
         text = composition_re.sub(_expand_composition, text)
 
-        # Phase 2: Expand individual @aliases
         def _replace_single(m: re.Match) -> str:
             name = m.group(1)
             if name in self._cache:
@@ -92,7 +89,6 @@ class AliasResolver:
         if expanded == text:
             return ""
         
-        # Truncate if too long
         if len(expanded) > 80:
             expanded = expanded[:77] + "..."
             

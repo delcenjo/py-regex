@@ -20,23 +20,16 @@ class WizardStep:
     title: str
     step_type: StepType = StepType.MENU
 
-    # Content
     choices: list[Choice] = field(default_factory=list)
     prompt_text: str = "> "
     help_text: str = ""
 
-    # Defaults & validation
     default: Optional[str] = None
     validator: Optional[Callable[[str], tuple[bool, str]]] = None
     required: bool = True
 
-    # Conditional rendering
     condition: Optional[Callable[[dict[str, Any]], bool]] = None
-
-    # Transform the raw input before storing
     transform: Optional[Callable[[str], Any]] = None
-
-    # Post-step callback
     on_complete: Optional[Callable[[Any, dict[str, Any]], None]] = None
 
     def should_show(self, context: dict[str, Any]) -> bool:

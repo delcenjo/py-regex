@@ -1,4 +1,3 @@
-# src/pyregex/presentation/cli/create.py
 from __future__ import annotations
 import argparse
 from typing import Any
@@ -15,7 +14,6 @@ class CreateCommand(BaseCommand):
 
     @property
     def description(self) -> str:
-        # Fallback to "Create new patterns" if i18n key is missing
         return (
             i18n.t("cli.commands.create")
             or "Create new regular expression patterns interactively."
@@ -28,7 +26,6 @@ class CreateCommand(BaseCommand):
     def setup_parser(self, subparsers: Any) -> None:
         """Sets up the subparser for the create command."""
         parser = subparsers.add_parser(self.name, help=self.description)
-        # Any specific --wizard flags could go here, but the Assistant UI handles it.
 
     def execute(self, args: argparse.Namespace, cli: Any) -> int:
         """Executes the create component via the primary CLI assistant."""

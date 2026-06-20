@@ -1,7 +1,6 @@
 from typing import Dict, List, Optional
 
-# Lazy load presets to avoid circularity if any
-# (Though presets.py is just a dict)
+# Lazy import to avoid circular dependency
 from pyregex.application.services.audit.presets import PRESETS
 
 

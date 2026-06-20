@@ -31,7 +31,6 @@ def test_parser_alternation():
     assert len(ast.children) == 1
     alt = ast.children[0]
     assert isinstance(alt, AlternationNode)
-    # The parser optimizations behavior:
     assert isinstance(alt.left, LiteralNode)
     assert alt.left.value == "a"
     assert isinstance(alt.right, GroupNode)

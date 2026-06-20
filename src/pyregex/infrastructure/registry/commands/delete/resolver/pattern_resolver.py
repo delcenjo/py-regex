@@ -20,17 +20,15 @@ class PatternResolver:
         """
         all_patterns = self.search_engine.search_all()
 
-        # 1. Exact Match Check
         exact = next(
             (p for p in all_patterns if p.name.lower() == target_name.lower()), None
         )
         if exact:
             return exact, []
 
-        # 2. Fuzzy Suggestions (Substring or Difflib)
         import difflib
 
-        # Exact substring matches first
+        # Substring matches first, then difflib close matches.
         suggestions = [
             p
             for p in all_patterns
@@ -38,7 +36,6 @@ class PatternResolver:
             and p.name.lower() != target_name.lower()
         ]
 
-        # If no substring matches, try difflib
         if not suggestions:
             names = [p.name for p in all_patterns]
             close_names = difflib.get_close_matches(

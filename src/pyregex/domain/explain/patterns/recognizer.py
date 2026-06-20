@@ -30,7 +30,6 @@ class PatternRecognizer:
         if len(children) != 3:
             return False
 
-        # Check boundaries
         first, middle, last = children[0], children[1], children[2]
 
         has_boundaries = (
@@ -47,7 +46,6 @@ class PatternRecognizer:
         if not has_boundaries:
             return False
 
-        # Check [a-fA-F0-9]{32}
         if (
             not isinstance(middle, QuantifierNode)
             or middle.min_cnt != 32
@@ -63,20 +61,17 @@ class PatternRecognizer:
                 .replace("0-9", "")
                 .replace("A-Fa-f", "")
             )
-            # If it only contains valid hex ranges
             if not chars and not child.negated:
                 return True
 
         return False
 
     def _is_uuid(self, root: RootNode) -> bool:
-        """Simplified UUID check"""
-        # Complex to write exact AST matcher for UUID quickly, return False for now
+        """UUID detection — not yet implemented."""
         return False
 
     def _is_iso_date(self, root: RootNode) -> bool:
         r"""Looks for \d{4}-\d{2}-\d{2}"""
-        # \d{4}-\d{2}-\d{2} means: Quantifier(\d, 4), Literal('-'), Quantifier(\d, 2), Literal('-'), Quantifier(\d, 2)
         children = root.children
 
         # Strip anchors if present

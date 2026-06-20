@@ -41,7 +41,6 @@ class Pipeline:
         start = time.perf_counter()
 
         try:
-            # Build the chain from inside out
             chain = handler
             for mw in reversed(self._middleware):
                 chain = self._wrap(mw, chain)

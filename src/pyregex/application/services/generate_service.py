@@ -19,16 +19,13 @@ class SyntheticEngine:
         """Generates N synthetic examples using a builder's own logic or metadata."""
         results = []
 
-        # Priority 1: Use builder's specialized generator if it exists (future proofing)
         if hasattr(builder, "generate"):
             for _ in range(count):
                 results.append(builder.generate(config, self.rng))
             return results
 
-        # Priority 2: Use metadata examples and mutate/randomize them
         meta = builder.metadata
         if not meta.examples:
-            # Fallback to very basic pattern-based generation if no examples
             pattern = builder.build_pattern()
             return [self._generate_from_pattern(pattern) for _ in range(count)]
 
@@ -47,7 +44,6 @@ class SyntheticEngine:
             return f"{parts[0]}{self.rng.randint(1, 999)}@{parts[1]}"
 
         if any(c.isdigit() for c in example):
-            # Replace some digits with other digits
             chars = list(example)
             for i, char in enumerate(chars):
                 if char.isdigit() and self.rng.random() > 0.5:

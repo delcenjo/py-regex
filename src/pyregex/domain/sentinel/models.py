@@ -54,7 +54,6 @@ class CoverageReport:
     total_quantifiers: int = 0
     covered_quantifiers: int = 0
 
-    # Detailed unexercised components
     missed_alternations: list[str] = field(default_factory=list)
     missed_quantifiers: list[str] = field(default_factory=list)
 
@@ -116,7 +115,6 @@ class TestSuite:
     description: Optional[str] = None
     tags: list[str] = field(default_factory=list)
 
-    # Fuzzing configuration
     fuzz_enabled: bool = False
     fuzz_types: list[str] = field(default_factory=list)  # e.g., ["email", "ipv4"]
     fuzz_count: int = 100

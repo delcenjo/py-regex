@@ -38,8 +38,6 @@ class Fuzzer:
         method = getattr(self, f"_gen_{fuzzer_type}")
         return [method() for _ in range(count)]
 
-    # --- Supported Fuzzer Profiles ---
-
     def _gen_email(self) -> str:
         return self.fake.email()
 

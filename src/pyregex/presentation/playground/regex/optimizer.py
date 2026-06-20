@@ -49,7 +49,6 @@ class PatternOptimizer:
         suggestions.extend(self._check_correctness(pattern))
         suggestions.extend(self._check_security(pattern))
 
-        # Sort by severity
         severity_order = {"critical": 0, "error": 1, "warning": 2, "info": 3}
         suggestions.sort(key=lambda s: severity_order.get(s.severity, 4))
 
@@ -178,7 +177,6 @@ class PatternOptimizer:
     def _check_correctness(self, pattern: str) -> list[Suggestion]:
         sugs: list[Suggestion] = []
 
-        # Common email mistake
         if re.search(r"\w+@\w+", pattern) and "+" not in pattern:
             sugs.append(
                 Suggestion(
@@ -190,7 +188,6 @@ class PatternOptimizer:
                 )
             )
 
-        # Anchoring
         if pattern and pattern[0] != "^" and pattern[-1] != "$":
             if not any(pattern.startswith(p) for p in ["\\b", "(?:", "(?"]):
                 sugs.append(

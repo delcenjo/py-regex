@@ -35,16 +35,12 @@ class RewriteResult:
     explanation: str
 
 
-# ── AST → Regex String ───────────────────────────────────────────
-
-
 def ast_to_regex(node: AstNode) -> str:
     """Regenerate regex string from AST node."""
     if isinstance(node, RootNode):
         return "".join(ast_to_regex(c) for c in node.children)
 
     if isinstance(node, LiteralNode):
-        # Escape special characters
         specials = r"\.^$*+?{}[]|()"
         result = []
         for ch in node.value:
@@ -118,9 +114,6 @@ def ast_to_regex(node: AstNode) -> str:
     return ""
 
 
-# ── Strategies ────────────────────────────────────────────────────
-
-
 def flatten_nested_quantifier(node: QuantifierNode) -> Optional[str]:
     """(a+)+ → a+  |  (a*)+ → a*  |  (a+)* → a*
 
@@ -138,14 +131,11 @@ def flatten_nested_quantifier(node: QuantifierNode) -> Optional[str]:
     if not isinstance(inner, QuantifierNode):
         return None
 
-    # Both are infinite quantifiers
     if node.max is not None or inner.max is not None:
         return None
 
-    # Flatten: take the innermost child with the loosest quantifier
     child_str = ast_to_regex(inner.child)
 
-    # If either has min=0, result is *; otherwise +
     if node.min == 0 or inner.min == 0:
         return f"{child_str}*"
     else:
@@ -163,9 +153,8 @@ def merge_adjacent_quantifiers(q1: QuantifierNode, q2: QuantifierNode) -> Option
     if cs1 != cs2:
         return None
 
-    # Merge ranges
     min_total = q1.min + q2.min
-    max_total: Optional[int] = None  # If either is infinite
+    max_total: Optional[int] = None
 
     if q1.max is None or q2.max is None:
         max_total = None

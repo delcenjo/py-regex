@@ -1,4 +1,3 @@
-# src/pyregex/domain/explain/translator/ast_walker.py
 from __future__ import annotations
 from typing import List
 from pyregex.domain.explain.models.ast import (

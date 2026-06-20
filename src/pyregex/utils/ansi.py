@@ -176,8 +176,6 @@ def banner(text: str) -> str:
     width = 60
     line = muted("═" * width)
     header_text = header(text.upper())
-    # Center the header text roughly
-    # We account for visible length which handles ANSI and wide characters
     padding = max(0, (width - visible_len(text)) // 2)
     centered_header = " " * padding + header_text
     return f"\n{line}\n{centered_header}\n{line}\n"
@@ -191,7 +189,6 @@ def print_banner(text: str) -> None:
 import re
 import unicodedata
 
-# ANSI escape code regex
 ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
 
 
@@ -208,13 +205,10 @@ def display_width(text: str) -> int:
     clean_text = strip_ansi(text)
     width = 0
     for char in clean_text:
-        # Skip Non-spacing marks (Mn), Me (Enclosing mark), and Cf (Other, format) 
-        # which are typically zero-width in modern terminals
+        # Mn/Me/Cf are zero-width (combining marks, format chars)
         cat = unicodedata.category(char)
         if cat in ("Mn", "Me", "Cf"):
             continue
-            
-        # Check if character is Wide (W) or Fullwidth (F)
         if unicodedata.east_asian_width(char) in ("W", "F"):
             width += 2
         else:

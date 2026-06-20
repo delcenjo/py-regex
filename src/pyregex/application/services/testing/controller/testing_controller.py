@@ -32,27 +32,23 @@ class TestingController:
         flags: int = 0,
     ) -> TestingState:
 
-        # 1. Resolve Intents to Patterns
         executors = []
         for pat in patterns_or_intents:
             resolved_pattern = pat
             if self.quick_controller is not None:
-                # Try to map natural language intent to a pattern
                 builder, tags = self.quick_controller.process_intent(pat)
                 if builder:
                     resolved_pattern = builder.build_pattern()
             try:
                 executors.append(RegexExecutor(resolved_pattern, flags))
             except ValueError:
-                # Skip invalid patterns or record them
                 pass
 
         if not executors:
-            return TestingState()  # No valid patterns
+            return TestingState()
 
         matcher = GlobalMatcher(executors)
 
-        # 2. Setup Input
         reader: StringReader | FileReader | StreamReader
         if text:
             reader = StringReader(text)
@@ -61,7 +57,6 @@ class TestingController:
         else:
             reader = StreamReader(stream)
 
-        # 3. Execute
         state = matcher.match_stream(reader)
 
         return state

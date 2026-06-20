@@ -49,7 +49,6 @@ class TransformEngine:
                     total_count += count
             return total_count
 
-        # Handle file-to-file or inplace
         import tempfile
         import shutil
 
@@ -149,7 +148,6 @@ class TransformEngine:
         if not matches:
             return line, 0
 
-        # Sort by start position, then by length (descending)
         matches.sort(key=lambda x: (x[0], -(x[1] - x[0])))
 
         filtered = []
@@ -159,7 +157,6 @@ class TransformEngine:
                 filtered.append(m)
                 last_end = m[1]
 
-        # Apply transformations
         from pyregex.application.services.mask.modes import MODES
 
         parts = []
@@ -169,7 +166,7 @@ class TransformEngine:
             parts.append(line[last_idx:start])
 
             if action == "drop":
-                return "", 1  # In theory, count it as 1 transformation
+                return "", 1
 
             mode_func = MODES.get(action, MODES["redact"])
             parts.append(mode_func(value, self.mask_engine.salt, name))

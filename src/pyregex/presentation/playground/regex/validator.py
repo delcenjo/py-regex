@@ -60,7 +60,6 @@ class LiveValidator:
 
         issues: list[ValidationIssue] = []
 
-        # 1. Try to compile
         try:
             compiled = re.compile(pattern, flags)
             group_count = compiled.groups
@@ -82,13 +81,8 @@ class LiveValidator:
             )
             return ValidationResult(is_valid=False, issues=issues)
 
-        # 2. Balance checks
         issues.extend(self._check_balance(pattern))
-
-        # 3. Redundancy checks
         issues.extend(self._check_redundancy(pattern))
-
-        # 4. Common mistakes
         issues.extend(self._check_common_mistakes(pattern))
 
         return ValidationResult(
@@ -106,13 +100,11 @@ class LiveValidator:
         if not pattern:
             return ValidationResult(is_valid=True)
 
-        # Try compiling but don't error on unclosed groups at end
         try:
             re.compile(pattern)
             return self.validate(pattern)
         except re.error as e:
             err_str = str(e).lower()
-            # These are expected for incomplete patterns
             if any(
                 x in err_str
                 for x in [
@@ -132,7 +124,6 @@ class LiveValidator:
                         )
                     ],
                 )
-            # Real errors
             pos = getattr(e, "pos", None)
             return ValidationResult(
                 is_valid=False,

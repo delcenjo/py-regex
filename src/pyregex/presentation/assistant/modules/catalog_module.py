@@ -25,9 +25,8 @@ class CatalogWizardAdapter:
             self.description = entry_or_name.description
 
     def __call__(self, cli: Any, session: Any = None) -> DynamicWizard:
-        """Instantiate the dynamic wizard with the injected CLI (Loads YAML on demand)."""
+        """Instantiate the dynamic wizard with the injected CLI. Loads YAML on demand."""
         if not self._entry:
-            # ONLY Load YAML here, when the user actually runs the wizard
             self._entry = catalog_registry.get_entry(self.entry_name)
             
         return DynamicWizard(self._entry, cli)
@@ -37,12 +36,7 @@ class CatalogModule:
     """A dynamic module that exposes all catalog entries for a specific category."""
 
     def __init__(self, name: str, display_name: Optional[str] = None, icon: str = "", description: str = "", cli: Any = None):
-        # Enum safety: Find the category or use UTILS
-        cat = ModuleCategory.UTILS
-        for c in ModuleCategory:
-            if c.value == name:
-                cat = c
-                break
+        cat = next((c for c in ModuleCategory if c.value == name), ModuleCategory.UTILS)
         
         self._info = ModuleInfo(
             name=name,
@@ -63,19 +57,9 @@ class CatalogModule:
         return len(catalog_registry.list_entries(self._info.name))
 
     def get_wizards(self) -> Dict[str, Any]:
-        """Returns a dict of wizard_name -> Adapter mapping for the category (Lazy)."""
-        category_name = self._info.name
-        # We only list the names. We DO NOT call get_entry() here.
-        # This avoids opening thousands of YAML files.
-        entry_names = catalog_registry.list_entries(category_name)
-        
-        wizards = {}
-        for entry_name in entry_names:
-            # We create the adapter with JUST the name. 
-            # It will load the full entry only when called.
-            wizards[entry_name] = CatalogWizardAdapter(entry_name)
-                
-        return wizards
+        """Returns a dict of wizard_name -> Adapter for the category. Adapters are lazy: YAML loads only on first call."""
+        entry_names = catalog_registry.list_entries(self._info.name)
+        return {name: CatalogWizardAdapter(name) for name in entry_names}
 
     def get_commands(self) -> Dict[str, Callable]:
         """Catalog modules don't have secondary commands yet."""

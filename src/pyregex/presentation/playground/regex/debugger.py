@@ -66,7 +66,6 @@ class StepDebugger:
         steps: list[DebugStep] = []
         step_num = 0
 
-        # For each position in the text, try to match
         for pos in range(len(text) + 1):
             if step_num >= self.max_steps:
                 steps.append(
@@ -82,16 +81,13 @@ class StepDebugger:
                 )
                 break
 
-            # Get context around current position
             ctx_start = max(0, pos - 5)
             ctx_end = min(len(text), pos + 15)
             text_ctx = text[ctx_start:pos] + "▸" + text[pos:ctx_end]
 
-            # Try to match at this position
             m = pattern.match(text, pos)
 
             if m:
-                # Record successful match
                 step_num += 1
                 group_state = {}
                 for i in range(pattern.groups + 1):
@@ -115,7 +111,6 @@ class StepDebugger:
                     )
                 )
 
-                # Show group captures
                 for i in range(1, pattern.groups + 1):
                     try:
                         g = m.group(i)
@@ -141,12 +136,10 @@ class StepDebugger:
                     except IndexError:
                         pass
 
-                # Jump past this match
                 if m.end() > pos:
                     pos_next = m.end() - 1  # will be incremented by loop
                 continue
             else:
-                # Record attempt at this position
                 if pos < len(text):
                     step_num += 1
                     steps.append(

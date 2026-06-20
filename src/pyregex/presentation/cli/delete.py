@@ -40,7 +40,6 @@ class DeleteCommand(BaseCommand):
         force = getattr(args, "force", False)
 
         try:
-            # First pass: try to execute deletion pipeline
             output = cli.registry_system.delete_controller.request_delete(
                 target, force=force
             )
@@ -88,7 +87,6 @@ class DeleteCommand(BaseCommand):
             return 1
 
     def _execute_safe_delete(self, target: str, force: bool, cli: PyRegexCLI) -> int:
-        # Interactive safety prompt before final deletion
         if not force:
             resp = cli._get_arg_or_prompt(
                 None,

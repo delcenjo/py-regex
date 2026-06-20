@@ -136,7 +136,6 @@ class AuditCommand(BaseCommand):
             if tm.progress >= 100:
                 tm.cleanup()
         else:
-            # Fallback for sequential
             results = engine.scan(path=str(path), rules=rules)
 
         try:

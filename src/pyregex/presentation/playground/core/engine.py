@@ -44,16 +44,12 @@ class PlaygroundEngine:
         self.events = EventBus()
         self.undo_manager = UndoManager(max_history=self.config.max_history)
 
-        # Analysis bridge (lazy loaded)
-        self._explainer = None
+        self._explainer = None  # lazy-loaded analysis bridge
 
-        # Wire state observers
         self.state.subscribe("regex_text", self._on_regex_change)
         self.state.subscribe("input_text", self._on_input_change)
         self.state.subscribe("flags", self._on_flags_change)
         self.state.subscribe("replace_text", self._on_replace_change)
-
-    # ── Public API ──────────────────────────────────────────────────
 
     def set_regex(self, text: str) -> None:
         """Set regex text (triggers full recomputation)."""
@@ -79,7 +75,6 @@ class PlaygroundEngine:
         self.state.input_text = input_text or self.state.input_text
         self.state.flags = flags
         self.events.unmute()
-        # Trigger full recomputation
         self._full_recompute()
 
     def undo(self) -> bool:
@@ -113,8 +108,6 @@ class PlaygroundEngine:
         self.state.replace_text = ""
         self.state.flags = 0
 
-    # ── State change handlers ─────────────────────────────────────
-
     def _on_regex_change(self, prop: str, state: PlaygroundState) -> None:
         """Called when regex text changes."""
         self._save_snapshot()
@@ -139,8 +132,6 @@ class PlaygroundEngine:
         """Called when replacement text changes."""
         self._update_replace()
         self.events.emit(PlaygroundEvent.REPLACE_CHANGED, source="engine")
-
-    # ── Internal processing pipeline ──────────────────────────────
 
     def _full_recompute(self) -> None:
         """Full recomputation: compile → match → analyze → explain."""
@@ -237,7 +228,6 @@ class PlaygroundEngine:
                 warns = result.get("warnings", [])
                 sugs = result.get("suggestions", [])
 
-                # Determine level
                 if score <= 20:
                     level = "low"
                 elif score <= 50:
@@ -247,7 +237,6 @@ class PlaygroundEngine:
                 else:
                     level = "critical"
 
-                # Check for ReDoS indicators
                 backtrack = "none"
                 for w in warns:
                     wl = w.lower()
@@ -321,8 +310,6 @@ class PlaygroundEngine:
     def _save_snapshot(self) -> None:
         """Save current state for undo."""
         self.undo_manager.push(self.state.snapshot())
-
-    # ── Stats ─────────────────────────────────────────────────────
 
     def get_stats(self) -> dict[str, Any]:
         return {

@@ -27,13 +27,11 @@ class BenchCommand(BaseCommand):
         parser.add_argument(
             "-p", "--pattern", nargs="+", required=True, help="Patterns to benchmark"
         )
-        # Legacy bench args
         parser.add_argument("-t", "--text", help="Text to benchmark against")
         parser.add_argument("-f", "--file", help="File to benchmark against")
         parser.add_argument(
             "-n", "--iterations", type=int, default=1000, help="Number of iterations"
         )
-        # Warp Profiler args
         parser.add_argument(
             "--fuzz-redos",
             action="store_true",
@@ -68,7 +66,6 @@ class BenchCommand(BaseCommand):
                     print(ansi.success(f"Dossier exported: {args.export_html}"))
             return 0
 
-        # Legacy benchmark mode
         content = ""
         if args.text:
             content = args.text

@@ -50,19 +50,16 @@ class EventBus:
 
     def emit(self, event: Event) -> None:
         """Emit an event to all registered listeners."""
-        # Record in history
         self._history.append(event)
         if len(self._history) > self._max_history:
             self._history = self._history[-self._max_history :]
 
-        # Fire permanent listeners
         for _, callback in self._listeners.get(event.type, []):
             try:
                 callback(event)
             except Exception:
                 pass  # Never let a listener break the emitter
 
-        # Fire one-shot listeners
         for callback in self._one_shot.pop(event.type, []):
             try:
                 callback(event)

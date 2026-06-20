@@ -45,37 +45,29 @@ class WizardRunner:
         Handles back navigation by maintaining a step index that can decrement.
         Handles cancel by returning an empty dict with a 'cancelled' key.
         """
-        # Resolve branching
         results: dict[str, Any] = {}
         step_history: list[int] = []  # indices of completed steps
-
-        # Get initial resolved flow
         resolved = self.branching.resolve_flow(steps, results)
         idx = 0
 
         while idx < len(resolved):
             step = resolved[idx]
 
-            # Show progress
             total = len(resolved)
             self._show_progress(idx + 1, total, wizard_name)
 
-            # Show breadcrumbs
             if session.breadcrumbs:
                 print(f"  {ansi.dim(session.breadcrumb_str)}")
 
-            # Render step and get input
             try:
                 raw = self.renderer.render(step, results)
             except (KeyboardInterrupt, EOFError):
                 results["__cancelled__"] = True
                 return results
 
-            # Handle back
             if raw.lower() == "b":
                 if step_history:
                     idx = step_history.pop()
-                    # Remove the result for the step we're going back to
                     back_step = resolved[idx]
                     results.pop(back_step.id, None)
                     continue
@@ -83,17 +75,14 @@ class WizardRunner:
                     results["__cancelled__"] = True
                     return results
 
-            # Validate input
             is_valid, error_msg = step.validate_input(raw)
             if not is_valid:
                 print(f"  {ansi.error(error_msg)}")
-                continue  # Re-render same step
+                continue
 
-            # Transform and store
             value = step.transform_value(raw)
             results[step.id] = value
 
-            # Emit event
             if self._event_bus:
                 self._event_bus.emit_simple(
                     EventType.WIZARD_STEP,
@@ -103,24 +92,19 @@ class WizardRunner:
                     value=str(value),
                 )
 
-            # Run post-step callback
             if step.on_complete:
                 try:
                     step.on_complete(value, results)
                 except Exception:
                     pass
 
-            # Re-resolve flow (branching may have changed based on this answer)
             old_len = len(resolved)
             resolved = self.branching.resolve_flow(steps, results)
 
-            # Track history for back navigation
             step_history.append(idx)
             idx += 1
 
-            # Adjust index if branching changed the flow length
             if len(resolved) != old_len:
-                # Find current step in new flow
                 for new_idx, s in enumerate(resolved):
                     if s.id == step.id:
                         idx = new_idx + 1

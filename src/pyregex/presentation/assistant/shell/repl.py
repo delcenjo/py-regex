@@ -40,26 +40,21 @@ class NebulaREPL:
         self.config = config or AssistantConfig()
         self.theme = get_theme(self.config.theme)
 
-        # Initialize engine
         self.engine = AssistantEngine(cli, self.config)
 
-        # History
         history_path = Path.home() / ".pyregex" / "nebula_history"
         history_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Completer
         self.completer = NebulaCompleter(
             registry=self.engine.registry,
             session=self.engine.session,
             fsm=self.engine.fsm,
         )
 
-        # Toolbar
         self.toolbar = StatusToolbar(
             session=self.engine.session, fsm=self.engine.fsm, theme=self.theme
         )
 
-        # Prompt session
         self.prompt_session = PromptSession(
             history=FileHistory(str(history_path)),
             auto_suggest=AutoSuggestFromHistory(),
@@ -71,35 +66,26 @@ class NebulaREPL:
 
     def run(self, initial_command: Optional[str] = None) -> None:
         """Main REPL loop."""
-        # Show banner (Instant - zero load)
         if self.config.show_banner and not initial_command:
             show_banner(
                 module_count=self.engine.registry.count, wizard_count="30,000+"
             )
 
-        # Start FSM
         self.engine.fsm.trigger("start")
 
         if initial_command:
             response = self.engine.process_input(initial_command)
             self._handle_response(response, initial_command)
 
-        # Main loop
         while True:
             try:
-                # Build dynamic prompt
                 prompt_text = self._build_prompt()
-
-                # Get input
                 user_input = self.prompt_session.prompt(prompt_text)
 
                 if not user_input.strip():
                     continue
 
-                # Process through engine
                 response = self.engine.process_input(user_input)
-
-                # Handle response
                 self._handle_response(response, user_input)
 
             except KeyboardInterrupt:
@@ -110,16 +96,13 @@ class NebulaREPL:
             except EOFError:
                 break
 
-        # Cleanup
         self.engine.shutdown()
         show_goodbye()
 
     def _build_prompt(self) -> HTML:
-        """Build the dynamic prompt based on current state (Expert Style)."""
+        """Build the dynamic prompt based on current state."""
         state = self.engine.fsm.state
         breadcrumbs = self.engine.session.breadcrumb_str
-        
-        # Expert palette mapping
         theme = self.theme
         
         if state == SessionState.BROWSING:
@@ -194,13 +177,12 @@ class NebulaREPL:
             for w in response.warnings:
                 print(f"    • {w}")
 
-        # Show warnings
         for w in response.warnings:
             if result != "ambiguous":
                 print(f"  {ansi.dim(w)}")
 
     def _show_help(self) -> None:
-        """Display technical help architecture (Optimized)."""
+        """Display help with available modules and commands."""
         help_content = []
         for info in self.engine.registry.list_all():
             mod = self.engine.registry.get(info.name)
@@ -230,7 +212,7 @@ class NebulaREPL:
         Table(headers, rows, title="System Commands").print()
 
     def _show_category(self, data: dict) -> None:
-        """Display category modules using expert menu."""
+        """Display category modules."""
         cat = data.get("category", "")
         modules = data.get("modules", [])
         
@@ -238,7 +220,7 @@ class NebulaREPL:
         Menu(items, title=f"Category: {cat}").print()
 
     def _show_module(self, data: dict) -> None:
-        """Display module wizards using expert system."""
+        """Display module wizards."""
         module_name = data.get("module", "")
         wizards = data.get("wizards", [])
         info = data.get("info")

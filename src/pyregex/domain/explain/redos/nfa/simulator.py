@@ -113,10 +113,7 @@ class NFASimulator:
             if loop_ambs >= 2:
                 return "O(N³)"
             return "O(N²)"
-        # Ambiguity but not in a loop → linear with constant factor
         return "O(N)"
-
-    # ── Internal methods ──────────────────────────────────────────
 
     def _epsilon_closure(self, states: set[int]) -> set[int]:
         """Compute epsilon closure: all states reachable via epsilon transitions."""
@@ -150,10 +147,8 @@ class NFASimulator:
             return
         visited.add(state.id)
 
-        # Get epsilon closure from this state
         closure = self._epsilon_closure({state.id})
 
-        # Collect all char transitions from the entire closure
         char_trans: list[
             tuple[NFATransition, int]
         ] = []  # (transition, source_state_id)
@@ -164,7 +159,6 @@ class NFASimulator:
             for t in s.char_transitions():
                 char_trans.append((t, sid))
 
-        # Check all pairs for overlapping charsets
         for i in range(len(char_trans)):
             for j in range(i + 1, len(char_trans)):
                 t_a, sid_a = char_trans[i]
@@ -175,7 +169,6 @@ class NFASimulator:
                     and t_b.charset is not None
                     and t_a.charset.intersects(t_b.charset)
                 ):
-                    # Different targets = ambiguity
                     if t_a.target.id != t_b.target.id:
                         in_loop = state.id in loops
                         results.append(
@@ -189,7 +182,6 @@ class NFASimulator:
                             )
                         )
 
-        # Continue DFS into children
         for t in state.transitions:
             child_depth = loop_depth + (1 if state.id in loops else 0)
             self._find_ambiguities_dfs(t.target, visited, results, loops, child_depth)
@@ -230,7 +222,6 @@ class NFASimulator:
 
         queue: deque[tuple[int, str, set[int]]] = deque()
 
-        # Start from epsilon closure of start state
         start_closure = self._epsilon_closure({self.start.id})
         for sid in start_closure:
             queue.append((sid, "", set()))
@@ -248,12 +239,10 @@ class NFASimulator:
             if state is None:
                 continue
 
-            # Epsilon transitions (no character consumed)
             for t in state.epsilon_transitions():
                 if t.target.id not in visited:
                     queue.append((t.target.id, path, visited))
 
-            # Char transitions (consume one character)
             for t in state.char_transitions():
                 if t.charset is not None:
                     sample = t.charset.sample_char()
@@ -264,7 +253,6 @@ class NFASimulator:
 
     def _find_failing_suffix(self, state_id: int) -> str:
         """Find a character that transitions from state_id lead to rejection."""
-        # Collect all accepted characters from this state's closure
         closure = self._epsilon_closure({state_id})
         accepted = CharSet()
         for sid in closure:
@@ -275,7 +263,6 @@ class NFASimulator:
                 if t.charset is not None:
                     accepted = accepted | t.charset
 
-        # Find a character NOT accepted
         c = accepted.sample_outside()
         return c or "!"
 

@@ -37,7 +37,6 @@ class FileLoader(BaseLoader):
         try:
             with open(self.file_path, "r", encoding="utf-8") as f:
                 for line_num, line in enumerate(f, 1):
-                    # We yield line by line for huge logs, stripping the ending newline for cleaner matching
                     yield (str(self.file_path), line.rstrip("\n"), line_num)
         except UnicodeDecodeError:
             raise CorruptedFileError(
@@ -61,7 +60,6 @@ class DirectoryLoader(BaseLoader):
         for root, dirs, files in os.walk(self.dir_path):
             current_depth = root.replace(str(self.dir_path), "").count(os.sep)
             if self.max_depth > -1 and current_depth >= self.max_depth:
-                # Don't recurse deeper if we hit max depth
                 dirs[:] = []
                 continue
 
@@ -72,5 +70,4 @@ class DirectoryLoader(BaseLoader):
                     for chunk in loader.stream_chunks():
                         yield chunk
                 except CorruptedFileError:
-                    # Skip binary or corrupted files in bulk directory scans
                     continue

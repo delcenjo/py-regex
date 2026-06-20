@@ -82,7 +82,6 @@ class PatternRepository:
         """List patterns, optionally filtered by tag or scope."""
         results = []
 
-        # Load global patterns
         if scope in (None, "global"):
             global_data = self._load_data(self.global_path)
             for item in global_data:
@@ -90,7 +89,6 @@ class PatternRepository:
                 p.scope = "global"
                 results.append(p)
 
-        # Load private patterns
         if scope in (None, "private"):
             private_data = self._load_data(self.private_path)
             for item in private_data:
@@ -98,7 +96,6 @@ class PatternRepository:
                 p.scope = "private"
                 results.append(p)
 
-        # Filter by tag
         if tag:
             tag = tag.lower()
             results = [p for p in results if tag in [t.lower() for t in p.tags]]
@@ -107,7 +104,6 @@ class PatternRepository:
 
     def get(self, name: str) -> SavedPattern | None:
         """Get a pattern by name (searches private then global)."""
-        # Private first
         private_data = self._load_data(self.private_path)
         for item in private_data:
             if item["name"] == name:
@@ -115,7 +111,6 @@ class PatternRepository:
                 p.scope = "private"
                 return p
 
-        # Then global
         global_data = self._load_data(self.global_path)
         for item in global_data:
             if item["name"] == name:
@@ -129,8 +124,6 @@ class PatternRepository:
         """Save a pattern to private storage."""
         data = self._load_data(self.private_path)
         updated = False
-
-        # We only save to private storage
         pattern.scope = "private"
 
         for i, item in enumerate(data):

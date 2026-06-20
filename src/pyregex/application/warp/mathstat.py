@@ -32,7 +32,6 @@ class MathProfiler:
         r2_quadratic = self._fit_quadratic(x_data, y_data)
         r2_exponential = self._fit_exponential(x_data, y_data)
 
-        # Decision matrix based on highest R²
         best_fit = ComplexityCurve.UNKNOWN
         best_r2 = 0.0
 
@@ -47,7 +46,6 @@ class MathProfiler:
                 best_r2 = r2
                 best_fit = curve
 
-        # If the highest R2 is still terrible, it's unpredictable
         if best_r2 < 0.5:
             return ComplexityCurve.UNKNOWN, best_r2
 
@@ -96,7 +94,6 @@ class MathProfiler:
         """Fit log(y) = mx + b  <=> y = e^b * e^(mx)"""
         try:
             MIN_Y = 0.0001
-            # Filter valid points
             valid_x = []
             valid_ly = []
             for i in range(len(x)):
@@ -121,7 +118,6 @@ class MathProfiler:
             b = (sum_ly - m * sum_x) / n
 
             A = math.exp(b)
-            # Reconstruct y_pred using original bounds to prevent overflow
             y_pred = []
             for xi in x:
                 exponent = m * xi

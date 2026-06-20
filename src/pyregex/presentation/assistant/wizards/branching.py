@@ -67,17 +67,14 @@ class BranchingEngine:
         resolved = []
 
         for step in steps:
-            # Check skip condition (step-level)
             if self.should_skip(step.id, results):
                 continue
 
-            # Check step's own condition
             if not step.should_show(results):
                 continue
 
             resolved.append(step)
 
-            # Check if this step's result triggers additional steps
             if step.id in results and step.id in self._branches:
                 value = str(results[step.id])
                 branch_steps = self.get_branch_steps(step.id, value)

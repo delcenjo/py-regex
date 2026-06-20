@@ -43,7 +43,6 @@ class RegexTester:
             try:
                 compiled = re.compile(pattern, flags)
                 for match in compiled.finditer(text):
-                    # Calculate line number for this match
                     line_no = text.count("\n", 0, match.start()) + 1
                     lines_hit.add(line_no)
 

@@ -104,8 +104,6 @@ class PumpGenerator:
         if len(times) < 3:
             return None
 
-        # Check growth rate: exponential doubles at each step
-        # Linear: ratio ≈ 1.5x, Quadratic: ratio ≈ 4x, Exponential: ratio >> 10x
         ratios = []
         for i in range(1, len(times)):
             if times[i - 1] > 0.01:  # avoid division by near-zero
