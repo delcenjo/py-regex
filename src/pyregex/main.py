@@ -19,6 +19,12 @@ def main() -> int:
         loader = ConfigLoader(config_repo)
         config = loader.load_or_setup()
 
+        # Allow --lang to override the configured language for this run.
+        if "--lang" in sys.argv:
+            i = sys.argv.index("--lang")
+            if i + 1 < len(sys.argv) and sys.argv[i + 1] in ("en", "es"):
+                config.language = sys.argv[i + 1]
+
         # Fast path: skip CLI registry when only the assistant is needed
         if len(sys.argv) > 1 and sys.argv[1] in ("assistant", "create", "asistente"):
             cmd = sys.argv[1]

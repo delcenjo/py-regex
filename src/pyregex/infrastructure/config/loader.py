@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 
 from pyregex.infrastructure.config.models import AppConfig
 from pyregex.infrastructure.persistence.config_repository import ConfigRepository
@@ -16,9 +17,18 @@ class ConfigLoader:
 
     def load_or_setup(self) -> AppConfig:
         """Load config or run setup if it doesn't exist."""
-        if not self.repo.exists():
-            return self.run_interactive_setup()
-        return self.repo.load()
+        if self.repo.exists():
+            return self.repo.load()
+        # In non-interactive environments (CI, Docker, pipes) there is no stdin to
+        # prompt on, so fall back to defaults instead of blocking or crashing.
+        if not sys.stdin.isatty():
+            config = AppConfig()
+            try:
+                self.repo.save(config)
+            except Exception:
+                pass
+            return config
+        return self.run_interactive_setup()
 
     def run_interactive_setup(self) -> AppConfig:
         """Run interactive CLI setup for first-time users."""
