@@ -24,7 +24,7 @@ pip install -e .
 | Command | Description |
 | ------- | ----------- |
 | `explain` | Parse a regex into an AST and describe it in plain language; export to Mermaid |
-| `play` | Interactive terminal playground — edit a pattern and test data live |
+| `play` | Interactive terminal playground - edit a pattern and test data live |
 | `test` | Run regex unit-test suites defined in YAML |
 | `bench` | Profile a pattern and detect catastrophic backtracking (ReDoS) |
 | `audit` | Scan files for PII (emails, phone numbers, card numbers) |
@@ -50,7 +50,7 @@ px mask --type email notes.txt  # mask email addresses
 
 Reusable patterns live under `catalog/<category>/<name>/wizard.yaml` (email, url,
 ipv4, ipv6, uuid, credit_card, iban, iso_date, …). Add your own by dropping a new
-`wizard.yaml` into a folder — the registry discovers it automatically. The
+`wizard.yaml` into a folder - the registry discovers it automatically. The
 catalog is optional; every command works without it.
 
 ## Architecture
