@@ -2328,21 +2328,21 @@
   },
   "playground": {
     "empty_regex": "Type a regex above...",
-    "no_matches": "⚠️ No matches",
+    "no_matches": "⚠ No matches",
     "matches_count": "✅ {count} match(es)",
     "no_groups": "No capture groups",
     "use_parens": "Use (...) to create groups",
     "explain_prompt": "Type a regex to see explanation",
-    "explain_header": "📖 EXPLANATION:",
+    "explain_header": "EXPLANATION:",
     "debug_prompt": "Regex + text required for debug",
-    "replace_header": "🔄 REPLACEMENT:",
+    "replace_header": "REPLACEMENT:",
     "replace_pattern": "Replacement pattern: {pattern}",
     "replace_empty": "(empty)",
     "replace_count": "Substitutions: {count}",
     "export_prompt": "Type a regex to export",
     "optimize_prompt": "Type a regex to optimize",
-    "warnings": "⚠️ WARNINGS:",
-    "suggestions": "💡 SUGGESTIONS:",
+    "warnings": "⚠ WARNINGS:",
+    "suggestions": "SUGGESTIONS:",
     "footer_hints": "Tab switches panels | F1-F7 for views"
   }
 }
